@@ -3,7 +3,8 @@ import { SignedIn, SignedOut, SignOutButton, SignUpButton, UserButton } from "@c
 export default function Home() {
   return (
     <div>
-
+      <SignUpButton />
+      <SignOutButton />
     </div>
   );
 }
