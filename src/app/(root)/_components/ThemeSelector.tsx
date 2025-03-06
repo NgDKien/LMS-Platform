@@ -25,21 +25,17 @@ function ThemeSelector() {
 
     useEffect(() => {
         setMounted(true)
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
     if (!mounted) return null;
-    //   useEffect(() => {
-    //     const handleClickOutside = (event: MouseEvent) => {
-    //       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-    //         setIsOpen(false);
-    //       }
-    //     };
-
-    //     document.addEventListener("mousedown", handleClickOutside);
-    //     return () => document.removeEventListener("mousedown", handleClickOutside);
-    //   }, []);
-
-    //   if (!mounted) return null;
 
     return (
         <div className="relative" ref={dropdownRef}>
