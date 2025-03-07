@@ -72,10 +72,10 @@ function CommentForm({ isSubmitting, onSubmit }: CommentFormProps) {
                             <span>
                                 Format code with ```language ... ```
                                 {/* {Array(5).fill("\u00A0").join("")} : Tạo 5 khoảng trắng */}
-                                <br />{Array(5).fill("\u00A0").join("")}Exp:
-                                <br />{Array(10).fill("\u00A0").join("")}```javascript
-                                <br />{Array(10).fill("\u00A0").join("")}const name = "ABC";
-                                <br />{Array(10).fill("\u00A0").join("")}```
+                                <br />{Array(0).fill("\u00A0").join("")}Exp:
+                                <br />{Array(5).fill("\u00A0").join("")}```javascript
+                                <br />{Array(5).fill("\u00A0").join("")}const name = "ABC";
+                                <br />{Array(5).fill("\u00A0").join("")}```
                             </span>
                         </div>
                         <div className="text-[#808086]/60 pl-5">
