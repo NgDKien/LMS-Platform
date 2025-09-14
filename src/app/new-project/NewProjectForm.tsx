@@ -1,0 +1,59 @@
+'use client';
+
+import TextEditor from '@/components/TextEditor';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { useState } from 'react';
+// import { CreateProjectModal } from './CreateProjectModal';
+
+export function NewProjectForm() {
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
+    const [readme, setReadme] = useState('');
+
+    return (
+        <div className="space-y-4">
+            <div className="space-y-1 max-w-96">
+                <Label className="text-xs">Project name</Label>
+                <Input
+                    className="border-blue-500 ring-blue-500 focus:ring-2 focus:border-blue-500"
+                    placeholder="Name of project"
+                    value={name}
+                    onChange={(e) => setName(e.currentTarget.value)}
+                />
+            </div>
+
+            <div className="space-y-1 max-w-[28rem]">
+                <Label className="text-xs">Short description</Label>
+                <Textarea
+                    className="border-blue-500 ring-blue-500 focus:ring-2 focus:border-blue-500"
+                    value={description}
+                    onChange={(e) => setDescription(e.currentTarget.value)}
+                    placeholder="A short description about this project"
+                    rows={8}
+                />
+            </div>
+            <div className="space-y-1 max-w-[40rem]">
+                <Label className="text-xs">README</Label>
+                <TextEditor
+                    content=""
+                    onChange={(text) => setReadme(text)}
+                    isEditable
+                />
+            </div>
+            <div className="flex">
+                <button className='px-4 py-2 font-semibold text-white bg-green-500 hover:bg-green-700'>
+                    Continue
+                </button>
+                {/* <CreateProjectModal
+          projectDetails={{
+            name,
+            description,
+            readme,
+          }}
+        /> */}
+            </div>
+        </div>
+    );
+}
