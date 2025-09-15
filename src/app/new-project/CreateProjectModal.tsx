@@ -1,7 +1,7 @@
 'use client';
 
 import { CreateCustomFieldOptionModal } from '@/components/CreateCustomFieldOptionModal';
-// import { CreateOrEditLabelForm } from '@/components/CreateOrEditLabelForm';
+import { CreateOrEditLabelForm } from '@/components/CreateOrEditLabelForm';
 import { CustomFieldOptions } from '@/components/CustomFieldOptions';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -29,6 +29,7 @@ import { useState } from 'react';
 import { v4 as uid } from 'uuid';
 import { secondaryBtnStyles, successBtnStyles } from '../commonStyles';
 // import { LabelList } from '../projects/[projectId]/settings/labels/LabelList';
+import { LabelList } from '@/components/LabelList';
 import { useRouter } from 'next/navigation';
 import { projects } from '@/utils/projects';
 // import { useToast } from '@/components/ui/use-toast';
@@ -161,7 +162,7 @@ export const CreateProjectModal = ({ projectDetails }: Props) => {
                 </DialogDescription>
                 <Separator />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[900px] overflow-auto p-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[1000px] overflow-auto p-2">
                     <CustomFieldOptions
                         title="Sizes"
                         field="size"
@@ -223,20 +224,20 @@ export const CreateProjectModal = ({ projectDetails }: Props) => {
                             </Button>
                         </div>
 
-                        {/* {showNewLabelCard && (
-              <CreateOrEditLabelForm
-                save={(data) => handleAddNewLabelItem(data)}
-                cancel={() => setShowNewLabelCard(false)}
-              />
-            )} */}
+                        {showNewLabelCard && (
+                            <CreateOrEditLabelForm
+                                save={(data) => handleAddNewLabelItem(data)}
+                                cancel={() => setShowNewLabelCard(false)}
+                            />
+                        )}
 
-                        {/* <div className="rounded border">
-              <LabelList
-                labels={labels}
-                hiddenDescription
-                onLabelDeleted={handleRemoveLabelItem}
-              />
-            </div> */}
+                        <div className="rounded border">
+                            <LabelList
+                                labels={labels}
+                                hiddenDescription
+                                onLabelDeleted={handleRemoveLabelItem}
+                            />
+                        </div>
                     </div>
                 </div>
 
