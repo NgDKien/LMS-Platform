@@ -5,78 +5,78 @@ const supabase = createClient();
 export const projects = {
     // Project management
     management: {
-        // create: async (projectData: ProjectWithOptions, userId: string) => {
-        //   try {
-        //     // 1. Create the project first
-        //     const { data: project, error: projectError } = await supabase
-        //       .from('projects')
-        //       .insert({
-        //         name: projectData.name,
-        //         description: projectData.description,
-        //         readme: projectData.readme,
-        //         created_by: userId,
-        //         updated_at: new Date(),
-        //         closed: false,
-        //       })
-        //       .select()
-        //       .single();
+        create: async (projectData: ProjectWithOptions, userId: string) => {
+            try {
+                // 1. Create the project first
+                const { data: project, error: projectError } = await supabase
+                    .from('projects')
+                    .insert({
+                        name: projectData.name,
+                        description: projectData.description,
+                        readme: projectData.readme,
+                        created_by: userId,
+                        updated_at: new Date(),
+                        closed: false,
+                    })
+                    .select()
+                    .single();
 
-        //     if (projectError) throw projectError;
+                if (projectError) throw projectError;
 
-        //     // 2. If not skipping default options, create them
-        //     if (projectData.statuses) {
-        //       const { error: statusError } = await supabase.from('statuses').insert(
-        //         projectData.statuses.map((status, index) => ({
-        //           ...status,
-        //           project_id: project.id,
-        //           order: index,
-        //           limit: 5,
-        //           updated_at: new Date(),
-        //         }))
-        //       );
-        //       if (statusError) throw statusError;
-        //     }
+                // 2. If not skipping default options, create them
+                if (projectData.statuses) {
+                    const { error: statusError } = await supabase.from('statuses').insert(
+                        projectData.statuses.map((status, index) => ({
+                            ...status,
+                            project_id: project.id,
+                            order: index,
+                            limit: 5,
+                            updated_at: new Date(),
+                        }))
+                    );
+                    if (statusError) throw statusError;
+                }
 
-        //     if (projectData.labels) {
-        //       const { error: labelError } = await supabase.from('labels').insert(
-        //         projectData.labels.map((label) => ({
-        //           ...label,
-        //           project_id: project.id,
-        //           updated_at: new Date(),
-        //         }))
-        //       );
-        //       if (labelError) throw labelError;
-        //     }
+                if (projectData.labels) {
+                    const { error: labelError } = await supabase.from('labels').insert(
+                        projectData.labels.map((label) => ({
+                            ...label,
+                            project_id: project.id,
+                            updated_at: new Date(),
+                        }))
+                    );
+                    if (labelError) throw labelError;
+                }
 
-        //     if (projectData.priorities) {
-        //       const { error: priorityError } = await supabase
-        //         .from('priorities')
-        //         .insert(
-        //           projectData.priorities.map((priority) => ({
-        //             ...priority,
-        //             project_id: project.id,
-        //             updated_at: new Date(),
-        //           }))
-        //         );
-        //       if (priorityError) throw priorityError;
-        //     }
+                if (projectData.priorities) {
+                    const { error: priorityError } = await supabase
+                        .from('priorities')
+                        .insert(
+                            projectData.priorities.map((priority) => ({
+                                ...priority,
+                                project_id: project.id,
+                                updated_at: new Date(),
+                            }))
+                        );
+                    if (priorityError) throw priorityError;
+                }
 
-        //     if (projectData.sizes) {
-        //       const { error: sizeError } = await supabase.from('sizes').insert(
-        //         projectData.sizes.map((size) => ({
-        //           ...size,
-        //           project_id: project.id,
-        //           updated_at: new Date(),
-        //         }))
-        //       );
-        //       if (sizeError) throw sizeError;
-        //     }
+                if (projectData.sizes) {
+                    const { error: sizeError } = await supabase.from('sizes').insert(
+                        projectData.sizes.map((size) => ({
+                            ...size,
+                            project_id: project.id,
+                            updated_at: new Date(),
+                        }))
+                    );
+                    if (sizeError) throw sizeError;
+                }
 
-        //     return project;
-        //   } catch (error) {
-        //     throw error;
-        //   }
-        // },
+                return project;
+            } catch (error) {
+                throw error;
+            }
+        },
         // update: async (projectId: string, updates: Partial<IProject>) => {
         //   const { error } = await supabase
         //     .from('projects')

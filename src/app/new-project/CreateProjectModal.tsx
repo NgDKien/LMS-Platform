@@ -33,7 +33,9 @@ import { LabelList } from '@/components/LabelList';
 import { useRouter } from 'next/navigation';
 import { projects } from '@/utils/projects';
 // import { useToast } from '@/components/ui/use-toast';
+import { toast } from "sonner";
 import { createClient } from '@/utils/supabase/client';
+import { useAuth } from '@clerk/nextjs';
 
 interface Props {
     projectDetails: {
@@ -46,7 +48,6 @@ interface Props {
 export const CreateProjectModal = ({ projectDetails }: Props) => {
     const { isModalOpen, openModal, closeModal } = useModalDialog();
     const router = useRouter();
-    //   const { toast } = useToast();
     const [statuses, setStatuses] = useState(defaultStatuses);
     const [sizes, setSizes] = useState(defaultSizes);
     const [priorities, setPriorities] = useState(defaultPriorities);
@@ -90,53 +91,47 @@ export const CreateProjectModal = ({ projectDetails }: Props) => {
         setLabels(labels.filter((item) => item.id !== id));
     };
 
+    const { userId } = useAuth();
+
     const handleCreateProject = async () => {
-        // try {
-        //   setIsCreating(true);
-        //   const supabase = createClient();
+        try {
+            setIsCreating(true);
+            const supabase = createClient();
 
-        //   const {
-        //     data: { session },
-        //   } = await supabase.auth.getSession();
-        //   if (!session) throw new Error('Not authenticated');
 
-        //   const projectData = {
-        //     ...projectDetails,
-        //     ...(skipDefaultOptions
-        //       ? {}
-        //       : {
-        //           statuses,
-        //           sizes,
-        //           priorities,
-        //           labels,
-        //         }),
-        //   };
+            if (!userId) throw new Error("Not authenticated");
 
-        //   const project = await projects.management.create(
-        //     projectData as ProjectWithOptions,
-        //     session.user.id
-        //   );
+            const projectData = {
+                ...projectDetails,
+                ...(skipDefaultOptions
+                    ? {}
+                    : {
+                        statuses,
+                        sizes,
+                        priorities,
+                        labels,
+                    }),
+            };
 
-        //   toast({
-        //     title: 'Success',
-        //     description: 'Project created successfully',
-        //   });
+            const project = await projects.management.create(
+                projectData as ProjectWithOptions,
+                userId
+            );
 
-        //   closeModal();
-        //   router.push(`/projects/${project.id}`);
-        // } catch (error) {
-        //   console.error('Error creating project:', error);
-        //   toast({
-        //     variant: 'destructive',
-        //     title: 'Error',
-        //     description:
-        //       error instanceof Error
-        //         ? error.message
-        //         : 'Failed to create project. Please try again.',
-        //   });
-        // } finally {
-        //   setIsCreating(false);
-        // }
+            toast.success("Project created successfully !");
+
+            closeModal();
+            router.push(`/projects/${project.id}`);
+        } catch (error) {
+            console.error('Error creating project:', error);
+            toast.error(
+                error instanceof Error
+                    ? error.message
+                    : "Failed to create project. Please try again."
+            );
+        } finally {
+            setIsCreating(false);
+        }
     };
 
     return (
