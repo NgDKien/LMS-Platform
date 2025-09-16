@@ -41,7 +41,10 @@ export default function RootLayout({
           </ConvexClientProvider>
 
           <Footer />
-          <Toaster />
+          <Toaster
+            richColors
+            closeButton
+          />
         </body>
       </html>
     </ClerkProvider>

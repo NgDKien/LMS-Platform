@@ -25,7 +25,7 @@ import { Dialog } from '@radix-ui/react-dialog';
 import { Ellipsis, EyeOff, Pencil, Trash } from 'lucide-react';
 import { useState } from 'react';
 import { columns } from '@/utils/columns';
-// import { useToast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 
 interface Props {
   column: IStatus;
@@ -36,7 +36,7 @@ interface Props {
 
 export const ColumnMenuOptions = ({
   column,
-  // onColumnUpdate,
+  onColumnUpdate,
   onColumnDelete,
   onColumnHide,
 }: Props) => {
@@ -44,30 +44,26 @@ export const ColumnMenuOptions = ({
   const [limit, setLimit] = useState(column.limit);
   const [optionType, setOptionType] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  // const { toast } = useToast();
 
   const handleUpdateLimit = async () => {
     if (limit < 1 || limit === column.limit) return;
 
-    // try {
-    //   setIsLoading(true);
-    //   const updatedColumn = await columns.updateLimit(column.id, limit);
-    //   onColumnUpdate?.(updatedColumn);
-    //   // toast({
-    //   //   title: 'Success',
-    //   //   description: 'Column limit updated successfully',
-    //   // });
-    //   closeModal();
-    // } catch (error) {
-    //   console.error('Error updating limit:', error);
-    //   // toast({
-    //   //   variant: 'destructive',
-    //   //   title: 'Error',
-    //   //   description: 'Failed to update column limit',
-    //   // });
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    try {
+      setIsLoading(true);
+      const updatedColumn = await columns.updateLimit(column.id, limit);
+      onColumnUpdate?.(updatedColumn);
+      toast.success("Column limit updated successfully");
+      closeModal();
+    } catch (error) {
+      console.error('Error updating limit:', error);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to update column limit"
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleUpdateDetails = async (data: Omit<ICustomFieldData, 'id'>) => {
