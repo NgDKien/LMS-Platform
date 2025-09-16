@@ -37,7 +37,7 @@ interface Props {
   // onTaskCreated?: (task: ITaskWithOptions) => void;
   // onColumnUpdate?: (column: IStatus) => void;
   // onColumnDelete?: (columnId: string) => void;
-  // onColumnHide?: (columnId: string) => void;
+  onColumnHide?: (columnId: string) => void;
 }
 
 const supabase = createClient();
@@ -52,7 +52,7 @@ export const ColumnContainer = ({
   // onTaskCreated,
   // onColumnUpdate,
   // onColumnDelete,
-  // onColumnHide,
+  onColumnHide,
 }: Props) => {
   const [showInput, setShowInput] = useState(false);
   const [inputValue, setInputValue] = useState('');
@@ -141,8 +141,8 @@ export const ColumnContainer = ({
                 <TooltipTrigger asChild>
                   <div
                     className={`px-2 h-4 rounded-full flex justify-center items-center text-[10px] ${column.limit > 0 && columnTasks.length >= column.limit
-                        ? 'bg-red-200 dark:bg-red-950 text-red-700 dark:text-red-400'
-                        : 'bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-gray-400'
+                      ? 'bg-red-200 dark:bg-red-950 text-red-700 dark:text-red-400'
+                      : 'bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-gray-400'
                       }`}
                   >
                     {columnTasks.length}{' '}
@@ -165,9 +165,9 @@ export const ColumnContainer = ({
           {/* {can?.(ProjectAction.VIEW_SETTINGS) && ( */}
           <ColumnMenuOptions
             column={column}
-          // onColumnUpdate={onColumnUpdate}
-          // onColumnDelete={onColumnDelete}
-          // onColumnHide={onColumnHide}
+            // onColumnUpdate={onColumnUpdate}
+            // onColumnDelete={onColumnDelete}
+            onColumnHide={onColumnHide}
           />
           {/* )} */}
         </div>

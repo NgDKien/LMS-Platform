@@ -157,13 +157,14 @@ export const Board: React.FC<Props> = ({
               : 'h-[calc(100vh-155px)]'
           )}
         >
-          {statuses.map((status) => (
+          {visibleColumns.map((status) => (
             <ColumnContainer
               projectId={projectId}
               key={status.id}
               column={status}
               tasks={[]}
               projectName={projectName}
+              onColumnHide={handleColumnHide}
             />
           ))}
           {/* <DndContext

@@ -29,16 +29,16 @@ import { columns } from '@/utils/columns';
 
 interface Props {
   column: IStatus;
-  // onColumnUpdate?: (column: IStatus) => void;
-  // onColumnDelete?: (columnId: string) => void;
-  // onColumnHide?: (columnId: string) => void;
+  onColumnUpdate?: (column: IStatus) => void;
+  onColumnDelete?: (columnId: string) => void;
+  onColumnHide?: (columnId: string) => void;
 }
 
 export const ColumnMenuOptions = ({
   column,
   // onColumnUpdate,
   // onColumnDelete,
-  // onColumnHide,
+  onColumnHide,
 }: Props) => {
   const { isModalOpen, openModal, closeModal } = useModalDialog();
   const [limit, setLimit] = useState(column.limit);
@@ -144,7 +144,7 @@ export const ColumnMenuOptions = ({
               <span className="text-xs">Edit Details</span>
             </DropdownMenuItem>
             <DropdownMenuItem
-            // onClick={() => onColumnHide?.(column.id)}
+              onClick={() => onColumnHide?.(column.id)}
             >
               <EyeOff className="w-3 h-3 mr-2" />
               <span className="text-xs">Hide from view</span>
