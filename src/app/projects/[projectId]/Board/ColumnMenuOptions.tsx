@@ -1,7 +1,7 @@
 'use client';
 import { secondaryBtnStyles, successBtnStyles } from '@/app/commonStyles';
 import { CustomOptionForm } from '@/components/CustomOptionForm';
-// import { Icons } from '@/components/Icons';
+import { Icons } from '@/components/Icons';
 import { Button } from '@/components/ui/button';
 import {
   DialogContent,
@@ -67,25 +67,22 @@ export const ColumnMenuOptions = ({
   };
 
   const handleUpdateDetails = async (data: Omit<ICustomFieldData, 'id'>) => {
-    // try {
-    //   setIsLoading(true);
-    //   const updatedColumn = await columns.updateDetails(column.id, data);
-    //   onColumnUpdate?.(updatedColumn);
-    //   // toast({
-    //   //   title: 'Success',
-    //   //   description: 'Column details updated successfully',
-    //   // });
-    //   closeModal();
-    // } catch (error) {
-    //   console.error('Error updating details:', error);
-    //   // toast({
-    //   //   variant: 'destructive',
-    //   //   title: 'Error',
-    //   //   description: 'Failed to update column details',
-    //   // });
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    try {
+      setIsLoading(true);
+      const updatedColumn = await columns.updateDetails(column.id, data);
+      onColumnUpdate?.(updatedColumn);
+      toast.success("Column details updated successfully");
+      closeModal();
+    } catch (error) {
+      console.error('Error updating details:', error);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to update column details"
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleDeleteColumn = async () => {
@@ -93,18 +90,15 @@ export const ColumnMenuOptions = ({
       setIsLoading(true);
       await columns.deleteColumn(column.id);
       onColumnDelete?.(column.id);
-      // toast({
-      //   title: 'Success',
-      //   description: 'Column deleted successfully',
-      // });
+      toast.success("Column deleted successfully");
       closeModal();
     } catch (error) {
       console.error('Error deleting column:', error);
-      // toast({
-      //   variant: 'destructive',
-      //   title: 'Error',
-      //   description: 'Failed to delete column',
-      // });
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to delete column"
+      );
     } finally {
       setIsLoading(false);
     }
@@ -127,7 +121,7 @@ export const ColumnMenuOptions = ({
                 openModal();
               }}
             >
-              {/* <Icons.number className="w-3 h-3 mr-2 fill-gray-900 dark:fill-slate-50" /> */}
+              <Icons.number className="w-3 h-3 mr-2 fill-gray-900 dark:fill-slate-50" />
               <span className="text-xs">Set limit</span>
             </DropdownMenuItem>
             <DropdownMenuItem
