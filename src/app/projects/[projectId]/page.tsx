@@ -1,42 +1,47 @@
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import { ProjectDetails } from './ProjectDetails';
+import { defaultStatuses } from '@/consts/default-options';
 
-interface Props {
-    params: Promise<{ projectId: string }>;
-}
+// interface Props {
+//     params: Promise<{ projectId: string }>;
+// }
 
-const ProjectDetailsPage = async ({ params }: Props) => {
-    const { projectId } = await params;
-    const supabase = await createClient();
+// const ProjectDetailsPage = async ({ params }: Props) => {
+const ProjectDetailsPage = async () => {
+    // const { projectId } = await params;
+    // const supabase = await createClient();
 
-    // Load project details
-    const { data: project, error } = await supabase
-        .from('projects')
-        .select(
-            `
-      name,
-      statuses (
-        id,
-        label,
-        description,
-        color,
-        order,
-        limit
-      )
-    `
-        )
-        .order('order', { referencedTable: 'statuses' })
-        .eq('id', projectId)
-        .single();
+    // // Load project details
+    // const { data: project, error } = await supabase
+    //     .from('projects')
+    //     .select(
+    //         `
+    //   name,
+    //   statuses (
+    //     id,
+    //     label,
+    //     description,
+    //     color,
+    //     order,
+    //     limit
+    //   )
+    // `
+    //     )
+    //     .order('order', { referencedTable: 'statuses' })
+    //     .eq('id', projectId)
+    //     .single();
 
-    if (error || !project) redirect('/projects');
+    // if (error || !project) redirect('/projects');
 
     return (
         <ProjectDetails
-            projectName={project.name}
-            projectId={projectId}
-            statuses={project.statuses as IStatus[]}
+            // projectName={project.name}
+            // projectId={projectId}
+            // statuses={project.statuses as IStatus[]}
+            projectName={'Test project'}
+            projectId={'123'}
+            statuses={defaultStatuses as IStatus[]}
         />
     );
 };

@@ -35,6 +35,25 @@ interface ICustomFieldData {
     // number: string;
 }
 
+interface ITask {
+    id: string;
+    project_id: string;
+    status_id: string;
+    title: string;
+    description: string;
+    labels: string[];
+    priority: string | null;
+    size: string | null;
+    startDate: Date | null;
+    endDate: Date | null;
+    created_at: Date;
+    updated_at: Date;
+    created_by: string;
+    statusPosition: number;
+    assignees?: string[];
+}
+
+
 interface IField {
     id: string;
     label: string;
@@ -68,3 +87,36 @@ type ProjectWithOptions = {
     priorities?: Omit<IPriority, 'created_at' | 'updated_at'>[];
     sizes?: Omit<ISize, 'created_at' | 'updated_at'>[];
 };
+
+interface ITaskWithOptions extends Partial<ITask> {
+    creator?: {
+        id: string;
+        name: string;
+        avatar: string;
+        description: string;
+        links: IUserLink[];
+    };
+    labels?: {
+        id: string;
+        label: string;
+        color: string;
+    }[];
+    size?: {
+        id: string;
+        label: string;
+        color: string;
+    };
+    priority?: {
+        id: string;
+        label: string;
+        color: string;
+        order: number;
+    };
+    assignees?: {
+        id: string;
+        name: string;
+        description: string;
+        avatar: string;
+        links: IUserLink[];
+    }[];
+}

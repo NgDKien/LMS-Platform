@@ -9,15 +9,14 @@ import { CSS } from '@dnd-kit/utilities';
 import { useQueryClient } from '@tanstack/react-query';
 // import { useTaskDetails } from './TaskDetailsContext';
 
-// interface Props {
-//   item: ITaskWithOptions;
-//   projectName: string;
-//   index: number;
-// }
+interface Props {
+  item: ITaskWithOptions;
+  projectName: string;
+  index: number;
+}
 
-// export const TaskItem = ({ item, projectName, index }: Props) => {
-export const TaskItem = () => {
-  const queryClient = useQueryClient();
+export const TaskItem = ({ item, projectName, index }: Props) => {
+  // const queryClient = useQueryClient();
   // const { openDrawer } = useTaskDetails();
   // const {
   //   attributes,
@@ -57,11 +56,11 @@ export const TaskItem = () => {
 
   return (
     <>
-      {/* <div
-        ref={setNodeRef}
-        style={style}
-        {...attributes}
-        {...listeners}
+      <div
+        // ref={setNodeRef}
+        // style={style}
+        // {...attributes}
+        // {...listeners}
         className="bg-white dark:bg-gray-900 px-4 py-3 mx-2 rounded-md border border-gray-300 dark:border-gray-700 text-sm cursor-grab"
       >
         <div className="flex justify-between">
@@ -71,7 +70,7 @@ export const TaskItem = () => {
           <StackedAvatars users={(item.assignees as Partial<IUser>[]) || []} />
         </div>
         <div
-          onClick={handleClick}
+          // onClick={handleClick}
           className="my-2 cursor-pointer hover:underline w-fit"
         >
           <p>{item.title}</p>
@@ -97,8 +96,7 @@ export const TaskItem = () => {
             />
           ))}
         </div>
-      </div> */}
-      <div>Task</div>
+      </div>
     </>
   );
 };

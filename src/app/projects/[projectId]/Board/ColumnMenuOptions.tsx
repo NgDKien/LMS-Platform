@@ -29,16 +29,16 @@ import { columns } from '@/utils/columns';
 
 interface Props {
   column: IStatus;
-  onColumnUpdate?: (column: IStatus) => void;
-  onColumnDelete?: (columnId: string) => void;
-  onColumnHide?: (columnId: string) => void;
+  // onColumnUpdate?: (column: IStatus) => void;
+  // onColumnDelete?: (columnId: string) => void;
+  // onColumnHide?: (columnId: string) => void;
 }
 
 export const ColumnMenuOptions = ({
   column,
-  onColumnUpdate,
-  onColumnDelete,
-  onColumnHide,
+  // onColumnUpdate,
+  // onColumnDelete,
+  // onColumnHide,
 }: Props) => {
   const { isModalOpen, openModal, closeModal } = useModalDialog();
   const [limit, setLimit] = useState(column.limit);
@@ -49,69 +49,69 @@ export const ColumnMenuOptions = ({
   const handleUpdateLimit = async () => {
     if (limit < 1 || limit === column.limit) return;
 
-    try {
-      setIsLoading(true);
-      const updatedColumn = await columns.updateLimit(column.id, limit);
-      onColumnUpdate?.(updatedColumn);
-      // toast({
-      //   title: 'Success',
-      //   description: 'Column limit updated successfully',
-      // });
-      closeModal();
-    } catch (error) {
-      console.error('Error updating limit:', error);
-      // toast({
-      //   variant: 'destructive',
-      //   title: 'Error',
-      //   description: 'Failed to update column limit',
-      // });
-    } finally {
-      setIsLoading(false);
-    }
+    // try {
+    //   setIsLoading(true);
+    //   const updatedColumn = await columns.updateLimit(column.id, limit);
+    //   onColumnUpdate?.(updatedColumn);
+    //   // toast({
+    //   //   title: 'Success',
+    //   //   description: 'Column limit updated successfully',
+    //   // });
+    //   closeModal();
+    // } catch (error) {
+    //   console.error('Error updating limit:', error);
+    //   // toast({
+    //   //   variant: 'destructive',
+    //   //   title: 'Error',
+    //   //   description: 'Failed to update column limit',
+    //   // });
+    // } finally {
+    //   setIsLoading(false);
+    // }
   };
 
   const handleUpdateDetails = async (data: Omit<ICustomFieldData, 'id'>) => {
-    try {
-      setIsLoading(true);
-      const updatedColumn = await columns.updateDetails(column.id, data);
-      onColumnUpdate?.(updatedColumn);
-      // toast({
-      //   title: 'Success',
-      //   description: 'Column details updated successfully',
-      // });
-      closeModal();
-    } catch (error) {
-      console.error('Error updating details:', error);
-      // toast({
-      //   variant: 'destructive',
-      //   title: 'Error',
-      //   description: 'Failed to update column details',
-      // });
-    } finally {
-      setIsLoading(false);
-    }
+    // try {
+    //   setIsLoading(true);
+    //   const updatedColumn = await columns.updateDetails(column.id, data);
+    //   onColumnUpdate?.(updatedColumn);
+    //   // toast({
+    //   //   title: 'Success',
+    //   //   description: 'Column details updated successfully',
+    //   // });
+    //   closeModal();
+    // } catch (error) {
+    //   console.error('Error updating details:', error);
+    //   // toast({
+    //   //   variant: 'destructive',
+    //   //   title: 'Error',
+    //   //   description: 'Failed to update column details',
+    //   // });
+    // } finally {
+    //   setIsLoading(false);
+    // }
   };
 
   const handleDeleteColumn = async () => {
-    try {
-      setIsLoading(true);
-      await columns.deleteColumn(column.id);
-      onColumnDelete?.(column.id);
-      // toast({
-      //   title: 'Success',
-      //   description: 'Column deleted successfully',
-      // });
-      closeModal();
-    } catch (error) {
-      console.error('Error deleting column:', error);
-      // toast({
-      //   variant: 'destructive',
-      //   title: 'Error',
-      //   description: 'Failed to delete column',
-      // });
-    } finally {
-      setIsLoading(false);
-    }
+    // try {
+    //   setIsLoading(true);
+    //   await columns.deleteColumn(column.id);
+    //   onColumnDelete?.(column.id);
+    //   // toast({
+    //   //   title: 'Success',
+    //   //   description: 'Column deleted successfully',
+    //   // });
+    //   closeModal();
+    // } catch (error) {
+    //   console.error('Error deleting column:', error);
+    //   // toast({
+    //   //   variant: 'destructive',
+    //   //   title: 'Error',
+    //   //   description: 'Failed to delete column',
+    //   // });
+    // } finally {
+    //   setIsLoading(false);
+    // }
   };
 
   return (
@@ -143,7 +143,9 @@ export const ColumnMenuOptions = ({
               <Pencil className="w-3 h-3 mr-2" />
               <span className="text-xs">Edit Details</span>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onColumnHide?.(column.id)}>
+            <DropdownMenuItem
+            // onClick={() => onColumnHide?.(column.id)}
+            >
               <EyeOff className="w-3 h-3 mr-2" />
               <span className="text-xs">Hide from view</span>
             </DropdownMenuItem>
