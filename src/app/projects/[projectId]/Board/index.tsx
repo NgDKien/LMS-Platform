@@ -88,18 +88,14 @@ export const Board: React.FC<Props> = ({
       setIsLoading(true);
       const newColumn = await columnsUtils.createColumn(projectId, data);
       setColumns((prev) => [...prev, newColumn]);
-      // toast({
-      //   title: 'Success',
-      //   description: 'Column created successfully',
-      //   variant: 'default',
-      // });
+      toast.success("Column created successfully");
     } catch (error) {
       console.error('Error creating column:', error);
-      // toast({
-      //   variant: 'destructive',
-      //   title: 'Error',
-      //   description: 'Failed to create column',
-      // });
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to create column"
+      );
     } finally {
       setIsLoading(false);
     }
