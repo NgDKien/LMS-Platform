@@ -165,6 +165,8 @@ export const Board: React.FC<Props> = ({
               tasks={[]}
               projectName={projectName}
               onColumnHide={handleColumnHide}
+              onColumnUpdate={handleColumnUpdate}
+              onColumnDelete={handleColumnDelete}
             />
           ))}
           {/* <DndContext

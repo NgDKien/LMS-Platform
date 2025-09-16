@@ -35,8 +35,8 @@ interface Props {
   // isOver: boolean;
   // can?: (action: ProjectAction) => boolean;
   // onTaskCreated?: (task: ITaskWithOptions) => void;
-  // onColumnUpdate?: (column: IStatus) => void;
-  // onColumnDelete?: (columnId: string) => void;
+  onColumnUpdate?: (column: IStatus) => void;
+  onColumnDelete?: (columnId: string) => void;
   onColumnHide?: (columnId: string) => void;
 }
 
@@ -50,8 +50,8 @@ export const ColumnContainer = ({
   // isOver,
   // can,
   // onTaskCreated,
-  // onColumnUpdate,
-  // onColumnDelete,
+  onColumnUpdate,
+  onColumnDelete,
   onColumnHide,
 }: Props) => {
   const [showInput, setShowInput] = useState(false);
@@ -165,8 +165,8 @@ export const ColumnContainer = ({
           {/* {can?.(ProjectAction.VIEW_SETTINGS) && ( */}
           <ColumnMenuOptions
             column={column}
-            // onColumnUpdate={onColumnUpdate}
-            // onColumnDelete={onColumnDelete}
+            onColumnUpdate={onColumnUpdate}
+            onColumnDelete={onColumnDelete}
             onColumnHide={onColumnHide}
           />
           {/* )} */}

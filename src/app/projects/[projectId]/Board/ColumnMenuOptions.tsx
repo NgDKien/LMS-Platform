@@ -37,7 +37,7 @@ interface Props {
 export const ColumnMenuOptions = ({
   column,
   // onColumnUpdate,
-  // onColumnDelete,
+  onColumnDelete,
   onColumnHide,
 }: Props) => {
   const { isModalOpen, openModal, closeModal } = useModalDialog();
@@ -93,25 +93,25 @@ export const ColumnMenuOptions = ({
   };
 
   const handleDeleteColumn = async () => {
-    // try {
-    //   setIsLoading(true);
-    //   await columns.deleteColumn(column.id);
-    //   onColumnDelete?.(column.id);
-    //   // toast({
-    //   //   title: 'Success',
-    //   //   description: 'Column deleted successfully',
-    //   // });
-    //   closeModal();
-    // } catch (error) {
-    //   console.error('Error deleting column:', error);
-    //   // toast({
-    //   //   variant: 'destructive',
-    //   //   title: 'Error',
-    //   //   description: 'Failed to delete column',
-    //   // });
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    try {
+      setIsLoading(true);
+      await columns.deleteColumn(column.id);
+      onColumnDelete?.(column.id);
+      // toast({
+      //   title: 'Success',
+      //   description: 'Column deleted successfully',
+      // });
+      closeModal();
+    } catch (error) {
+      console.error('Error deleting column:', error);
+      // toast({
+      //   variant: 'destructive',
+      //   title: 'Error',
+      //   description: 'Failed to delete column',
+      // });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
