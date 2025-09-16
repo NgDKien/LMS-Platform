@@ -77,17 +77,17 @@ export const projects = {
                 throw error;
             }
         },
-        // update: async (projectId: string, updates: Partial<IProject>) => {
-        //   const { error } = await supabase
-        //     .from('projects')
-        //     .update({
-        //       ...updates,
-        //       updated_at: new Date(),
-        //     })
-        //     .eq('id', projectId);
+        update: async (projectId: string, updates: Partial<IProject>) => {
+            const { error } = await supabase
+                .from('projects')
+                .update({
+                    ...updates,
+                    updated_at: new Date(),
+                })
+                .eq('id', projectId);
 
-        //   if (error) throw error;
-        // },
+            if (error) throw error;
+        },
         delete: async (projectId: string) => {
             const { error } = await supabase
                 .from('projects')
