@@ -34,7 +34,7 @@ interface Props {
   column: IStatus;
   tasks: ITaskWithOptions[];
   projectName: string;
-  // isOver: boolean;
+  isOver: boolean;
   // can?: (action: ProjectAction) => boolean;
   onTaskCreated?: (task: ITaskWithOptions) => void;
   onColumnUpdate?: (column: IStatus) => void;
@@ -49,7 +49,7 @@ export const ColumnContainer = ({
   column,
   tasks: columnTasks,
   projectName,
-  // isOver,
+  isOver,
   // can,
   onTaskCreated,
   onColumnUpdate,
@@ -198,8 +198,8 @@ export const ColumnContainer = ({
         <div
           className={cn(
             'flex-1 overflow-y-auto space-y-2 p-2',
-            // isOver &&
-            //   'bg-gray-200 dark:bg-gray-900 border border-dashed border-gray-400 dark:border-gray-600'
+            isOver &&
+            'bg-gray-200 dark:bg-gray-900 border border-dashed border-gray-400 dark:border-gray-600'
           )}
         >
           {columnTasks.map((item, index) => (

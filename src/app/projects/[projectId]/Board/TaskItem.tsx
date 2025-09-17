@@ -18,25 +18,26 @@ interface Props {
 export const TaskItem = ({ item, projectName, index }: Props) => {
   // const queryClient = useQueryClient();
   // const { openDrawer } = useTaskDetails();
-  // const {
-  //   attributes,
-  //   listeners,
-  //   setNodeRef,
-  //   transform,
-  //   transition,
-  //   isDragging,
-  // } = useSortable({
-  //   id: item.id as UniqueIdentifier,
-  //   data: {
-  //     type: 'task',
-  //     task: item,
-  //     position: index,
-  //   },
-  // });
-  // const style = {
-  //   transform: CSS.Translate.toString(transform),
-  //   transition,
-  // };
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: item.id as UniqueIdentifier,
+    data: {
+      type: 'task',
+      task: item,
+      position: index,
+    },
+  });
+
+  const style = {
+    transform: CSS.Translate.toString(transform),
+    transition,
+  };
 
   // const handleClick = async () => {
   //   // Prefetch task data before opening drawer
@@ -44,23 +45,23 @@ export const TaskItem = ({ item, projectName, index }: Props) => {
   //   openDrawer(item, projectName);
   // };
 
-  // if (isDragging) {
-  //   return (
-  //     <div
-  //       ref={setNodeRef}
-  //       style={style}
-  //       className="w-[95%] min-h-[80px] bg-gray-200 dark:bg-gray-800 rounded-md border border-dashed border-gray-400 dark:border-gray-600"
-  //     />
-  //   );
-  // }
+  if (isDragging) {
+    return (
+      <div
+        ref={setNodeRef}
+        style={style}
+        className="w-[95%] min-h-[80px] bg-gray-200 dark:bg-gray-800 rounded-md border border-dashed border-gray-400 dark:border-gray-600"
+      />
+    );
+  }
 
   return (
     <>
       <div
-        // ref={setNodeRef}
-        // style={style}
-        // {...attributes}
-        // {...listeners}
+        ref={setNodeRef}
+        style={style}
+        {...attributes}
+        {...listeners}
         className="bg-white dark:bg-gray-900 px-4 py-3 mx-2 rounded-md border border-gray-300 dark:border-gray-700 text-sm cursor-grab"
       >
         <div className="flex justify-between">

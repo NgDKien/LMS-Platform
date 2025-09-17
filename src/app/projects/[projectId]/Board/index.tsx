@@ -8,14 +8,14 @@ import { useProjectQueries } from '@/hooks/useProjectQueries';
 import { cn } from '@/lib/utils';
 import { columns as columnsUtils } from '@/utils/columns';
 import { getColumnSortedTasks, sortTasks } from '@/utils/sort';
-import { closestCorners, DndContext, DragOverlay } from '@dnd-kit/core';
+import { closestCorners, DndContext, DragOverlay, DragStartEvent } from '@dnd-kit/core';
 import { Eye, Plus } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { ColumnContainer } from './ColumnContainer';
 // import { TaskDetailsProvider } from './TaskDetailsContext';
 // import { TaskDetailsDrawer } from './TaskDetailsDrawer';
 import { TaskItem } from './TaskItem';
-// import { useBoardDragAndDrop } from './useBoardDragAndDrop';
+import { useBoardDragAndDrop } from './useBoardDragAndDrop';
 import { createPortal } from 'react-dom';
 
 interface Props {
@@ -36,14 +36,14 @@ export const Board: React.FC<Props> = ({
   const { projectTasks } = useProjectQueries(projectId);
   const [tasks, setTasks] = useState<ITaskWithOptions[]>(projectTasks || []);
 
-  // const {
-  //   activeTask,
-  //   sensors,
-  //   overColumnId,
-  //   handleDragStart,
-  //   handleDragEnd,
-  //   handleDragOver,
-  // } = useBoardDragAndDrop();
+  const {
+    activeTask,
+    sensors,
+    overColumnId,
+    handleDragStart,
+    handleDragEnd,
+    handleDragOver,
+  } = useBoardDragAndDrop();
 
   useEffect(() => {
     setTasks(projectTasks || []);
@@ -153,57 +153,42 @@ export const Board: React.FC<Props> = ({
               : 'h-[calc(100vh-155px)]'
           )}
         >
-          {visibleColumns.map((status) => (
-            <ColumnContainer
-              projectId={projectId}
-              key={status.id}
-              column={status}
-              tasks={getColumnTasks(status.id)}
-              projectName={projectName}
-              onColumnHide={handleColumnHide}
-              onColumnUpdate={handleColumnUpdate}
-              onColumnDelete={handleColumnDelete}
-              onTaskCreated={handleTaskCreated}
-            />
-          ))}
-          {/* <DndContext
-              onDragEnd={(event) => handleDragEnd(event, sortedTasks, setTasks)}
-              onDragStart={handleDragStart}
-              onDragOver={(event) => handleDragOver(event)}
-              collisionDetection={closestCorners}
-              sensors={sensors}
-            >
-              {visibleColumns.map((column) => (
-                <ColumnContainer
-                  projectId={projectId}
-                  key={column.id}
-                  column={column}
-                  // can={can}
-                  // tasks={getColumnTasks(column.id)}
-                  tasks={}
-                  projectName={projectName}
-                  // onTaskCreated={handleTaskCreated}
-                  onColumnUpdate={handleColumnUpdate}
-                  onColumnDelete={handleColumnDelete}
-                  onColumnHide={handleColumnHide}
-                  // isOver={overColumnId === column.id}
-                />
-              ))} */}
+          <DndContext
+            onDragEnd={(event) => handleDragEnd(event, sortedTasks, setTasks)}
+            onDragStart={handleDragStart}
+            onDragOver={(event) => handleDragOver(event)}
+            collisionDetection={closestCorners}
+            sensors={sensors}
+          >
+            {visibleColumns.map((status) => (
+              <ColumnContainer
+                projectId={projectId}
+                key={status.id}
+                column={status}
+                tasks={getColumnTasks(status.id)}
+                projectName={projectName}
+                onColumnHide={handleColumnHide}
+                onColumnUpdate={handleColumnUpdate}
+                onColumnDelete={handleColumnDelete}
+                onTaskCreated={handleTaskCreated}
+                isOver={overColumnId === status.id}
+              />
+            ))}
 
-          {/* {typeof document !== 'undefined' &&
-                createPortal(
-                  <DragOverlay>
-                    {activeTask && (
-                      <TaskItem
-                        item={activeTask}
-                        projectName={projectName}
-                        index={0}
-                      />
-                    )}
-                  </DragOverlay>,
-                  document.body
-                )} */}
-          {/* </DndContext> */}
+            {typeof document !== 'undefined' &&
+              createPortal(
+                <DragOverlay>
+                  {activeTask && (
+                    <TaskItem
+                      item={activeTask}
+                      projectName={projectName}
+                      index={0}
+                    />
+                  )}
+                </DragOverlay>,
+                document.body
+              )}
+          </DndContext>
         </div>
 
         <CreateCustomFieldOptionModal
