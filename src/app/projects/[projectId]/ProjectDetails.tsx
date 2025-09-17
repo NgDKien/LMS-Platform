@@ -9,7 +9,7 @@ import {
 import { Ellipsis, LineChart, Settings } from 'lucide-react';
 import Link from 'next/link';
 import { Board } from './Board';
-// import { useProjectAccess } from '@/hooks/useProjectAccess';
+import { useProjectAccess } from '@/hooks/useProjectAccess';
 import { ProjectAction } from '@/consts';
 
 interface ProjectDetailsProps {
@@ -23,7 +23,7 @@ export const ProjectDetails = ({
     projectId,
     statuses,
 }: ProjectDetailsProps) => {
-    //   const { can } = useProjectAccess({ projectId });
+    const { can } = useProjectAccess({ projectId });
 
     return (
         <div className="w-full overflow-x-auto px-2 h-[calc(100vh-65px)]">
@@ -34,30 +34,30 @@ export const ProjectDetails = ({
                 >
                     {projectName}
                 </h1>
-                {/* {can(ProjectAction.VIEW_SETTINGS) && ( */}
-                <div>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger className="focus:outline-none focus:ring-0">
-                            <Ellipsis className="text-gray-600 dark:text-gray-400" />
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent className="w-44">
-                            <Link href={`/projects/${projectId}/settings`}>
-                                <DropdownMenuItem className="text-gray-600 dark:text-gray-400">
-                                    <Settings className="w-3 h-3 mr-2" />
-                                    <span className="text-xs">Settings</span>
-                                </DropdownMenuItem>
-                            </Link>
+                {can(ProjectAction.VIEW_SETTINGS) && (
+                    <div>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger className="focus:outline-none focus:ring-0">
+                                <Ellipsis className="text-gray-600 dark:text-gray-400" />
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent className="w-44">
+                                <Link href={`/projects/${projectId}/settings`}>
+                                    <DropdownMenuItem className="text-gray-600 dark:text-gray-400">
+                                        <Settings className="w-3 h-3 mr-2" />
+                                        <span className="text-xs">Settings</span>
+                                    </DropdownMenuItem>
+                                </Link>
 
-                            <Link href={`/projects/${projectId}/insights`}>
-                                <DropdownMenuItem className="text-gray-600 dark:text-gray-400">
-                                    <LineChart className="w-3 h-3 mr-2" />
-                                    <span className="text-xs">Insights</span>
-                                </DropdownMenuItem>
-                            </Link>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                </div>
-                {/* )} */}
+                                <Link href={`/projects/${projectId}/insights`}>
+                                    <DropdownMenuItem className="text-gray-600 dark:text-gray-400">
+                                        <LineChart className="w-3 h-3 mr-2" />
+                                        <span className="text-xs">Insights</span>
+                                    </DropdownMenuItem>
+                                </Link>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
+                )}
             </div>
 
             <div className="h-[calc(100vh-130px)]">

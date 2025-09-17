@@ -137,3 +137,52 @@ interface ITaskWithOptions extends Partial<ITask> {
         links: IUserLink[];
     }[];
 }
+
+interface IComment {
+    id: string;
+    content: string;
+    user_id: string;
+    task_id: string;
+    created_at: Date;
+    updated_at: Date;
+}
+
+interface CommentResponse extends Omit<IComment, 'user_id'> {
+    user: Partial<IUser>;
+}
+
+type ActivityType = 'status' | 'label' | 'labels' | 'date' | 'user' | 'users';
+type ActivityPayload = 'id' | 'value' | 'ids';
+
+type ActivityObject =
+    | { type: 'status'; id: string }
+    | { type: 'label'; id: string }
+    | { type: 'labels'; ids: string[] }
+    | { type: 'date'; value: string }
+    | { type: 'user'; id: string }
+    | { type: 'users'; ids: string[] };
+
+type TaskActivity = (string | ActivityObject)[];
+
+interface IActivity {
+    id: string;
+    created_at: Date;
+    content: TaskActivity;
+    user_id: string;
+    task_id: string;
+    updated_at: Date;
+}
+
+interface ActivityResponse extends Omit<IActivity, 'user_id'> {
+    user: Partial<IUser>;
+}
+
+type TimelineType = 'activity' | 'comment';
+interface ITimeline {
+    id: string;
+    created_at: Date;
+    type: TimelineType;
+    value: ActivityResponse | CommentResponse;
+}
+
+type CustomFieldDBTableName = 'statuses' | 'labels' | 'priorities' | 'sizes';

@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 import { createClient } from '@/utils/supabase/client';
 import { useState, useMemo } from 'react';
 import { RoleSelect } from './RoleSelect';
-// import { useProjectAccess } from '@/hooks/useProjectAccess';
+import { useProjectAccess } from '@/hooks/useProjectAccess';
 // import { useAccessStore } from '@/stores/useAccessStore';
 import { ProjectAction } from '@/consts';
 import { useProjectOwner } from '@/hooks/useProjectOwner';
@@ -41,7 +41,7 @@ export const ManageAccess = ({
   const [isUpdatingMembers, setIsUpdatingMembers] = useState(false);
   //   const { toast } = useToast();
   const supabase = createClient();
-  //   const { can, isLoading } = useProjectAccess({ projectId });
+  const { can, isLoading } = useProjectAccess({ projectId });
   const { owner, isLoading: isLoadingOwner } = useProjectOwner(projectId);
 
   // Combine project members with owner if not already included
@@ -297,13 +297,15 @@ export const ManageAccess = ({
                   </Badge>
                 ) : (
                   // canUpdateRole(member.id) && (
-                  <RoleSelect
-                    value={member.role}
-                    onValueChange={(role) =>
-                      handleRoleChange(member.id, role)
-                    }
-                    disabled={isUpdatingMembers}
-                  />
+                  can(ProjectAction.UPDATE_MEMBER_ROLE) && (
+                    <RoleSelect
+                      value={member.role}
+                      onValueChange={(role) =>
+                        handleRoleChange(member.id, role)
+                      }
+                      disabled={isUpdatingMembers}
+                    />
+                  )
                   // )
                 )}
                 {/* <RoleSelect value={'read'} onValueChange={() => {}}/> */}
