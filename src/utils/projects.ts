@@ -121,47 +121,47 @@ export const projects = {
     },
 
     // Project options/fields
-    //   fields: {
-    //     getStatuses: async (projectId: string) => {
-    //       const { data, error } = await supabase
-    //         .from('statuses')
-    //         .select('*')
-    //         .eq('project_id', projectId)
-    //         .order('order');
+    fields: {
+        getStatuses: async (projectId: string) => {
+            const { data, error } = await supabase
+                .from('statuses')
+                .select('*')
+                .eq('project_id', projectId)
+                .order('order');
 
-    //       if (error) throw error;
-    //       return data;
-    //     },
-    //     getLabels: async (projectId: string) => {
-    //       const { data, error } = await supabase
-    //         .from('labels')
-    //         .select('*')
-    //         .eq('project_id', projectId);
+            if (error) throw error;
+            return data;
+        },
+        getLabels: async (projectId: string) => {
+            const { data, error } = await supabase
+                .from('labels')
+                .select('*')
+                .eq('project_id', projectId);
 
-    //       if (error) throw error;
-    //       return data;
-    //     },
-    //     getPriorities: async (projectId: string) => {
-    //       const { data, error } = await supabase
-    //         .from('priorities')
-    //         .select('*')
-    //         .eq('project_id', projectId)
-    //         .order('order');
+            if (error) throw error;
+            return data;
+        },
+        getPriorities: async (projectId: string) => {
+            const { data, error } = await supabase
+                .from('priorities')
+                .select('*')
+                .eq('project_id', projectId)
+                .order('order');
 
-    //       if (error) throw error;
-    //       return data;
-    //     },
-    //     getSizes: async (projectId: string) => {
-    //       const { data, error } = await supabase
-    //         .from('sizes')
-    //         .select('*')
-    //         .eq('project_id', projectId)
-    //         .order('order');
+            if (error) throw error;
+            return data;
+        },
+        getSizes: async (projectId: string) => {
+            const { data, error } = await supabase
+                .from('sizes')
+                .select('*')
+                .eq('project_id', projectId)
+                .order('order');
 
-    //       if (error) throw error;
-    //       return data;
-    //     },
-    //   },
+            if (error) throw error;
+            return data;
+        },
+    },
 
     // Project members
     members: {

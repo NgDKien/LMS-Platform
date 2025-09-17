@@ -4,10 +4,10 @@ import { CreateCustomFieldOptionModal } from '@/components/CreateCustomFieldOpti
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 // import { useProjectAccess } from '@/hooks/useProjectAccess';
-// import { useProjectQueries } from '@/hooks/useProjectQueries';
+import { useProjectQueries } from '@/hooks/useProjectQueries';
 import { cn } from '@/lib/utils';
 import { columns as columnsUtils } from '@/utils/columns';
-// import { getColumnSortedTasks, sortTasks } from '@/utils/sort';
+import { getColumnSortedTasks, sortTasks } from '@/utils/sort';
 import { closestCorners, DndContext, DragOverlay } from '@dnd-kit/core';
 import { Eye, Plus } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
@@ -33,8 +33,8 @@ export const Board: React.FC<Props> = ({
   const [columns, setColumns] = useState(statuses);
   const [hiddenColumns, setHiddenColumns] = useState<Set<string>>(new Set());
   const [isLoading, setIsLoading] = useState(false);
-  // const { projectTasks, reloadProjectTasks } = useProjectQueries(projectId);
-  // const [tasks, setTasks] = useState<ITaskWithOptions[]>(projectTasks || []);
+  const { projectTasks } = useProjectQueries(projectId);
+  const [tasks, setTasks] = useState<ITaskWithOptions[]>(projectTasks || []);
 
   // const {
   //   activeTask,
@@ -45,19 +45,19 @@ export const Board: React.FC<Props> = ({
   //   handleDragOver,
   // } = useBoardDragAndDrop();
 
-  // useEffect(() => {
-  //   setTasks(projectTasks || []);
-  // }, [projectTasks]);
+  useEffect(() => {
+    setTasks(projectTasks || []);
+  }, [projectTasks]);
 
-  // const sortedTasks = sortTasks(tasks);
+  const sortedTasks = sortTasks(tasks);
 
-  // const getColumnTasks = (statusId: string) => {
-  //   return getColumnSortedTasks(sortedTasks, statusId);
-  // };
+  const getColumnTasks = (statusId: string) => {
+    return getColumnSortedTasks(sortedTasks, statusId);
+  };
 
-  // const handleTaskCreated = (newTask: ITaskWithOptions) => {
-  //   setTasks((prev) => [...prev, newTask]);
-  // };
+  const handleTaskCreated = (newTask: ITaskWithOptions) => {
+    setTasks((prev) => [...prev, newTask]);
+  };
 
   const handleColumnUpdate = (updatedColumn: IStatus) => {
     setColumns((prev) =>
@@ -158,11 +158,12 @@ export const Board: React.FC<Props> = ({
               projectId={projectId}
               key={status.id}
               column={status}
-              tasks={[]}
+              tasks={getColumnTasks(status.id)}
               projectName={projectName}
               onColumnHide={handleColumnHide}
               onColumnUpdate={handleColumnUpdate}
               onColumnDelete={handleColumnDelete}
+              onTaskCreated={handleTaskCreated}
             />
           ))}
           {/* <DndContext

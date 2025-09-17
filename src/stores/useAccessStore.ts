@@ -1,7 +1,9 @@
+"use client";
+
 import { create } from "zustand";
 import { createClient } from "@/utils/supabase/client";
 import { ProjectAction } from "@/consts";
-import { auth } from "@clerk/nextjs/server"; // 👈 dùng Clerk
+import { useAuth } from "@clerk/nextjs"; // 👈 dùng client hook
 
 interface AccessState {
     permissions: Record<string, Record<ProjectAction, boolean>>;
@@ -15,7 +17,7 @@ interface AccessState {
             isCreator: boolean;
         }
     ) => void;
-    fetchProjectAccess: (projectId: string) => Promise<void>;
+    fetchProjectAccess: (projectId: string, userId: string | null) => Promise<void>;
     reset: () => void;
     requiresMinRole: (projectId: string, minRole: Role) => boolean;
 }
@@ -34,21 +36,17 @@ export const useAccessStore = create<AccessState>((set, get) => ({
             isCreator: { ...state.isCreator, [projectId]: isCreator },
         })),
 
-    fetchProjectAccess: async (projectId) => {
-        if (!projectId) return;
+    fetchProjectAccess: async (projectId: string, userId: string | null) => {
+        if (!projectId || !userId) return;
 
-        // ✅ Lấy userId từ Clerk
-        const { userId } = await auth();
-        if (!userId) return;
-
-        // Get project details
+        // Lấy project details
         const { data: project } = await supabase
             .from("projects")
             .select("created_by")
             .eq("id", projectId)
             .maybeSingle();
 
-        // Get member role
+        // Lấy role từ project_members
         const { data: member, error: memberError } = await supabase
             .from("project_members")
             .select("role")
@@ -63,7 +61,7 @@ export const useAccessStore = create<AccessState>((set, get) => ({
         const isCreator = project?.created_by === userId;
         const role: Role = isCreator ? "owner" : (member?.role as Role) || "read";
 
-        // Define permissions based on role
+        // Tính permission theo role
         const permissions = calculatePermissions(role);
 
         get().setProjectAccess(projectId, { permissions, role, isCreator });

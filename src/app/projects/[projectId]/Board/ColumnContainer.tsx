@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { ProjectAction } from '@/consts';
 import { cn } from '@/lib/utils';
 import { createClient } from '@/utils/supabase/client';
-// import { tasks as taskUtils } from '@/utils/tasks';
+import { tasks as taskUtils } from '@/utils/tasks';
 import { UniqueIdentifier } from '@dnd-kit/core';
 import {
   SortableContext,
@@ -19,13 +19,15 @@ import { ColumnLabelColor } from './ColumnLabelColor';
 import { ColumnMenuOptions } from './ColumnMenuOptions';
 import { TaskItem } from './TaskItem';
 import { useDroppable } from '@dnd-kit/core';
-// import { getLowestColumnPosition } from '@/utils/sort';
+import { getLowestColumnPosition } from '@/utils/sort';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { toast } from 'sonner';
 
 interface Props {
   projectId: string;
@@ -34,7 +36,7 @@ interface Props {
   projectName: string;
   // isOver: boolean;
   // can?: (action: ProjectAction) => boolean;
-  // onTaskCreated?: (task: ITaskWithOptions) => void;
+  onTaskCreated?: (task: ITaskWithOptions) => void;
   onColumnUpdate?: (column: IStatus) => void;
   onColumnDelete?: (columnId: string) => void;
   onColumnHide?: (columnId: string) => void;
@@ -43,22 +45,22 @@ interface Props {
 const supabase = createClient();
 
 export const ColumnContainer = ({
-  // projectId,
+  projectId,
   column,
   tasks: columnTasks,
   projectName,
   // isOver,
   // can,
-  // onTaskCreated,
+  onTaskCreated,
   onColumnUpdate,
   onColumnDelete,
   onColumnHide,
 }: Props) => {
   const [showInput, setShowInput] = useState(false);
   const [inputValue, setInputValue] = useState('');
-  // const [isCreating, setIsCreating] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
   // const [user, setUser] = useState<User | null>(null);
-  // const { toast } = useToast();
+  const { user } = useCurrentUser()
 
   // const { setNodeRef } = useDroppable({
   //   id: column.id,
@@ -79,41 +81,47 @@ export const ColumnContainer = ({
   // }, []);
 
   const handleAddItem = async () => {
-    // if (!inputValue.trim() || isCreating || !user) return;
+    if (!inputValue.trim() || isCreating || !user) return;
 
-    // try {
-    //   setIsCreating(true);
+    try {
+      setIsCreating(true);
 
-    //   // Get lowest position as the new position and place it at the bottom
-    //   const newPosition = getLowestColumnPosition(columnTasks);
+      // Get lowest position as the new position and place it at the bottom
+      const newPosition = getLowestColumnPosition(columnTasks);
 
-    //   const task = await taskUtils.create({
-    //     project_id: projectId,
-    //     status_id: column.id,
-    //     title: inputValue.trim(),
-    //     description: '',
-    //     created_by: user.id,
-    //     statusPosition: newPosition,
-    //   });
+      const task = await taskUtils.create({
+        project_id: projectId,
+        status_id: column.id,
+        title: inputValue.trim(),
+        description: '',
+        created_by: user.clerk_id,
+        statusPosition: newPosition,
+      });
 
-    //   toast({
-    //     title: 'Success',
-    //     description: 'Task created successfully',
-    //   });
+      toast.success("Task created successfully");
+      // toast({
+      //   title: 'Success',
+      //   description: '',
+      // });
 
-    //   onTaskCreated?.({ ...task, assignees: [] });
-    //   setInputValue('');
-    //   setShowInput(false);
-    // } catch (error) {
-    //   console.error('Error creating task:', error);
-    //   toast({
-    //     variant: 'destructive',
-    //     title: 'Error',
-    //     description: 'Failed to create task',
-    //   });
-    // } finally {
-    //   setIsCreating(false);
-    // }
+      onTaskCreated?.({ ...task, assignees: [] });
+      setInputValue('');
+      setShowInput(false);
+    } catch (error) {
+      console.error('Error creating task:', error);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to create task"
+      );
+      // toast({
+      //   variant: 'destructive',
+      //   title: 'Error',
+      //   description: '',
+      // });
+    } finally {
+      setIsCreating(false);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -219,7 +227,7 @@ export const ColumnContainer = ({
             // disabled={isCreating}
             />
             <Button
-              // onClick={handleAddItem}
+              onClick={handleAddItem}
               className={cn(successBtnStyles, 'h-8 px-3')}
               // disabled={!inputValue.trim() || isCreating}
               disabled={!inputValue.trim()}

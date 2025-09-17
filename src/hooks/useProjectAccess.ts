@@ -1,20 +1,22 @@
-import { useEffect } from 'react';
-import { useAccessStore } from '@/stores/useAccessStore';
-import { ProjectAction } from '@/consts';
+import { useEffect } from "react";
+import { useAccessStore } from "@/stores/useAccessStore";
+import { ProjectAction } from "@/consts";
+import { useAuth } from "@clerk/nextjs";
 
 interface UseProjectAccessProps {
     projectId: string;
 }
 
 export const useProjectAccess = ({ projectId }: UseProjectAccessProps) => {
+    const { userId, isLoaded } = useAuth(); // 👈 lấy userId từ Clerk
     const { permissions, roles, isCreator, fetchProjectAccess, requiresMinRole } =
         useAccessStore();
 
     useEffect(() => {
-        if (!permissions[projectId]) {
-            fetchProjectAccess(projectId);
+        if (isLoaded && userId && !permissions[projectId]) {
+            fetchProjectAccess(projectId, userId); // 👈 truyền cả 2 arg
         }
-    }, [projectId, permissions, fetchProjectAccess]);
+    }, [projectId, userId, isLoaded, permissions, fetchProjectAccess]);
 
     const can = (action: ProjectAction): boolean => {
         return permissions[projectId]?.[action] ?? false;
