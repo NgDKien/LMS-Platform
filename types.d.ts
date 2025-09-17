@@ -1,3 +1,6 @@
+type Role = 'read' | 'write' | 'admin' | 'owner';
+type InvitationStatus = 'invited' | 'accepted' | 'declined' | 'expired';
+
 interface IUserLink {
     id: string;
     label: string;
@@ -14,6 +17,20 @@ interface IUser {
     updated_at: Date;
     links: IUserLink[];
     provider: 'google' | 'github' | 'email';
+}
+
+interface IProjectMember {
+    id: string;
+    project_id: string;
+    user_id: string;
+    role: Role;
+    invitationStatus: InvitationStatus;
+    invited_at: Date;
+    joined_at?: Date;
+}
+
+interface MemberWithUser extends IProjectMember {
+    user: Pick<IUser, 'clerk_id' | 'name' | 'email' | 'avatar'>;
 }
 
 interface IProject {

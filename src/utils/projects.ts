@@ -164,63 +164,66 @@ export const projects = {
     //   },
 
     // Project members
-    //   members: {
-    //     getAll: async (projectId: string) => {
-    //       const { data, error } = await supabase
-    //         .from('project_members')
-    //         .select(
-    //           `
-    //           user:users (
-    //             id,
-    //             name,
-    //             avatar,
-    //             description,
-    //             links
-    //           )
-    //         `
-    //         )
-    //         .eq('project_id', projectId);
+    members: {
+        getAll: async (projectId: string) => {
+            const { data, error } = await supabase
+                .from('project_members')
+                .select(
+                    `
+              user:users (
+                id,
+                name,
+                avatar,
+                description,
+                links
+              )
+            `
+                )
+                .eq('project_id', projectId);
 
-    //       if (error) throw error;
-    //       return (data as any[]).map((m) => m.user) as IUser[];
-    //     },
-    //     getProjectOwner: async (projectId: string) => {
-    //       const { data, error } = await supabase
-    //         .from('projects')
-    //         .select(
-    //           `
-    //           creator:created_by (
-    //             id,
-    //             name,
-    //             email,
-    //             avatar,
-    //             description,
-    //             links,
-    //             created_at,
-    //             updated_at
-    //           )
-    //         `
-    //         )
-    //         .eq('id', projectId)
-    //         .single();
+            if (error) throw error;
+            return (data as any[]).map((m) => m.user) as IUser[];
+        },
+        getProjectOwner: async (projectId: string) => {
+            const { data, error } = await supabase
+                .from('projects')
+                .select(
+                    `
+              creator:created_by (
+                clerk_id,
+                name,
+                email,
+                avatar,
+                description,
+                links,
+                created_at,
+                updated_at,
+                provider
+              )
+            `
+                )
+                .eq('id', projectId)
+                .single();
 
-    //       if (error) throw error;
-    //       if (!data?.creator) return null;
+            if (error) throw error;
+            if (!data?.creator) return null;
 
-    //       const creator = data.creator as Record<string, any>;
+            const creator = data.creator as Record<string, any>;
 
-    //       return {
-    //         id: creator.id,
-    //         name: creator.name,
-    //         email: creator.email,
-    //         avatar: creator.avatar,
-    //         description: creator.description,
-    //         links: creator.links,
-    //         created_at: creator.created_at,
-    //         updated_at: creator.updated_at,
-    //       } as IUser;
-    //     },
-    //   },
+            return {
+                clerk_id: creator.clerk_id,
+                // id: creator.id,
+                name: creator.name,
+                email: creator.email,
+                avatar: creator.avatar,
+                description: creator.description,
+                links: creator.links,
+                created_at: creator.created_at,
+                updated_at: creator.updated_at,
+                provider: creator.provider
+            } as IUser;
+        },
+    },
 
     // User's projects
     getUserProjects: async (userId: string) => {
