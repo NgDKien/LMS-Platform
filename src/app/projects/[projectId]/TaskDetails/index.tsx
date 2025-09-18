@@ -21,7 +21,7 @@ import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { UserCard } from '@/components/UserCard';
 import { useProjectQueries } from '@/hooks/useProjectQueries';
 import { useParams } from 'next/navigation';
-import { toast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 
 // Separate component for the comment form to prevent re-renders of the entire timeline
 const CommentForm = () => {
@@ -32,12 +32,12 @@ const CommentForm = () => {
     const { user } = useCurrentUser();
 
     const handleCreateComment = async () => {
-        if (!comment.trim() || !selectedTask?.id || !user?.id) return;
+        if (!comment.trim() || !selectedTask?.id || !user?.clerk_id) return;
 
         try {
             await createComment({
                 task_id: selectedTask.id,
-                user_id: user.id,
+                clerk_id: user.clerk_id,
                 content: comment,
             });
 
@@ -45,10 +45,11 @@ const CommentForm = () => {
             setComment('');
             setResetKey((prev) => prev + 1);
         } catch (error) {
-            toast({
-                title: 'Failed to add comment',
-                variant: 'destructive',
-            });
+            toast.error(
+                error instanceof Error
+                    ? error.message
+                    : "Failed to add comment"
+            );
         }
     };
 
@@ -56,7 +57,7 @@ const CommentForm = () => {
         <div className="my-6">
             <div className=" pb-4 flex items-center space-x-2">
                 <UserCard
-                    id={user?.id || ''}
+                    id={user?.clerk_id || ''}
                     name={user?.name || ''}
                     avatarUrl={user?.avatar || ''}
                     description={user?.description || ''}
@@ -129,7 +130,7 @@ export const TaskDetails = () => {
 
     const allMembers = useMemo(() => {
         if (!members || !user) return members;
-        const isCurrentUserMember = members.some((m) => m.id === user.id);
+        const isCurrentUserMember = members.some((m) => m.clerk_id === user.clerk_id);
         return isCurrentUserMember ? members : [...members, user];
     }, [members, user]);
 

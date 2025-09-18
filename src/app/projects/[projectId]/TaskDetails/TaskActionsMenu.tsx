@@ -5,7 +5,6 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { toast } from '@/components/ui/use-toast';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 import { useProjectQueries } from '@/hooks/useProjectQueries';
 import { useTaskQueries } from '@/hooks/useTaskQueries';
@@ -14,6 +13,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { useTaskDetails } from '../Board/TaskDetailsContext';
+import { toast } from 'sonner';
 
 interface Props {
     setIsEditing: (isEditing: boolean) => void;
@@ -33,10 +33,8 @@ export const TaskActionsMenu = ({ permalink, setIsEditing }: Props) => {
         await reloadProjectTasks();
         closeDrawer();
 
-        toast({
-            title: 'Task deleted',
-            description: 'The task has been deleted successfully',
-        });
+        toast.error("The task has been deleted successfully");
+
         setIsDeleting(false);
     };
 

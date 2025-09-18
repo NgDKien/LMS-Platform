@@ -27,7 +27,7 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { useTaskDetails } from '../Board/TaskDetailsContext';
-import { toast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 
 interface Props {
     comment: CommentResponse;
@@ -43,7 +43,7 @@ export const Comment: FC<Props> = ({ comment }) => {
     );
     const { createActivity } = useActivityQueries(selectedTask?.id || '');
 
-    const isCommentOwner = user?.id === comment.user.id;
+    const isCommentOwner = user?.clerk_id === comment.user.clerk_id;
 
     const handleUpdateComment = async () => {
         if (!description.trim()) return;
@@ -56,10 +56,11 @@ export const Comment: FC<Props> = ({ comment }) => {
 
             setEditable(false);
         } catch (error) {
-            toast({
-                title: 'Failed to update comment',
-                variant: 'destructive',
-            });
+            toast.error(
+                error instanceof Error
+                    ? error.message
+                    : "Failed to update comment"
+            );
         }
     };
 
@@ -70,21 +71,22 @@ export const Comment: FC<Props> = ({ comment }) => {
             // Create activity for comment deletion
             await createActivity({
                 task_id: selectedTask?.id as string,
-                user_id: user?.id as string,
+                user_id: user?.clerk_id as string,
                 content: [
                     {
                         type: 'user',
-                        id: user?.id as string,
+                        id: user?.clerk_id as string,
                     },
                     'deleted a comment on',
                     { type: 'date', value: new Date().toISOString() },
                 ],
             });
         } catch (error) {
-            toast({
-                title: 'Failed to delete comment',
-                variant: 'destructive',
-            });
+            toast.error(
+                error instanceof Error
+                    ? error.message
+                    : "Failed to delete comment"
+            );
         }
     };
 
@@ -99,7 +101,7 @@ export const Comment: FC<Props> = ({ comment }) => {
                 <div className="flex items-center gap-2 text-sm">
                     <span>
                         <UserCard
-                            id={comment.user.id || ''}
+                            id={comment.user.clerk_id || ''}
                             name={comment.user.name || ''}
                             avatarUrl={comment.user.avatar || ''}
                             description={comment.user.description || ''}

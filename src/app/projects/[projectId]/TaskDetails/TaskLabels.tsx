@@ -78,11 +78,11 @@ export const TaskLabels = () => {
             if (addedLabels.length > 0) {
                 activities.push({
                     task_id: selectedTask?.id as string,
-                    user_id: user?.id as string,
+                    user_id: user?.clerk_id as string,
                     content: [
                         {
                             type: 'user',
-                            id: user?.id as string,
+                            id: user?.clerk_id as string,
                         },
                         'added',
                         { type: 'labels', ids: addedLabels },
@@ -95,11 +95,11 @@ export const TaskLabels = () => {
             if (removedLabels.length > 0) {
                 activities.push({
                     task_id: selectedTask?.id as string,
-                    user_id: user?.id as string,
+                    user_id: user?.clerk_id as string,
                     content: [
                         {
                             type: 'user',
-                            id: user?.id as string,
+                            id: user?.clerk_id as string,
                         },
                         'removed',
                         { type: 'labels', ids: removedLabels },

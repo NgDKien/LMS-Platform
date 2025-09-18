@@ -170,14 +170,16 @@ export const projects = {
                 .from('project_members')
                 .select(
                     `
-              user:users (
-                id,
-                name,
-                avatar,
-                description,
-                links
-              )
-            `
+        user_id,
+        role,
+        user:users!inner (
+          clerk_id,
+          name,
+          avatar,
+          description,
+          links
+        )
+      `
                 )
                 .eq('project_id', projectId);
 

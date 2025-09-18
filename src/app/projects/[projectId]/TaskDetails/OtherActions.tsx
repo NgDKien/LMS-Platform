@@ -5,8 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Delete, Loader2, Trash } from 'lucide-react';
 import { useProjectQueries } from '@/hooks/useProjectQueries';
 import { useParams } from 'next/navigation';
-import { toast } from '@/components/ui/use-toast';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 export const OtherActions = () => {
     const { projectId } = useParams();
@@ -21,10 +21,7 @@ export const OtherActions = () => {
         await reloadProjectTasks();
         closeDrawer();
 
-        toast({
-            title: 'Task deleted',
-            description: 'The task has been deleted successfully',
-        });
+        toast.error("The task has been deleted successfully");
         setIsDeleting(false);
     };
 

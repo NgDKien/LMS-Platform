@@ -2,12 +2,12 @@
 import { CustomFieldTagRenderer } from '@/components/CustomFieldTagRenderer';
 import { LabelBadge } from '@/components/LabelBadge';
 import StackedAvatars from '@/components/StackedAvaters';
-// import { prefetchTask } from '@/hooks/useTaskQueries';
+import { prefetchTask } from '@/hooks/useTaskQueries';
 import { UniqueIdentifier } from '@dnd-kit/core';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useQueryClient } from '@tanstack/react-query';
-// import { useTaskDetails } from './TaskDetailsContext';
+import { useTaskDetails } from './TaskDetailsContext';
 
 interface Props {
   item: ITaskWithOptions;
@@ -16,8 +16,8 @@ interface Props {
 }
 
 export const TaskItem = ({ item, projectName, index }: Props) => {
-  // const queryClient = useQueryClient();
-  // const { openDrawer } = useTaskDetails();
+  const queryClient = useQueryClient();
+  const { openDrawer } = useTaskDetails();
   const {
     attributes,
     listeners,
@@ -39,11 +39,11 @@ export const TaskItem = ({ item, projectName, index }: Props) => {
     transition,
   };
 
-  // const handleClick = async () => {
-  //   // Prefetch task data before opening drawer
-  //   // await prefetchTask(queryClient, item.id!);
-  //   openDrawer(item, projectName);
-  // };
+  const handleClick = async () => {
+    // Prefetch task data before opening drawer
+    await prefetchTask(queryClient, item.id!);
+    openDrawer(item, projectName);
+  };
 
   if (isDragging) {
     return (
@@ -71,7 +71,7 @@ export const TaskItem = ({ item, projectName, index }: Props) => {
           <StackedAvatars users={(item.assignees as Partial<IUser>[]) || []} />
         </div>
         <div
-          // onClick={handleClick}
+          onClick={handleClick}
           className="my-2 cursor-pointer hover:underline w-fit"
         >
           <p>{item.title}</p>

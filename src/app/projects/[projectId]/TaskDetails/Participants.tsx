@@ -15,7 +15,7 @@ export const Participants = () => {
             </div>
             <div className="flex flex-wrap gap-2 text-xs py-2">
                 <UserCard
-                    id={owner?.id || ''}
+                    id={owner?.clerk_id || ''}
                     name={owner?.name || ''}
                     avatarUrl={owner?.avatar || ''}
                     description={owner?.description}
@@ -24,8 +24,8 @@ export const Participants = () => {
                 />
                 {members?.map((member) => (
                     <UserCard
-                        key={member.id}
-                        id={member.id}
+                        key={member.clerk_id}
+                        id={member.clerk_id}
                         name={member.name || ''}
                         avatarUrl={member.avatar || ''}
                         description={member.description}

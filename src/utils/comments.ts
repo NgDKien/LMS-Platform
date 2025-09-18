@@ -1,4 +1,4 @@
-import { createClient } from './supabase/client';
+import { createClient } from "./supabase/client";
 
 const supabase = createClient();
 
@@ -6,7 +6,7 @@ export const comments = {
     // Get all comments for a task
     getTaskComments: async (taskId: string) => {
         const { data, error } = await supabase
-            .from('comments')
+            .from("comments")
             .select(
                 `
         id,
@@ -14,8 +14,8 @@ export const comments = {
         created_at,
         updated_at,
         task_id,
-        user:user_id (
-          id,
+        user:clerk_id (
+          clerk_id,
           name,
           avatar,
           description,
@@ -23,21 +23,17 @@ export const comments = {
         )
       `
             )
-            .eq('task_id', taskId)
-            .order('created_at', { ascending: true }); // Show oldest comments first
+            .eq("task_id", taskId)
+            .order("created_at", { ascending: true }); // oldest first
 
         if (error) throw error;
         return data as CommentResponse[];
     },
 
     // Create a new comment
-    create: async (comment: {
-        task_id: string;
-        user_id: string;
-        content: string;
-    }) => {
+    create: async (comment: { task_id: string; clerk_id: string; content: string }) => {
         const { data, error } = await supabase
-            .from('comments')
+            .from("comments")
             .insert({
                 ...comment,
                 created_at: new Date().toISOString(),
@@ -50,8 +46,8 @@ export const comments = {
         created_at,
         updated_at,
         task_id,
-        user:user_id (
-          id,
+        user:clerk_id (
+          clerk_id,
           name,
           avatar,
           description,
@@ -67,23 +63,19 @@ export const comments = {
 
     // Delete a comment
     delete: async (commentId: string) => {
-        const { error } = await supabase
-            .from('comments')
-            .delete()
-            .eq('id', commentId);
-
+        const { error } = await supabase.from("comments").delete().eq("id", commentId);
         if (error) throw error;
     },
 
     // Update a comment
     update: async (commentId: string, updates: { content: string }) => {
         const { data, error } = await supabase
-            .from('comments')
+            .from("comments")
             .update({
                 ...updates,
                 updated_at: new Date().toISOString(),
             })
-            .eq('id', commentId)
+            .eq("id", commentId)
             .select(
                 `
         id,
@@ -91,8 +83,8 @@ export const comments = {
         created_at,
         updated_at,
         task_id,
-        user:user_id (
-          id,
+        user:clerk_id (
+          clerk_id,
           name,
           avatar,
           description,

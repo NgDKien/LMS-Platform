@@ -33,7 +33,7 @@ export const tasks = {
             return data.map((task: any) => ({
                 ...task,
                 labels: task.task_labels?.map((tl: any) => tl.labels) || [],
-                assignees: task.task_assignees?.map((a: any) => a.users) || [],
+                assignees: (task.task_assignees?.map((a: any) => a.users).filter(Boolean)) || [],
                 task_labels: null,
                 task_assignees: null,
             })) as ITaskWithOptions[];
@@ -102,7 +102,7 @@ export const tasks = {
             return {
                 ...data,
                 labels: data.task_labels?.map((tl: any) => tl.labels) || [],
-                assignees: data.task_assignees?.map((a: any) => a.users) || [],
+                assignees: (data.task_assignees?.map((a: any) => a.users).filter(Boolean)) || [],
                 task_labels: null,
                 task_assignees: null,
             } as ITaskWithOptions;

@@ -14,8 +14,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { DatePicker } from './DatePicker';
 import { CustomFieldTagRenderer } from '@/components/CustomFieldTagRenderer';
-import { toast } from '@/components/ui/use-toast';
 import { tasks as tasksUtils } from '@/utils/tasks';
+import { toast } from 'sonner';
 
 export const Project = () => {
     const params = useParams();
@@ -110,10 +110,11 @@ export const Project = () => {
             // Update local state
             updateTaskPriority?.(selectedTask.id, priority);
         } catch (error) {
-            toast({
-                title: 'Failed to update priority',
-                variant: 'destructive',
-            });
+            toast.error(
+                error instanceof Error
+                    ? error.message
+                    : "Failed to update priority"
+            );
         }
     };
 

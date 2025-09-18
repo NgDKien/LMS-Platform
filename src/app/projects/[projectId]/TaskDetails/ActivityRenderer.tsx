@@ -13,7 +13,7 @@ const User = ({ user }: { user?: Partial<IUser> }) => {
 
     return (
         <UserCard
-            id={user.id as string}
+            id={user.clerk_id as string}
             name={user.name as string}
             avatarUrl={user.avatar as string}
             description={user.description as string}
@@ -32,8 +32,8 @@ const Users = ({ users }: { users?: Partial<IUser>[] }) => {
         <div className="flex items-center flex-wrap gap-2">
             {users?.map((user) => (
                 <UserCard
-                    key={user.id}
-                    id={user.id as string}
+                    key={user.clerk_id}
+                    id={user.clerk_id as string}
                     name={user.name as string}
                     avatarUrl={user.avatar as string}
                     description={user.description as string}
@@ -148,7 +148,7 @@ const ActivityRenderer: FC<ActivityRendererProps> = ({
                         return (
                             <User
                                 key={index}
-                                user={allMembers?.find((member) => member.id === item.id)}
+                                user={allMembers?.find((member) => member.clerk_id === item.id)}
                             />
                         );
                     case 'status':
@@ -183,7 +183,7 @@ const ActivityRenderer: FC<ActivityRendererProps> = ({
                             <Users
                                 key={index}
                                 users={item.ids
-                                    .map((id) => allMembers?.find((member) => member.id === id))
+                                    .map((id) => allMembers?.find((member) => member.clerk_id === id))
                                     .filter((member): member is IUser => member !== undefined)}
                             />
                         );

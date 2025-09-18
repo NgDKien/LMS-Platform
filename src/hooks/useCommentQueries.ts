@@ -22,7 +22,7 @@ export const useCommentQueries = (taskId: string) => {
     const { mutate: createComment } = useMutation({
         mutationFn: (newComment: {
             task_id: string;
-            user_id: string;
+            clerk_id: string;
             content: string;
         }) => comments.create(newComment),
         onSuccess: (newComment) => {

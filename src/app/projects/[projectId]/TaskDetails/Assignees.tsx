@@ -39,19 +39,19 @@ export const Assignees = () => {
     // Initialize selected assignees when task loads or changes
     useEffect(() => {
         if (task?.assignees) {
-            setSelectedAssignees(task.assignees.map((a) => a.id));
+            setSelectedAssignees(task.assignees.filter(Boolean).map((a) => a.clerk_id));
         }
     }, [task?.assignees]);
 
     // Combine project members with owner if not already included
     const allMembers = useMemo(() => {
         if (!members || !owner) return members ?? [];
-        const isOwnerInMembers = members.some((m) => m.id === owner.id);
+        const isOwnerInMembers = members.some((m) => m.clerk_id === owner.clerk_id);
         if (isOwnerInMembers) return members;
 
         return [
             {
-                id: owner.id,
+                clerk_id: owner.clerk_id,
                 name: owner.name,
                 email: owner.email,
                 avatar: owner.avatar,
@@ -75,9 +75,9 @@ export const Assignees = () => {
         if (
             !open &&
             JSON.stringify(selectedAssignees.sort()) !==
-            JSON.stringify(task?.assignees?.map((a) => a.id).sort())
+            JSON.stringify(task?.assignees?.map((a) => a.clerk_id).sort())
         ) {
-            const currentAssignees = task?.assignees?.map((a) => a.id) || [];
+            const currentAssignees = task?.assignees?.map((a) => a.clerk_id) || [];
             const newAssignees = selectedAssignees;
 
             // Find added and removed assignees
@@ -102,14 +102,14 @@ export const Assignees = () => {
             // Handle added assignees
             if (addedAssignees.length > 0) {
                 // Check if it's a self-assignment
-                if (addedAssignees.length === 1 && addedAssignees[0] === user?.id) {
+                if (addedAssignees.length === 1 && addedAssignees[0] === user?.clerk_id) {
                     activities.push({
                         task_id: selectedTask?.id as string,
-                        user_id: user?.id as string,
+                        user_id: user?.clerk_id as string,
                         content: [
                             {
                                 type: 'user',
-                                id: user?.id as string,
+                                id: user?.clerk_id as string,
                             },
                             'self-assigned this on',
                             { type: 'date', value: new Date().toISOString() },
@@ -118,11 +118,11 @@ export const Assignees = () => {
                 } else {
                     activities.push({
                         task_id: selectedTask?.id as string,
-                        user_id: user?.id as string,
+                        user_id: user?.clerk_id as string,
                         content: [
                             {
                                 type: 'user',
-                                id: user?.id as string,
+                                id: user?.clerk_id as string,
                             },
                             'assigned',
                             { type: 'users', ids: addedAssignees },
@@ -136,14 +136,14 @@ export const Assignees = () => {
             // Handle removed assignees
             if (removedAssignees.length > 0) {
                 // Check if it's a self-unassignment
-                if (removedAssignees.length === 1 && removedAssignees[0] === user?.id) {
+                if (removedAssignees.length === 1 && removedAssignees[0] === user?.clerk_id) {
                     activities.push({
                         task_id: selectedTask?.id as string,
-                        user_id: user?.id as string,
+                        user_id: user?.clerk_id as string,
                         content: [
                             {
                                 type: 'user',
-                                id: user?.id as string,
+                                id: user?.clerk_id as string,
                             },
                             'removed themselves from this task on',
                             { type: 'date', value: new Date().toISOString() },
@@ -152,11 +152,11 @@ export const Assignees = () => {
                 } else {
                     activities.push({
                         task_id: selectedTask?.id as string,
-                        user_id: user?.id as string,
+                        user_id: user?.clerk_id as string,
                         content: [
                             {
                                 type: 'user',
-                                id: user?.id as string,
+                                id: user?.clerk_id as string,
                             },
                             'unassigned',
                             { type: 'users', ids: removedAssignees },
@@ -175,19 +175,19 @@ export const Assignees = () => {
     };
 
     const handleAssignSelf = async () => {
-        if (user?.id) {
-            await updateAssignees([user.id]);
+        if (user?.clerk_id) {
+            await updateAssignees([user.clerk_id]);
             await reloadProjectTasks();
 
             // Create self-assignment activity
             await createActivities([
                 {
                     task_id: selectedTask?.id as string,
-                    user_id: user.id,
+                    user_id: user.clerk_id,
                     content: [
                         {
                             type: 'user',
-                            id: user.id,
+                            id: user.clerk_id,
                         },
                         'self-assigned this on',
                         { type: 'date', value: new Date().toISOString() },
@@ -195,7 +195,7 @@ export const Assignees = () => {
                 },
             ]);
 
-            setSelectedAssignees([user.id]);
+            setSelectedAssignees([user.clerk_id]);
         }
     };
 
@@ -224,12 +224,12 @@ export const Assignees = () => {
                         <Separator className="my-2" />
                         {filteredMembers?.map((member) => (
                             <div
-                                key={member.id}
+                                key={member.clerk_id}
                                 className="flex items-center hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-900 p-1 text-xs"
-                                onClick={() => handleAssigneeToggle(member.id || '')}
+                                onClick={() => handleAssigneeToggle(member.clerk_id || '')}
                             >
                                 <Checkbox
-                                    checked={isAssigned(member.id || '')}
+                                    checked={isAssigned(member.clerk_id || '')}
                                     className="w-4 h-4 mr-4 rounded-sm bg-gray-200 dark:bg-black border border-gray-300 dark:border-gray-900"
                                 />
                                 <Avatar className="w-4 h-4 mr-2">
@@ -247,16 +247,20 @@ export const Assignees = () => {
             <div className="text-xs pt-2 pb-4">
                 {task?.assignees && task.assignees.length > 0 ? (
                     <div className="flex flex-col gap-2">
-                        {task.assignees.map((assignee) => (
-                            <UserCard
-                                key={assignee.id}
-                                id={assignee.id}
-                                name={assignee.name}
-                                avatarUrl={assignee.avatar}
-                                description={assignee.description}
-                                links={assignee.links}
-                            />
-                        ))}
+                        {task.assignees.map((assignee, index) => {
+                            if (!assignee) return null;
+
+                            return (
+                                <UserCard
+                                    key={assignee.clerk_id || index}
+                                    id={assignee.clerk_id}
+                                    name={assignee.name}
+                                    avatarUrl={assignee.avatar}
+                                    description={assignee.description}
+                                    links={assignee.links}
+                                />
+                            )
+                        })}
                     </div>
                 ) : (
                     <>

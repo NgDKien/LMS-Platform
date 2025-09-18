@@ -130,7 +130,7 @@ interface ITaskWithOptions extends Partial<ITask> {
         order: number;
     };
     assignees?: {
-        id: string;
+        clerk_id: string;
         name: string;
         description: string;
         avatar: string;
