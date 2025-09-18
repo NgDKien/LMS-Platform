@@ -14,7 +14,7 @@ export const comments = {
         created_at,
         updated_at,
         task_id,
-        user:clerk_id (
+        user:users!comments_user_id_fkey (
           clerk_id,
           name,
           avatar,
@@ -35,7 +35,9 @@ export const comments = {
         const { data, error } = await supabase
             .from("comments")
             .insert({
-                ...comment,
+                task_id: comment.task_id,
+                user_id: comment.clerk_id,
+                content: comment.content,
                 created_at: new Date().toISOString(),
                 updated_at: new Date().toISOString(),
             })
@@ -46,7 +48,7 @@ export const comments = {
         created_at,
         updated_at,
         task_id,
-        user:clerk_id (
+        user:users!comments_user_id_fkey (
           clerk_id,
           name,
           avatar,
@@ -83,7 +85,7 @@ export const comments = {
         created_at,
         updated_at,
         task_id,
-        user:clerk_id (
+        user:users!comments_user_id_fkey (
           clerk_id,
           name,
           avatar,
