@@ -14,12 +14,16 @@ export const syncUser = mutation({
             .first();
 
         if (!existingUser) {
+            console.log(`Creating new user in Convex: ${args.userId}`);
             await ctx.db.insert("users", {
                 userId: args.userId,
                 email: args.email,
                 name: args.name,
                 isPro: false,
+                // createdAt: Date.now(),
             });
+        } else {
+            console.log(`User ${args.userId} already exists in Convex, skipping insert`);
         }
     },
 });
@@ -102,6 +106,26 @@ export const saveToSupabase = action({
         });
 
         try {
+            // Kiểm tra xem user đã tồn tại chưa
+            const checkResponse = await fetch(`${endpoint}?clerk_id=eq.${args.clerkId}&select=clerk_id`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${supabaseKey}`,
+                    'apikey': supabaseKey,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (checkResponse.ok) {
+                const existingUsers = await checkResponse.json();
+
+                if (existingUsers && existingUsers.length > 0) {
+                    console.log(`User ${args.clerkId} already exists in Supabase, skipping insert`);
+                    return;
+                }
+            }
+
+            // Chỉ insert nếu user chưa tồn tại
             const response = await fetch(endpoint, {
                 method: 'POST',
                 headers: {
@@ -130,34 +154,10 @@ export const saveToSupabase = action({
                     errorText
                 });
 
-                // Check for specific error types
+                // Nếu conflict (409) có thể do race condition
                 if (response.status === 409) {
-                    console.log("User already exists in Supabase, attempting update...");
-
-                    // Try to update existing user
-                    const updateResponse = await fetch(`${endpoint}?clerk_id=eq.${args.clerkId}`, {
-                        method: 'PATCH',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${supabaseKey}`,
-                            'apikey': supabaseKey,
-                            'Prefer': 'return=minimal'
-                        },
-                        body: JSON.stringify({
-                            email: args.email,
-                            name: args.name,
-                            updated_at: new Date().toISOString()
-                        })
-                    });
-
-                    if (updateResponse.ok) {
-                        console.log(`User ${args.clerkId} updated in Supabase successfully`);
-                        return;
-                    } else {
-                        const updateErrorText = await updateResponse.text();
-                        console.error("Update failed:", updateErrorText);
-                        throw new Error(`Failed to update user in Supabase: ${updateResponse.status} - ${updateErrorText}`);
-                    }
+                    console.log("User already exists (409 conflict), considering as success");
+                    return;
                 }
 
                 throw new Error(`Failed to save user to Supabase: ${response.status} - ${errorText}`);

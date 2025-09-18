@@ -196,6 +196,7 @@ http.route({
         const eventType = evt.type;
         console.log("📋 Event type:", eventType);
 
+        // Chỉ xử lý khi user thực sự được tạo mới
         if (eventType === "user.created") {
             console.log("👤 Processing user.created event");
             const { id, email_addresses, first_name, last_name } = evt.data;
@@ -205,54 +206,41 @@ http.route({
 
             console.log("User data:", { id, email, name });
 
-            // Separate error handling for each operation
-            let supabaseSuccess = false;
-            let convexSuccess = false;
-
-            // Try saving to Supabase first
             try {
-                console.log("💾 Saving to Supabase...");
+                // Kiểm tra xem user đã tồn tại trong Convex chưa
+                const existingUser = await ctx.runQuery(api.users.getUser, {
+                    userId: id
+                });
+
+                if (existingUser) {
+                    console.log(`ℹ️ User ${id} already exists, skipping sync`);
+                    return new Response("User already exists", { status: 200 });
+                }
+
+                // Chỉ sync khi user chưa tồn tại
+                console.log("🔄 Syncing new user to systems...");
+
+                // Sync to Supabase
                 await ctx.runAction(api.users.saveToSupabase, {
                     clerkId: id,
                     email,
                     name,
                 });
                 console.log("✅ Saved to Supabase successfully");
-                supabaseSuccess = true;
-            } catch (supabaseError) {
-                console.error("❌ Error saving to Supabase:", supabaseError);
-                // Continue to try Convex even if Supabase fails
-            }
 
-            // Try syncing to Convex regardless of Supabase result
-            try {
-                console.log("🔄 Syncing to Convex...");
+                // Sync to Convex
                 await ctx.runMutation(api.users.syncUser, {
                     userId: id,
                     email,
                     name,
                 });
                 console.log("✅ Synced to Convex successfully");
-                convexSuccess = true;
-            } catch (convexError) {
-                console.error("❌ Error syncing to Convex:", convexError);
-            }
 
-            // Report results
-            if (supabaseSuccess && convexSuccess) {
-                console.log(`🎉 User ${id} synced to both Supabase and Convex successfully`);
-                return new Response("User synced successfully", { status: 200 });
-            } else if (convexSuccess) {
-                console.log(`⚠️ User ${id} synced to Convex only (Supabase failed)`);
-                return new Response("User synced to Convex only", { status: 200 });
-            } else if (supabaseSuccess) {
-                console.log(`⚠️ User ${id} saved to Supabase only (Convex failed)`);
-                return new Response("User saved to Supabase only", { status: 200 });
-            } else {
-                console.error(`❌ Failed to sync user ${id} to both systems`);
-                return new Response("Error syncing user to both systems", { status: 500 });
+                console.log(`🎉 New user ${id} synced to all systems`);
+            } catch (error) {
+                console.error("❌ Error syncing user:", error);
+                return new Response("Error syncing user", { status: 500 });
             }
-
         } else {
             console.log(`ℹ️ Ignoring event type: ${eventType}`);
         }
