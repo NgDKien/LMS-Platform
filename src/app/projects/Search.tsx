@@ -21,7 +21,7 @@ const SearchAndButton = ({
                 <Input
                     type="text"
                     placeholder={placeholderText}
-                    className="w-full p-2 rounded"
+                    className="w-full p-2 rounded border-[#6e6c6c]"
                     onChange={(e) => onSearch?.(e.target.value)}
                 />
             </div>

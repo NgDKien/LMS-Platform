@@ -28,7 +28,7 @@ export const ProjectList = ({
     }
 
     return (
-        <div className="border rounded-md">
+        <div className="border border-[#6e6c6c] rounded-md">
             <ProjectListHeader
                 tab={tab}
                 count={projects.length}

@@ -62,13 +62,13 @@ export const TaskItem = ({ item, projectName, index }: Props) => {
         style={style}
         {...attributes}
         {...listeners}
-        className="bg-white dark:bg-gray-900 px-4 py-3 mx-2 rounded-md border border-gray-300 dark:border-gray-700 text-sm cursor-grab"
+        className="bg-[#0c1531] px-4 py-3 mx-2 rounded-md border border-[#6e6c6c] dark:border-gray-700 text-sm cursor-grab"
       >
         <div className="flex justify-between">
           <span className="text-[11px] text-gray-400 dark:text-gray-400">
             {projectName}
           </span>
-          <StackedAvatars users={(item.assignees as Partial<IUser>[]) || []} />
+          {/* <StackedAvatars users={(item.assignees as Partial<IUser>[]) || []} /> */}
         </div>
         <div
           onClick={handleClick}

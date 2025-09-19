@@ -14,7 +14,7 @@ export default function StackedAvatars({ users }: { users: Partial<IUser>[] }) {
             description={user.description || ''}
             links={user.links || []}
             showPreviewName={false}
-            avatarStyles="w-4 h-4 border-2 border-gray-300 dark:border-gray-800"
+            avatarStyles="w-4 h-4 border-2 bg-[#6e6c6c] border-gray-300 dark:border-gray-800"
           />
         ))}
     </div>

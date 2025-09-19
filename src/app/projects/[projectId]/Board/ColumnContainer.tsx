@@ -136,7 +136,7 @@ export const ColumnContainer = ({
   return (
     <div
       // ref={setNodeRef}
-      className="w-[350px] overflow-x-hidden h-full flex-shrink-0 bg-gray-100 dark:bg-gray-950 rounded-md border border-gray-200 dark:border-gray-800 flex flex-col"
+      className="w-[350px] overflow-x-hidden h-full flex-shrink-0 bg-[#242d46] rounded-md border border-[#6e6c6c] flex flex-col"
     >
       <div className="p-2 space-y-1 flex-shrink-0">
         <div className="flex justify-between items-center">
@@ -199,7 +199,7 @@ export const ColumnContainer = ({
           className={cn(
             'flex-1 overflow-y-auto space-y-2 p-2',
             isOver &&
-            'bg-gray-200 dark:bg-gray-900 border border-dashed border-gray-400 dark:border-gray-600'
+            'bg-[#727286] border border-dashed border-gray-400'
           )}
         >
           {columnTasks.map((item, index) => (
@@ -250,7 +250,7 @@ export const ColumnContainer = ({
         ) : (
           <Button
             onClick={() => setShowInput(true)}
-            className="w-full h-8 bg-transparent text-gray-500 hover:bg-gray-200 hover:dark:bg-gray-900 dark:text-gray-400 flex justify-start"
+            className="w-full bg-transparent h-8 border border-[#6e6c6c] text-[#fff] hover:text-[#000] hover:bg-gray-200 flex justify-start"
           >
             <Plus className="w-4 h-4 mr-2" /> Add item
           </Button>

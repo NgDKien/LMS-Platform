@@ -131,7 +131,8 @@ export const Board: React.FC<Props> = ({
             <Button
               variant="outline"
               size="sm"
-              className="h-7 px-2 text-xs gap-1.5"
+              className="h-7 mt-1 px-2 text-xs gap-1.5 bg-[#181e3c] border-[#6e6c6c] text-[#808080]
+             hover:bg-gray-50"
               onClick={handleShowHiddenColumns}
             >
               <Eye className="w-3 h-3" />
@@ -140,7 +141,7 @@ export const Board: React.FC<Props> = ({
           </div>
         )}
 
-        <div className="flex gap-1 w-full overflow-x-auto py-1">
+        <div className="flex gap-1 w-full overflow-x-auto py-1 mt-1">
           <div
             className={cn(
               'flex gap-3',

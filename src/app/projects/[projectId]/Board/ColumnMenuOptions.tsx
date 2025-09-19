@@ -155,7 +155,7 @@ export const ColumnMenuOptions = ({
         {optionType === 'details' && (
           <DialogContent className="max-w-96 max-h-[100vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>Update option</DialogTitle>
+              <DialogTitle className='text-[#424242]'>Update option</DialogTitle>
             </DialogHeader>
 
             <CustomOptionForm
@@ -180,18 +180,18 @@ export const ColumnMenuOptions = ({
         {optionType === 'limit' && (
           <DialogContent className="max-w-80 gap-2">
             <DialogHeader>
-              <DialogTitle>
+              <DialogTitle className='text-[#424242]'>
                 {column.limit === 0 ? 'Set column limit' : 'Edit column limit'}
               </DialogTitle>
             </DialogHeader>
             <Separator className="my-2" />
 
-            <Label className="mb-0 pb-0">Column limit</Label>
+            <Label className="text-[#424242] mb-0 pb-0">Column limit</Label>
             <Input
               type="number"
               value={limit}
               onChange={(e) => setLimit(Number(e.currentTarget.value))}
-              className="h-8"
+              className="h-8 text-[#424242]"
             />
             <Label className="text-xs text-gray-500">
               A limit on the number of items in a column
@@ -221,9 +221,10 @@ export const ColumnMenuOptions = ({
         {optionType === 'delete' && (
           <DialogContent className="max-w-96 gap-2">
             <DialogHeader>
-              <DialogTitle>
+              <DialogTitle className='text-[#424242]'>
                 Are you sure you want to delete <br />{' '}
-                {column.label.toUpperCase()} column
+                <span className='text-[#a5353e]'>{column.label.toUpperCase()}</span>&nbsp;
+                column
               </DialogTitle>
               <DialogDescription>
                 This action cannot be undone

@@ -16,7 +16,7 @@ export const ColorSelect = ({ color, setColor }: Props) => {
 
     return (
         <div className="space-y-2 lg:flex-grow">
-            <Label>Color</Label>
+            <Label className='text-[#a4a4a4]'>Color</Label>
             <div className="flex gap-3 flex-wrap">
                 {customFieldsColors.map((cfColor, i) => (
                     <Button

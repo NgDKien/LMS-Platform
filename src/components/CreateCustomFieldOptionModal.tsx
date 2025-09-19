@@ -61,7 +61,7 @@ export const CreateCustomFieldOptionModal = ({
 
             <DialogContent className="max-w-96 max-h-[100vh] overflow-y-auto">
                 <DialogHeader>
-                    <DialogTitle>{title}</DialogTitle>
+                    <DialogTitle className='text-[#424242]'>{title}</DialogTitle>
                 </DialogHeader>
                 <Separator className="mb-4" />
                 <CustomOptionForm
