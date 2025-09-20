@@ -28,53 +28,7 @@ export const syncUser = mutation({
     },
 });
 
-// export const saveToSupabase = action({
-//     args: {
-//         clerkId: v.string(),
-//         email: v.string(),
-//         name: v.string(),
-//     },
-//     handler: async (ctx, args) => {
-//         const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-//         const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-//         if (!supabaseUrl || !supabaseKey) {
-//             throw new Error("Missing Supabase environment variables");
-//         }
-
-//         try {
-//             const response = await fetch(`${supabaseUrl}/rest/v1/users`, {
-//                 method: 'POST',
-//                 headers: {
-//                     'Content-Type': 'application/json',
-//                     'Authorization': `Bearer ${supabaseKey}`,
-//                     'apikey': supabaseKey,
-//                     'Prefer': 'return=minimal'
-//                 },
-//                 body: JSON.stringify({
-//                     clerk_id: args.clerkId,
-//                     email: args.email,
-//                     name: args.name,
-//                     provider: 'clerk',
-//                     created_at: new Date().toISOString(),
-//                     updated_at: new Date().toISOString()
-//                 })
-//             });
-
-//             if (!response.ok) {
-//                 const errorText = await response.text();
-//                 console.error("Supabase error:", errorText);
-//                 throw new Error(`Failed to save user to Supabase: ${response.status}`);
-//             }
-
-//             console.log(`User ${args.clerkId} saved to Supabase successfully`);
-//         } catch (error) {
-//             console.error("Error saving to Supabase:", error);
-//             throw error;
-//         }
-//     },
-// });
-
+// Bảng users cũ
 export const saveToSupabase = action({
     args: {
         clerkId: v.string(),
@@ -94,15 +48,13 @@ export const saveToSupabase = action({
             throw new Error("Missing Supabase environment variables");
         }
 
-        // Remove trailing slash from URL if present
         const cleanUrl = supabaseUrl.replace(/\/$/, '');
         const endpoint = `${cleanUrl}/rest/v1/users`;
 
-        console.log("Attempting to save user to Supabase:", {
+        console.log("Attempting to save user to Supabase users table:", {
             clerk_id: args.clerkId,
             email: args.email,
             name: args.name,
-            endpoint
         });
 
         try {
@@ -120,12 +72,12 @@ export const saveToSupabase = action({
                 const existingUsers = await checkResponse.json();
 
                 if (existingUsers && existingUsers.length > 0) {
-                    console.log(`User ${args.clerkId} already exists in Supabase, skipping insert`);
+                    console.log(`User ${args.clerkId} already exists in Supabase users table, skipping insert`);
                     return;
                 }
             }
 
-            // Chỉ insert nếu user chưa tồn tại
+            // Insert user vào bảng users
             const response = await fetch(endpoint, {
                 method: 'POST',
                 headers: {
@@ -144,34 +96,107 @@ export const saveToSupabase = action({
                 })
             });
 
-            console.log("Supabase response status:", response.status);
-
             if (!response.ok) {
                 const errorText = await response.text();
-                console.error("Supabase error details:", {
-                    status: response.status,
-                    statusText: response.statusText,
-                    errorText
-                });
+                console.error("Supabase users table error:", errorText);
 
-                // Nếu conflict (409) có thể do race condition
                 if (response.status === 409) {
-                    console.log("User already exists (409 conflict), considering as success");
+                    console.log("User already exists in users table (409 conflict)");
                     return;
                 }
 
-                throw new Error(`Failed to save user to Supabase: ${response.status} - ${errorText}`);
+                throw new Error(`Failed to save user to Supabase users table: ${response.status} - ${errorText}`);
             }
 
-            console.log(`User ${args.clerkId} saved to Supabase successfully`);
+            console.log(`User ${args.clerkId} saved to Supabase users table successfully`);
         } catch (error) {
-            console.error("Error in saveToSupabase:", error);
+            console.error("Error in saveToSupabase (users table):", error);
+            throw error;
+        }
+    },
+});
 
-            // Log more details about the error
-            if (error instanceof TypeError && error.message.includes('fetch')) {
-                console.error("Network error - check if Supabase URL is correct and accessible");
+// Bảng User_quiz mới
+export const saveToSupabaseUserQuiz = action({
+    args: {
+        clerkId: v.string(),
+        email: v.string(),
+        name: v.string(),
+        image: v.optional(v.string()),
+    },
+    handler: async (ctx, args) => {
+        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+        const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+        if (!supabaseUrl || !supabaseKey) {
+            throw new Error("Missing Supabase environment variables");
+        }
+
+        const cleanUrl = supabaseUrl.replace(/\/$/, '');
+        const endpoint = `${cleanUrl}/rest/v1/User_quiz`;
+
+        console.log("Attempting to save user to Supabase User_quiz table:", {
+            id: args.clerkId,
+            email: args.email,
+            name: args.name,
+            image: args.image,
+        });
+
+        try {
+            // Kiểm tra xem user đã tồn tại chưa trong User_quiz table
+            const checkResponse = await fetch(`${endpoint}?id=eq.${args.clerkId}&select=id`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${supabaseKey}`,
+                    'apikey': supabaseKey,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (checkResponse.ok) {
+                const existingUsers = await checkResponse.json();
+
+                if (existingUsers && existingUsers.length > 0) {
+                    console.log(`User ${args.clerkId} already exists in User_quiz table, skipping insert`);
+                    return;
+                }
             }
 
+            // Insert user vào bảng User_quiz
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${supabaseKey}`,
+                    'apikey': supabaseKey,
+                    'Prefer': 'return=minimal'
+                },
+                body: JSON.stringify({
+                    id: args.clerkId, // Clerk user ID làm primary key
+                    name: args.name,
+                    email: args.email,
+                    image: args.image || null,
+                    emailVerified: null, // Có thể update sau
+                    created_at: new Date().toISOString(),
+                    updated_at: new Date().toISOString()
+                })
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error("Supabase User_quiz table error:", errorText);
+
+                if (response.status === 409) {
+                    console.log("User already exists in User_quiz table (409 conflict)");
+                    return;
+                }
+
+                throw new Error(`Failed to save user to User_quiz table: ${response.status} - ${errorText}`);
+            }
+
+            console.log(`User ${args.clerkId} saved to User_quiz table successfully`);
+        } catch (error) {
+            console.error("Error in saveToSupabaseUserQuiz:", error);
             throw error;
         }
     },
