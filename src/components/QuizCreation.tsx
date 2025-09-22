@@ -10,7 +10,7 @@ import {
 } from "./ui/card";
 import { Input } from "../components/ui/input";
 import { useForm } from "react-hook-form";
-import { quizCreationSchema } from "@/helpers/quiz";
+import { quizCreationSchema } from "@/lib/quiz";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import {
