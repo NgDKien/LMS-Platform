@@ -14,8 +14,8 @@ export async function strict_output(
     output_format: OutputFormat,
     default_category: string = "",
     output_value_only: boolean = false,
-    model: string = "llama-3.3-70b-versatile", // model Groq
-    temperature: number = 1,
+    model: string = "llama-3.3-70b-versatile",
+    temperature: number = 0.7, // Giảm temperature để output ổn định hơn
     num_tries: number = 3,
     verbose: boolean = false
 ): Promise<
@@ -31,70 +31,89 @@ export async function strict_output(
     let error_msg: string = "";
 
     for (let i = 0; i < num_tries; i++) {
-        let output_format_prompt: string = `\nYou are to output the following in json format: ${JSON.stringify(
-            output_format
-        )}. \nDo not put quotation marks or escape character \\ in the output fields.`;
-
-        if (list_output) {
-            output_format_prompt += `\nIf output field is a list, classify output into the best element of the list.`;
-        }
-
-        if (dynamic_elements) {
-            output_format_prompt += `\nAny text enclosed by < and > indicates you must generate content to replace it. Example input: Go to <location>, Example output: Go to the garden\nAny output key containing < and > indicates you must generate the key name to replace it. Example input: {'<location>': 'description of location'}, Example output: {school: a place for education}`;
-        }
+        let output_format_prompt: string = `\nYou MUST output in valid JSON format: ${JSON.stringify(output_format)}`;
 
         if (list_input) {
-            output_format_prompt += `\nGenerate a list of json, one json for each input element.`;
+            output_format_prompt += `\nReturn a JSON array with ${Array.isArray(user_prompt) ? user_prompt.length : 1} objects.`;
+            output_format_prompt += `\nExample format: [${JSON.stringify(output_format)}, ${JSON.stringify(output_format)}]`;
         }
 
-        // 🔄 Gọi Groq API thay vì OpenAI
-        const response = await groq.chat.completions.create({
-            temperature,
-            model,
-            messages: [
-                {
-                    role: "system",
-                    content: system_prompt + output_format_prompt + error_msg,
-                },
-                { role: "user", content: user_prompt.toString() },
-            ],
-            response_format: { type: "json_object" }
-        });
+        output_format_prompt += `\nIMPORTANT: 
+- Use double quotes for all strings
+- Ensure proper JSON syntax
+- No trailing commas
+- Return ONLY valid JSON, no extra text`;
 
-        let res: string =
-            response.choices[0]?.message?.content?.replace(/'/g, '"') ?? "";
-
-        res = res.replace(/(\w)"(\w)/g, "$1'$2");
-
-        if (verbose) {
-            console.log(
-                "System prompt:",
-                system_prompt + output_format_prompt + error_msg
-            );
-            console.log("\nUser prompt:", user_prompt);
-            console.log("\nGroq response:", res);
+        if (dynamic_elements) {
+            output_format_prompt += `\nReplace any text in < > with actual content.`;
         }
 
         try {
+            const response = await groq.chat.completions.create({
+                temperature,
+                model,
+                messages: [
+                    {
+                        role: "system",
+                        content: system_prompt + output_format_prompt + error_msg,
+                    },
+                    {
+                        role: "user",
+                        content: Array.isArray(user_prompt) ? user_prompt.join(", ") : user_prompt.toString()
+                    },
+                ],
+            });
+
+            let res: string = response.choices[0]?.message?.content?.trim() ?? "";
+
+            if (verbose) {
+                console.log("System prompt:", system_prompt + output_format_prompt + error_msg);
+                console.log("\nUser prompt:", user_prompt);
+                console.log("\nGroq response:", res);
+            }
+
+            // Làm sạch response
+            res = res.replace(/```json|```/g, ''); // Loại bỏ markdown code blocks
+            res = res.trim();
+
+            // Fix common JSON issues
+            res = res.replace(/(\w)"/g, '$1"'); // Fix quotes
+            res = res.replace(/"(\w)/g, '"$1'); // Fix quotes
+            res = res.replace(/'/g, '"'); // Replace single quotes with double quotes
+
+            // Ensure it's wrapped in array brackets if list_input
+            if (list_input && !res.startsWith('[')) {
+                // Split individual objects and wrap in array
+                const objects = res.split('\n\n').filter(obj => obj.trim());
+                const jsonObjects = objects.map(obj => {
+                    obj = obj.trim();
+                    if (!obj.startsWith('{')) obj = '{' + obj;
+                    if (!obj.endsWith('}')) obj = obj + '}';
+                    return obj;
+                });
+                res = '[' + jsonObjects.join(',') + ']';
+            }
+
             let output: any = JSON.parse(res);
 
             if (list_input) {
                 if (!Array.isArray(output)) {
-                    throw new Error("Output format not in a list of json");
+                    throw new Error("Output should be an array");
                 }
             } else {
                 output = [output];
             }
 
+            // Validate output format
             for (let index = 0; index < output.length; index++) {
                 for (const key in output_format) {
-                    if (/<.*?>/.test(key)) {
-                        continue;
-                    }
+                    if (/<.*?>/.test(key)) continue;
+
                     if (!(key in output[index])) {
-                        throw new Error(`${key} not in json output`);
+                        throw new Error(`Missing key: ${key}`);
                     }
 
+                    // Handle array choices
                     if (Array.isArray(output_format[key])) {
                         const choices = output_format[key] as string[];
                         if (Array.isArray(output[index][key])) {
@@ -118,10 +137,15 @@ export async function strict_output(
             }
 
             return list_input ? output : output[0];
+
         } catch (e) {
-            error_msg = `\n\nResult: ${res}\n\nError message: ${e}`;
-            console.log("An exception occurred:", e);
-            console.log("Current invalid json format:", res);
+            error_msg = `\n\nPrevious attempt failed with: ${e}\nPlease fix the JSON format.`;
+            console.log(`Attempt ${i + 1} failed:`, e);
+            // console.log("Invalid response:", res);
+
+            if (i === num_tries - 1) {
+                console.error("All attempts failed. Returning empty array.");
+            }
         }
     }
 

@@ -25,12 +25,24 @@ import {
 import { Button } from "./ui/button";
 import { BookOpen, CopyCheck } from "lucide-react";
 import { Separator } from "./ui/separator";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
 type Input = z.infer<typeof quizCreationSchema>;
 
 const QuizCreation = (props: Props) => {
+  const router = useRouter();
+
+  const { mutate: getQuestions, isPending } = useMutation({
+    mutationFn: async ({ amount, topic, type }: Input) => {
+      const response = await axios.post("/api/game", { amount, topic, type });
+      return response.data;
+    },
+  });
+
   const form = useForm<Input>({
     resolver: zodResolver(quizCreationSchema),
     defaultValues: {
@@ -41,34 +53,52 @@ const QuizCreation = (props: Props) => {
     },
   });
 
-  const onSubmit = () => { }
-  // const onSubmit = async (data: Input) => {
-  //   setShowLoader(true);
-  //   getQuestions(data, {
-  //     onError: (error) => {
-  //       setShowLoader(false);
-  //       if (error instanceof AxiosError) {
-  //         if (error.response?.status === 500) {
-  //           toast({
-  //             title: "Error",
-  //             description: "Something went wrong. Please try again later.",
-  //             variant: "destructive",
-  //           });
-  //         }
-  //       }
-  //     },
-  //     onSuccess: ({ gameId }: { gameId: string }) => {
-  //       setFinishedLoading(true);
-  //       setTimeout(() => {
-  //         if (form.getValues("type") === "mcq") {
-  //           router.push(`/play/mcq/${gameId}`);
-  //         } else if (form.getValues("type") === "open_ended") {
-  //           router.push(`/play/open-ended/${gameId}`);
-  //         }
-  //       }, 2000);
-  //     },
-  //   });
-  // };
+  // const onSubmit = () => { }
+  const onSubmit = async (input: Input) => {
+    getQuestions(
+      {
+        amount: input.amount,
+        topic: input.topic,
+        type: input.type
+      },
+      {
+        onSuccess: ({ gameId }: { gameId: string }) => {
+          // setTimeout(() => {
+          if (form.getValues("type") === "mcq") {
+            router.push(`/play/mcq/${gameId}`);
+          } else if (form.getValues("type") === "open_ended") {
+            router.push(`/play/open-ended/${gameId}`);
+          }
+          // }, 2000);
+        },
+      }
+    )
+    //   setShowLoader(true);
+    //   getQuestions(data, {
+    //     onError: (error) => {
+    //       setShowLoader(false);
+    //       if (error instanceof AxiosError) {
+    //         if (error.response?.status === 500) {
+    //           toast({
+    //             title: "Error",
+    //             description: "Something went wrong. Please try again later.",
+    //             variant: "destructive",
+    //           });
+    //         }
+    //       }
+    //     },
+    //     onSuccess: ({ gameId }: { gameId: string }) => {
+    //       setFinishedLoading(true);
+    //       setTimeout(() => {
+    //         if (form.getValues("type") === "mcq") {
+    //           router.push(`/play/mcq/${gameId}`);
+    //         } else if (form.getValues("type") === "open_ended") {
+    //           router.push(`/play/open-ended/${gameId}`);
+    //         }
+    //       }, 2000);
+    //     },
+    //   });
+  };
   form.watch();
 
   return (
@@ -152,7 +182,7 @@ const QuizCreation = (props: Props) => {
                 </Button>
               </div>
               <Button
-                // disabled={isLoading} 
+                disabled={isPending}
                 type="submit"
               >
                 Submit

@@ -81,7 +81,7 @@ export async function POST(req: Request) {
         let questionsData;
         try {
             const { data } = await axios.post(
-                `${process.env.API_URL as string}/api/questions`,
+                `${process.env.API_URL as string}/api/quiz-questions`,
                 {
                     amount,
                     topic,
@@ -133,6 +133,7 @@ export async function POST(req: Request) {
 
             if (questionsError) {
                 console.error("Error inserting MCQ questions:", questionsError);
+                console.error("Questions data:", questionsToInsert);
                 // Clean up - delete the created game
                 await supabase.from("Game").delete().eq("id", game.id);
 
