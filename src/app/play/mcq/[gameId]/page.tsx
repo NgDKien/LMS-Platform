@@ -26,6 +26,7 @@ const MCQPage = async ({ params }: Props) => {
                 id,
                 gameType,
                 topic,
+                timeStarted,
                 questions:Question (
                     id,
                     question,

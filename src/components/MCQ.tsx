@@ -17,13 +17,14 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "sonner";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { cn, formatTimeDelta } from "@/lib/utils";
+import { differenceInSeconds } from "date-fns";
 
 type Game = Database["public"]["Tables"]["Game"]["Row"];
 type Question = Database["public"]["Tables"]["Question"]["Row"];
 
 type Props = {
-    game: Pick<Game, "id" | "gameType" | "topic"> & {
+    game: Pick<Game, "id" | "gameType" | "topic" | "timeStarted"> & {
         questions: Pick<Question, "id" | "options" | "question">[];
     };
 };
@@ -36,6 +37,12 @@ const MCQ = ({ game }: Props) => {
         wrong_answers: 0,
     });
     const [hasEnded, setHasEnded] = React.useState(false);
+    const [now, setNow] = React.useState(new Date());
+    const [isMounted, setIsMounted] = React.useState(false);
+
+    React.useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     const currentQuestion = React.useMemo(() => {
         return game.questions[questionIndex];
@@ -56,6 +63,15 @@ const MCQ = ({ game }: Props) => {
             return response.data;
         },
     });
+
+    React.useEffect(() => {
+        const interval = setInterval(() => {
+            if (!hasEnded) {
+                setNow(new Date());
+            }
+        }, 1000);
+        return () => clearInterval(interval);
+    }, [hasEnded]);
 
     const handleNext = React.useCallback(() => {
         checkAnswer(undefined, {
@@ -115,8 +131,8 @@ const MCQ = ({ game }: Props) => {
         return (
             <div className="absolute flex flex-col justify-center -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
                 <div className="px-4 py-2 mt-2 font-semibold text-white bg-green-500 rounded-md whitespace-nowrap">
-                    You Completed in{"3m 4s"}
-                    {/* {formatTimeDelta(differenceInSeconds(now, game.timeStarted))} */}
+                    You Completed in{" "}
+                    {isMounted && formatTimeDelta(differenceInSeconds(now, new Date(game.timeStarted)))}
                 </div>
                 <Link
                     href={`/statistics/${game.id}`}
@@ -142,8 +158,7 @@ const MCQ = ({ game }: Props) => {
                     </p>
                     <div className="flex self-start mt-3 text-slate-400">
                         <Timer className="mr-2" />
-                        {/* {formatTimeDelta(differenceInSeconds(now, game.timeStarted))} */}
-                        <span>00:00</span>
+                        {isMounted && formatTimeDelta(differenceInSeconds(now, new Date(game.timeStarted)))}
                     </div>
                 </div>
                 <MCQCounter
