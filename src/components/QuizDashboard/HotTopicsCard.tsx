@@ -6,20 +6,32 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import WordCloud from "../WordCloud";
-// import WordCloud from "../WordCloud";
-// import { prisma } from "@/lib/db";
+import WordCloudCustom from "../WordCloudCustom";
+import { createClient } from "@/utils/supabase/client";
 
-type Props = {};
+const supabase = createClient();
 
-const HotTopicsCard = async (props: Props) => {
-    //   const topics = await prisma.topic_count.findMany({});
-    //   const formattedTopics = topics.map((topic) => {
-    //     return {
-    //       text: topic.topic,
-    //       value: topic.count,
-    //     };
-    //   });
+const HotTopicsCard = async () => {
+    const { data: topics, error } = await supabase
+        .from("topic_count")
+        .select("topic, count");
+
+    if (error || !topics) {
+        return (
+            <Card className="col-span-4">
+                <CardHeader>
+                    <CardTitle className="text-2xl font-bold">Hot Topics</CardTitle>
+                    <CardDescription>Failed to load topics.</CardDescription>
+                </CardHeader>
+            </Card>
+        );
+    }
+
+    const formattedTopics = topics.map((topic) => ({
+        text: topic.topic,
+        value: topic.count,
+    }));
+
     return (
         <Card className="col-span-4">
             <CardHeader>
@@ -29,8 +41,7 @@ const HotTopicsCard = async (props: Props) => {
                 </CardDescription>
             </CardHeader>
             <CardContent className="pl-2">
-                {/* <WordCloud formattedTopics={formattedTopics} /> */}
-                <WordCloud />
+                <WordCloudCustom formattedTopics={formattedTopics} />
             </CardContent>
         </Card>
     );

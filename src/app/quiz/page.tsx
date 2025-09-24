@@ -7,21 +7,14 @@ export const metadata = {
     description: "Quiz yourself on anything!",
 };
 
-interface Props {
-    //   searchParams: {
-    //     topic?: string;
-    //   };
-}
-
-// const Quiz = async ({ searchParams }: Props) => {
-const Quiz = async (props: Props) => {
-    const userId = await auth();
+const Quiz = async (props: { searchParams: Promise<{ topic?: string }> }) => {
+    const { userId } = await auth();
     if (!userId) {
         redirect("/");
     }
-    return <QuizCreation
-    //   topic={searchParams.topic ?? ""} 
-    />;
+
+    const searchParams = await props.searchParams;
+    return <QuizCreation topic={searchParams.topic ?? ""} />;
 };
 
 export default Quiz;
