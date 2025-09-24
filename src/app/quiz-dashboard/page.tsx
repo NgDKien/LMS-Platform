@@ -33,7 +33,7 @@ const Dasboard = async (props: Props) => {
                 <HistoryCard />
             </div>
             <div className="grid gap-4 mt-4 md:grid-cols-2 lg:grid-cols-7">
-                <HotTopicsCard />
+                {/* <HotTopicsCard /> */}
                 <RecentActivityCard />
             </div>
         </main>
