@@ -1,14 +1,15 @@
 "use client";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
-import React from "react";
-import D3WordCloud from "react-d3-cloud";
+import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 
-// type Props = {
-//     formattedTopics: { text: string; value: number }[];
-// };
+// Dynamic import D3WordCloud to avoid SSR issues
+const D3WordCloud = dynamic(() => import("react-d3-cloud"), {
+    ssr: false,
+});
 
-type Props = {}
+type Props = {};
 
 const data = [
     {
@@ -43,31 +44,45 @@ const data = [
         text: 'asncls',
         value: 1
     },
-]
+];
 
 const fontSizeMapper = (word: { value: number }) =>
     Math.log2(word.value) * 5 + 16;
 
-// const WordCloud = ({ formattedTopics }: Props) => {
 const WordCloud = (props: Props) => {
-    const theme = useTheme();
+    const { theme } = useTheme();
     const router = useRouter();
+    const [mounted, setMounted] = useState(false);
+
+    // Đảm bảo component chỉ render sau khi mounted trên client
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    // Hiển thị loading state trong khi chờ component mount
+    if (!mounted) {
+        return (
+            <div className="flex justify-center items-center h-[550px]">
+                <div className="text-muted-foreground">Loading word cloud...</div>
+            </div>
+        );
+    }
+
     return (
-        <>
+        <div className="w-full">
             <D3WordCloud
-                // data={formattedTopics}
                 data={data}
                 height={550}
                 font="Times"
                 fontSize={fontSizeMapper}
                 rotate={0}
                 padding={10}
-                fill={theme.theme === "dark" ? "white" : "black"}
-            // onWordClick={(e, d) => {
-            //     router.push("/quiz?topic=" + d.text);
-            // }}
+                fill={theme === "dark" ? "white" : "black"}
+                onWordClick={(e, d) => {
+                    router.push("/quiz?topic=" + d.text);
+                }}
             />
-        </>
+        </div>
     );
 };
 
