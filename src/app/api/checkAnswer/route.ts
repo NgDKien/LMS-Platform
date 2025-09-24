@@ -2,7 +2,7 @@ import { createClient } from "@/utils/supabase/client";
 import { checkAnswerSchema } from "@/lib/quiz-question";
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
-// import stringSimilarity from "string-similarity";
+import stringSimilarity from "string-similarity";
 
 const supabase = createClient();
 
@@ -50,22 +50,22 @@ export async function POST(req: Request) {
     }
 
     // 4. Nếu Open-ended → tính độ giống nhau %
-    // if (question.questionType === "open_ended") {
-    //   let percentageSimilar = stringSimilarity.compareTwoStrings(
-    //     question.answer.toLowerCase().trim(),
-    //     userInput.toLowerCase().trim()
-    //   );
-    //   percentageSimilar = Math.round(percentageSimilar * 100);
+    if (question.questionType === "open_ended") {
+      let percentageSimilar = stringSimilarity.compareTwoStrings(
+        question.answer.toLowerCase().trim(),
+        userInput.toLowerCase().trim()
+      );
+      percentageSimilar = Math.round(percentageSimilar * 100);
 
-    //   const { error: updatePercentageError } = await supabase
-    //     .from("Question")
-    //     .update({ percentageCorrect: percentageSimilar })
-    //     .eq("id", questionId);
+      const { error: updatePercentageError } = await supabase
+        .from("Question")
+        .update({ percentageCorrect: percentageSimilar })
+        .eq("id", questionId);
 
-    //   if (updatePercentageError) throw updatePercentageError;
+      if (updatePercentageError) throw updatePercentageError;
 
-    //   return NextResponse.json({ percentageSimilar });
-    // }
+      return NextResponse.json({ percentageSimilar });
+    }
 
     // Nếu không thuộc loại nào
     return NextResponse.json(
