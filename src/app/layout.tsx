@@ -6,6 +6,7 @@ import ConvexClientProvider from "@/components/providers/ConvexClientProvider";
 import Footer from "@/components/Footer";
 import { Toaster } from "sonner";
 import { AppProvider } from "../components/providers/AppProvider";
+import { SanityLive } from "@/sanity/lib/live";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -45,6 +46,7 @@ export default function RootLayout({
             richColors
             closeButton
           />
+          <SanityLive />
         </body>
       </html>
     </ClerkProvider>
