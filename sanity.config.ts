@@ -15,8 +15,10 @@ import { structure } from './src/sanity/structure'
 
 export default defineConfig({
   basePath: '/lms-admin-hompage/studio',
-  projectId,
-  dataset,
+  // projectId,
+  // dataset,
+  projectId: '1dxjkk6e',     // ← Hardcode
+  dataset: 'production',
   // Add and edit the content schema in the './sanity/schemaTypes' folder
   schema,
   plugins: [
