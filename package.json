@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "email:dev": "email dev"
+    "email:dev": "email dev",
+    "typegen": "sanity schema extract && sanity typegen generate"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.12.3",
