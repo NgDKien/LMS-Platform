@@ -27,7 +27,7 @@ export default async function Home() {
                         <CourseCard
                             key={course._id}
                             course={course}
-                            href={`/courses/${course.slug}`}
+                            href={`/lms-user-homepage/courses/${course.slug}`}
                         />
                     ))}
                 </div>
