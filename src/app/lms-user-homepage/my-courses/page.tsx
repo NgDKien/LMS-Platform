@@ -60,7 +60,7 @@ export default async function MyCoursesPage() {
                                     key={item.course._id}
                                     course={item.course}
                                     progress={item.progress}
-                                    href={`/dashboard/courses/${item.course._id}`}
+                                    href={`/lms-course-dashboard/dashboard/courses/${item.course._id}`}
                                 />
                             );
                         })}
