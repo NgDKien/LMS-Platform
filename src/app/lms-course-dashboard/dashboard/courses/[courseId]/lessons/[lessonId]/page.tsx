@@ -5,7 +5,7 @@ import { PortableText } from "@portabletext/react";
 import { BookOpen, Clock } from "lucide-react";
 import { LoomEmbed } from "@/components/lmsCourseDashboard/LoomEmbed";
 import { VideoPlayer } from "@/components/lmsCourseDashboard/VideoPlayer";
-// import { LessonCompleteButton } from "@/components/LessonCompleteButton";
+import { LessonCompleteButton } from "@/components/LessonCompleteButton";
 
 interface LessonPageProps {
     params: Promise<{
@@ -74,16 +74,16 @@ export default async function LessonPage({ params }: LessonPageProps) {
                                 <div className="prose prose-blue dark:prose-invert max-w-none prose-headings:text-slate-200 prose-p:text-slate-300 prose-p:leading-relaxed prose-a:text-blue-400 prose-a:no-underline hover:prose-a:text-blue-300 prose-strong:text-slate-200 prose-code:text-emerald-400 prose-code:bg-slate-800/50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-pre:bg-slate-900 prose-pre:border prose-pre:border-slate-800 prose-blockquote:border-l-blue-500 prose-blockquote:text-slate-400 prose-ul:text-slate-300 prose-ol:text-slate-300 prose-li:text-slate-300 prose-hr:border-slate-800">
                                     <PortableText value={lesson.content} />
                                 </div>
+
+                                {/* Action Button - Moved inside Lesson Content */}
+                                <div className="flex justify-end pt-6 mt-6 border-t border-slate-800/60">
+                                    <LessonCompleteButton
+                                        lessonId={lesson._id}
+                                        clerkId={user!.id}
+                                    />
+                                </div>
                             </div>
                         )}
-
-                        {/* Action Button Section */}
-                        {/* <div className="flex justify-end pt-4">
-                            <LessonCompleteButton 
-                                lessonId={lesson._id} 
-                                clerkId={user!.id} 
-                            />
-                        </div> */}
                     </div>
                 </div>
             </div>
