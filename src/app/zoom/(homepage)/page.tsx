@@ -1,3 +1,4 @@
+import StreamVideoProvider from "@/components/providers/StreamClientProvider";
 import MeetingTypeList from "@/components/ZoomApp/MeetingTypeList";
 
 const Home = () => {
@@ -7,6 +8,7 @@ const Home = () => {
     const date = (new Intl.DateTimeFormat('en-US', { dateStyle: 'full' })).format(now);
 
     return (
+        // <StreamVideoProvider>
         <section className="flex size-full flex-col gap-5 text-white">
             <div className="h-[303px] w-full rounded-[20px] bg-hero bg-cover">
                 <div className="flex h-full flex-col justify-between max-md:px-5 max-md:py-8 lg:p-11">
@@ -22,6 +24,8 @@ const Home = () => {
 
             <MeetingTypeList />
         </section>
+
+        // </StreamVideoProvider>
     );
 };
 
