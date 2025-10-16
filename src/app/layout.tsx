@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import { Toaster } from "sonner";
 import { AppProvider } from "../components/providers/AppProvider";
 import { SanityLive } from "@/sanity/lib/live";
+import StreamVideoProvider from "@/components/providers/StreamClientProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -37,7 +38,9 @@ export default function RootLayout({
         >
           <ConvexClientProvider>
             <AppProvider>
-              {children}
+              <StreamVideoProvider>
+                {children}
+              </StreamVideoProvider>
             </AppProvider>
           </ConvexClientProvider>
 
