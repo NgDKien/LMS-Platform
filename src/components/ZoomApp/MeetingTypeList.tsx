@@ -64,36 +64,41 @@ const MeetingTypeList = () => {
         }
     };
 
-
     return (
-        <section className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
-            <HomeCard
-                img="/add-meeting.svg"
-                title="New Meeting"
-                description="Start an instant meeting"
-                handleClick={() => setMeetingState('isInstantMeeting')}
-            />
-            <HomeCard
-                img="/join-meeting.svg"
-                title="Join Meeting"
-                description="via invitation link"
-                className="bg-blue-1"
-                handleClick={() => setMeetingState('isJoiningMeeting')}
-            />
-            <HomeCard
-                img="/schedule.svg"
-                title="Personal Room"
-                description="Plan your own meeting"
-                className="bg-purple-1"
-                handleClick={() => router.push('/zoom/personal-room')}
-            />
-            <HomeCard
-                img="/recordings.svg"
-                title="View Recordings"
-                description="Meeting Recordings"
-                className="bg-yellow-1"
-                handleClick={() => router.push('/zoom/recordings')}
-            />
+        <section className="w-full">
+            {/* Grid Layout với Colorful Gradients */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
+                <HomeCard
+                    img="/add-meeting.svg"
+                    title="New Meeting"
+                    description="Start an instant meeting"
+                    className="bg-gradient-to-br from-emerald-600/70 via-green-700/60 to-teal-800/70 hover:from-emerald-500/80 hover:via-green-600/70 hover:to-teal-700/80"
+                    handleClick={() => setMeetingState('isInstantMeeting')}
+                />
+                <HomeCard
+                    img="/join-meeting.svg"
+                    title="Join Meeting"
+                    description="via invitation link"
+                    className="bg-gradient-to-br from-blue-600/70 via-indigo-700/60 to-blue-800/70 hover:from-blue-500/80 hover:via-indigo-600/70 hover:to-blue-700/80"
+                    handleClick={() => setMeetingState('isJoiningMeeting')}
+                />
+                <HomeCard
+                    img="/schedule.svg"
+                    title="Personal Room"
+                    description="Plan your own meeting"
+                    className="bg-gradient-to-br from-purple-600/70 via-violet-700/60 to-purple-800/70 hover:from-purple-500/80 hover:via-violet-600/70 hover:to-purple-700/80"
+                    handleClick={() => router.push('/zoom/personal-room')}
+                />
+                <HomeCard
+                    img="/recordings.svg"
+                    title="View Recordings"
+                    description="Meeting Recordings"
+                    className="bg-gradient-to-br from-amber-600/70 via-orange-700/60 to-amber-800/70 hover:from-amber-500/80 hover:via-orange-600/70 hover:to-amber-700/80"
+                    handleClick={() => router.push('/zoom/recordings')}
+                />
+            </div>
+
+            {/* Modern Meeting Modal - Join Meeting */}
             <MeetingModal
                 isOpen={meetingState === 'isJoiningMeeting'}
                 onClose={() => setMeetingState(undefined)}
@@ -105,9 +110,19 @@ const MeetingTypeList = () => {
                 <Input
                     placeholder="Meeting link"
                     onChange={(e) => setValues({ ...values, link: e.target.value })}
-                    className="border-none bg-dark-3 focus-visible:ring-0 focus-visible:ring-offset-0"
+                    className="border-none bg-gradient-to-r from-slate-700/70 to-slate-600/50 backdrop-blur-xl focus-visible:ring-2 focus-visible:ring-blue-400/60 focus-visible:ring-offset-0 text-white placeholder:text-slate-300 rounded-xl px-4 py-5 text-sm transition-all duration-300"
                 />
             </MeetingModal>
+
+            {/* Modern Meeting Modal - Instant Meeting */}
+            <MeetingModal
+                isOpen={meetingState === 'isInstantMeeting'}
+                onClose={() => setMeetingState(undefined)}
+                title="Start an Instant Meeting"
+                className="text-center"
+                buttonText="Start Meeting"
+                handleClick={createMeeting}
+            />
         </section>
     )
 }
