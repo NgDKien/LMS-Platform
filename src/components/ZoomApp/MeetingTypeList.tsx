@@ -7,6 +7,7 @@ import MeetingModal from './MeetingModal';
 import { Call, useStreamVideoClient } from '@stream-io/video-react-sdk';
 import { useUser } from '@clerk/nextjs';
 import { toast } from 'sonner';
+import { Input } from '../ui/input';
 
 const initialValues = {
     dateTime: new Date(),
@@ -81,26 +82,32 @@ const MeetingTypeList = () => {
             />
             <HomeCard
                 img="/schedule.svg"
-                title="Schedule Meeting"
-                description="Plan your meeting"
+                title="Personal Room"
+                description="Plan your own meeting"
                 className="bg-purple-1"
-                handleClick={() => setMeetingState('isScheduleMeeting')}
+                handleClick={() => router.push('/zoom/personal-room')}
             />
             <HomeCard
                 img="/recordings.svg"
                 title="View Recordings"
                 description="Meeting Recordings"
                 className="bg-yellow-1"
-                handleClick={() => router.push('/recordings')}
+                handleClick={() => router.push('/zoom/recordings')}
             />
             <MeetingModal
-                isOpen={meetingState === 'isInstantMeeting'}
+                isOpen={meetingState === 'isJoiningMeeting'}
                 onClose={() => setMeetingState(undefined)}
-                title="Start an Instant Meeting"
-                handleClick={createMeeting}
+                title="Type the link here"
                 className="text-center"
-                buttonText="Start Meeting"
-            />
+                buttonText="Join Meeting"
+                handleClick={() => router.push(values.link)}
+            >
+                <Input
+                    placeholder="Meeting link"
+                    onChange={(e) => setValues({ ...values, link: e.target.value })}
+                    className="border-none bg-dark-3 focus-visible:ring-0 focus-visible:ring-offset-0"
+                />
+            </MeetingModal>
         </section>
     )
 }
