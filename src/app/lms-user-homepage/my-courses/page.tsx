@@ -28,11 +28,18 @@ export default async function MyCoursesPage() {
     );
 
     return (
-        <div className="h-full pt-16">
-            <div className="container mx-auto px-4 py-8">
-                <div className="flex items-center gap-4 mb-8">
-                    <GraduationCap className="h-8 w-8 text-primary" />
-                    <h1 className="text-3xl font-bold">My Courses</h1>
+        <div className="h-full">
+            <div className="container mx-auto px-4 pt-4">
+                <div className="flex items-start gap-6 mb-12">
+                    <div className="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+                        <GraduationCap className="h-8 w-8 text-purple-400" />
+                    </div>
+                    <div>
+                        <h1 className="text-4xl font-bold text-white">My Courses</h1>
+                        <p className="text-gray-400 text-lg mt-2">
+                            Continue your learning journey
+                        </p>
+                    </div>
                 </div>
 
                 {enrolledCourses.length === 0 ? (
