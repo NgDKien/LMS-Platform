@@ -116,7 +116,9 @@ const TextEditor = ({
                         <ToolBar editor={editor} />
                     </div>
                 )}
-                <EditorContent editor={editor} />
+                <div className="ProseMirror-wrapper ">
+                    <EditorContent editor={editor} />
+                </div>
             </div>
         </div>
     );

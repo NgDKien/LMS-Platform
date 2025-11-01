@@ -24,18 +24,16 @@ import {
 } from '@/consts/default-options';
 import { useModalDialog } from '@/hooks/useModalDialog';
 import { cn } from '@/lib/utils';
-import { Plus } from 'lucide-react';
+import { Plus, Layers } from 'lucide-react';
 import { useState } from 'react';
-import { v4 as uid } from 'uuid';
 import { secondaryBtnStyles, successBtnStyles } from '../commonStyles';
-// import { LabelList } from '../projects/[projectId]/settings/labels/LabelList';
 import { LabelList } from '@/components/LabelList';
 import { useRouter } from 'next/navigation';
 import { projects } from '@/utils/projects';
-// import { useToast } from '@/components/ui/use-toast';
-import { toast } from "sonner";
+import { toast } from 'sonner';
 import { createClient } from '@/utils/supabase/client';
 import { useAuth } from '@clerk/nextjs';
+import { motion } from 'framer-motion';
 
 interface Props {
     projectDetails: {
@@ -55,32 +53,7 @@ export const CreateProjectModal = ({ projectDetails }: Props) => {
     const [showNewLabelCard, setShowNewLabelCard] = useState(false);
     const [skipDefaultOptions, setSkipDefaultOption] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
-
-    const AddNewOptionBtn = (
-        <Button className={cn(secondaryBtnStyles, 'h-7 px-2 rounded-sm mr-2')}>
-            <Plus className="w-4 h-4 mr-1" />
-            New
-        </Button>
-    );
-
-    const handleAddNewOptionItem = (
-        // data: Omit<ICustomFieldData, 'id'>,
-        // state: CustomFieldDBTableName
-    ) => {
-        // switch (state) {
-        //   case 'sizes':
-        //     setSizes([...sizes, { id: uid(), ...data }]);
-        //     break;
-        //   case 'priorities':
-        //     setPriorities([...priorities, { id: uid(), ...data }]);
-        //     break;
-        //   case 'statuses':
-        //     setStatuses([...statuses, { id: uid(), ...data }]);
-        //     break;
-        //   default:
-        //     break;
-        // }
-    };
+    const { userId } = useAuth();
 
     const handleAddNewLabelItem = (data: ICustomFieldData) => {
         setLabels([...labels, data]);
@@ -91,15 +64,12 @@ export const CreateProjectModal = ({ projectDetails }: Props) => {
         setLabels(labels.filter((item) => item.id !== id));
     };
 
-    const { userId } = useAuth();
-
     const handleCreateProject = async () => {
         try {
             setIsCreating(true);
             const supabase = createClient();
 
-
-            if (!userId) throw new Error("Not authenticated");
+            if (!userId) throw new Error('Not authenticated');
 
             const projectData = {
                 ...projectDetails,
@@ -118,8 +88,7 @@ export const CreateProjectModal = ({ projectDetails }: Props) => {
                 userId
             );
 
-            toast.success("Project created successfully !");
-
+            toast.success('Project created — redirecting');
             closeModal();
             router.push(`/projects/${project.id}`);
         } catch (error) {
@@ -127,7 +96,7 @@ export const CreateProjectModal = ({ projectDetails }: Props) => {
             toast.error(
                 error instanceof Error
                     ? error.message
-                    : "Failed to create project. Please try again."
+                    : 'Failed to create project. Please try again.'
             );
         } finally {
             setIsCreating(false);
@@ -140,121 +109,148 @@ export const CreateProjectModal = ({ projectDetails }: Props) => {
                 onClick={openModal}
                 className={cn(
                     successBtnStyles,
-                    'w-28 flex items-center justify-center',
-                    'disabled:cursor-not-allowed disabled:opacity-40'
+                    'flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 shadow-[0_8px_30px_rgba(99,102,241,0.12)]'
                 )}
                 disabled={!projectDetails.name}
             >
+                <Layers className="w-4 h-4" />
                 Continue
             </DialogTrigger>
-            <DialogContent className="md:min-w-[90%] lg:min-w-[70%] max-h-screen overflow-auto bg-[#030416]">
-                <DialogHeader>
-                    <DialogTitle>{projectDetails.name}</DialogTitle>
-                </DialogHeader>
 
-                <DialogDescription>
-                    Customize default options for your project.
-                </DialogDescription>
-                <Separator />
+            <DialogContent
+                className={cn(
+                    'w-[95vw] md:w-[85vw] lg:w-[70vw] max-w-none',
+                    'max-h-[90vh] overflow-y-auto p-0 rounded-2xl border border-white/10',
+                    'bg-gradient-to-b from-[#0d0f16] to-[#11131c] shadow-2xl scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent hover:scrollbar-thumb-white/20'
+                )}
+            >
+                <div className="flex flex-col px-6 py-8 space-y-6">
+                    {/* Header */}
+                    <DialogHeader className="p-0">
+                        <DialogTitle className="text-xl font-semibold text-gray-100">
+                            Customize default options
+                        </DialogTitle>
+                        <DialogDescription className="mt-1 text-sm text-gray-400">
+                            Adjust your project's starting defaults — you can change them later.
+                        </DialogDescription>
+                    </DialogHeader>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[1000px] overflow-auto p-2">
-                    <CustomFieldOptions
-                        title="Sizes"
-                        field="size"
-                        options={sizes}
-                        setOptions={setSizes}
-                        hiddenDescription
-                        embeddedCreateOptionEle={
-                            <CreateCustomFieldOptionModal
-                                title="Create new size option"
-                                // handleSubmit={(data) => handleAddNewOptionItem(data, 'sizes')}
-                                triggerBtn={AddNewOptionBtn}
-                                action="create-new-project"
-                            />
-                        }
-                    />
-                    <CustomFieldOptions
-                        title="Priorities"
-                        field="priority"
-                        options={priorities}
-                        setOptions={setPriorities}
-                        hiddenDescription
-                        embeddedCreateOptionEle={
-                            <CreateCustomFieldOptionModal
-                                title="Create new priority option"
-                                // handleSubmit={(data) =>
-                                //   handleAddNewOptionItem(data, 'priorities')
-                                // }
-                                triggerBtn={AddNewOptionBtn}
-                                action="create-new-project"
-                            />
-                        }
-                    />
-                    <CustomFieldOptions
-                        title="Columns"
-                        field="status"
-                        options={statuses}
-                        setOptions={setStatuses}
-                        hiddenDescription
-                        embeddedCreateOptionEle={
-                            <CreateCustomFieldOptionModal
-                                title="Create new status option"
-                                // handleSubmit={(data) =>
-                                //   handleAddNewOptionItem(data, 'statuses')
-                                // }
-                                triggerBtn={AddNewOptionBtn}
-                                action="create-new-project"
-                            />
-                        }
-                    />
-                    <div>
-                        <div className="flex justify-between items-center">
-                            <h1 className="text-lg py-3">Labels</h1>
+                    <Separator className="border-white/10" />
+
+                    {/* Main grid */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.22 }}
+                        className="grid grid-cols-1 md:grid-cols-2 gap-5"
+                    >
+                        <CustomFieldOptions
+                            title="Sizes"
+                            field="size"
+                            options={sizes}
+                            setOptions={setSizes}
+                            hiddenDescription
+                            embeddedCreateOptionEle={
+                                <CreateCustomFieldOptionModal
+                                    title="Create new size option"
+                                    triggerLabel="New Size"
+                                    action="create-new-project"
+                                />
+                            }
+                        />
+
+                        <CustomFieldOptions
+                            title="Priorities"
+                            field="priority"
+                            options={priorities}
+                            setOptions={setPriorities}
+                            hiddenDescription
+                            embeddedCreateOptionEle={
+                                <CreateCustomFieldOptionModal
+                                    title="Create new priority option"
+                                    triggerLabel="New Priority"
+                                    action="create-new-project"
+                                />
+                            }
+                        />
+
+                        <CustomFieldOptions
+                            title="Statuses"
+                            field="status"
+                            options={statuses}
+                            setOptions={setStatuses}
+                            hiddenDescription
+                            embeddedCreateOptionEle={
+                                <CreateCustomFieldOptionModal
+                                    title="Create new status option"
+                                    triggerLabel="New Status"
+                                    action="create-new-project"
+                                />
+                            }
+                        />
+
+                        {/* LABELS */}
+                        <div>
+                            <div className="flex justify-between items-center mb-3">
+                                <h4 className="text-sm font-medium text-gray-100">Labels</h4>
+                                <Button
+                                    onClick={() => setShowNewLabelCard(true)}
+                                    className={cn(
+                                        secondaryBtnStyles,
+                                        'h-8 px-3 rounded-md bg-white/5 border border-white/10 text-white'
+                                    )}
+                                >
+                                    <Plus className="w-4 h-4" />
+                                    New
+                                </Button>
+                            </div>
+
+                            {showNewLabelCard && (
+                                <div className="flex justify-center">
+                                    <CreateOrEditLabelForm
+                                        save={(data) => handleAddNewLabelItem(data)}
+                                        cancel={() => setShowNewLabelCard(false)}
+                                    />
+                                </div>
+                            )}
+
+                            <div className="mt-3 rounded-xl border border-white/10 overflow-hidden bg-white/5">
+                                <LabelList
+                                    labels={labels}
+                                    hiddenDescription
+                                    onLabelDeleted={handleRemoveLabelItem}
+                                />
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* Skip Defaults */}
+                    <div className="flex items-center gap-3 pt-4 border-t border-white/10">
+                        <Checkbox
+                            checked={skipDefaultOptions}
+                            onClick={() => setSkipDefaultOption(!skipDefaultOptions)}
+                        />
+                        <Label className="text-sm text-gray-300">
+                            Skip default options (I'll add my own later)
+                        </Label>
+                    </div>
+
+                    {/* Footer */}
+                    <DialogFooter className="pt-4 border-t border-white/10">
+                        <div className="flex justify-end w-full">
                             <Button
-                                onClick={() => setShowNewLabelCard(true)}
-                                className={cn(secondaryBtnStyles, 'h-7 px-2 rounded-sm mr-2')}
+                                onClick={handleCreateProject}
+                                className={cn(
+                                    successBtnStyles,
+                                    'px-5 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600'
+                                )}
+                                disabled={isCreating}
                             >
-                                <Plus className="w-4 h-4 mr-1" />
-                                New
+                                {isCreating ? 'Creating...' : 'Create project'}
                             </Button>
                         </div>
-
-                        {showNewLabelCard && (
-                            <CreateOrEditLabelForm
-                                save={(data) => handleAddNewLabelItem(data)}
-                                cancel={() => setShowNewLabelCard(false)}
-                            />
-                        )}
-
-                        <div className="rounded border">
-                            <LabelList
-                                labels={labels}
-                                hiddenDescription
-                                onLabelDeleted={handleRemoveLabelItem}
-                            />
-                        </div>
-                    </div>
+                    </DialogFooter>
                 </div>
-
-                <div className="flex gap-2 pt-4">
-                    <Checkbox
-                        checked={skipDefaultOptions}
-                        onClick={() => setSkipDefaultOption(!skipDefaultOptions)}
-                    />
-                    <Label>Skip Default options. I will create my own options</Label>
-                </div>
-
-                <DialogFooter>
-                    <div className="flex justify-end">
-                        <Button
-                            onClick={handleCreateProject}
-                            className={cn(successBtnStyles, 'w-28')}
-                            disabled={isCreating}
-                        >
-                            {isCreating ? 'Creating...' : 'Create'}
-                        </Button>
-                    </div>
-                </DialogFooter>
             </DialogContent>
         </Dialog>
     );

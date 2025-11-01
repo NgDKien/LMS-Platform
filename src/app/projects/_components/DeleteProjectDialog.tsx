@@ -30,7 +30,7 @@ export const DeleteProjectDialog = ({
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Delete Project Permanently</DialogTitle>
+                    <DialogTitle className='text-[#202020]'>Delete Project Permanently</DialogTitle>
                     <DialogDescription>
                         This action cannot be undone. This will permanently delete the
                         project and all associated data.
@@ -42,17 +42,18 @@ export const DeleteProjectDialog = ({
                         confirm.
                     </p>
                     <div className="space-y-2">
-                        <Label htmlFor="projectName">Project Name</Label>
+                        <Label htmlFor="projectName" className='text-[#676767]'>Project Name</Label>
                         <Input
                             id="projectName"
                             value={confirmName}
                             onChange={(e) => setConfirmName(e.target.value)}
                             placeholder="Enter project name"
+                            className='text-[#202020]'
                         />
                     </div>
                 </div>
                 <DialogFooter>
-                    <Button variant="outline" onClick={() => onOpenChange(false)}>
+                    <Button variant="outline" onClick={() => onOpenChange(false)} className='text-[#676767]'>
                         Cancel
                     </Button>
                     <Button

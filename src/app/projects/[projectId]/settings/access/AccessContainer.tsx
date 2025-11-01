@@ -38,7 +38,7 @@ export const AccessContainer = ({
 
     return (
         <>
-            <div className="p-4 rounded-sm bg-muted dark:bg-muted/50 text-sm">
+            <div className="p-4 rounded-sm bg-[#202020] text-sm">
                 Only those with access to this project can view it.
             </div>
             <InviteUsers

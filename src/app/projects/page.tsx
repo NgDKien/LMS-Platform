@@ -27,10 +27,7 @@ export default async function ProjectsPage() {
   const userProjects = await projects.getUserProjects(userId);
 
   return (
-    <div className="w-[90%] flex flex-col md:flex-row mx-auto p-8 gap-4">
-      {/* <div className="w-full md:w-72">
-        <AccountDetails initialData={userData} />
-      </div> */}
+    <div className="flex flex-col md:flex-row ml-4 mr-4 gap-4">
       <div className="flex-1">
         <Projects initialProjects={userProjects} />
       </div>

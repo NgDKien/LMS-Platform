@@ -22,14 +22,14 @@ export const ReopenProjectDialog = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent>
             <DialogHeader>
-                <DialogTitle>Reopen Project</DialogTitle>
+                <DialogTitle className='text-[#202020]'>Reopen Project</DialogTitle>
                 <DialogDescription>
                     Are you sure you want to reopen this project? It will be moved back to
                     active projects.
                 </DialogDescription>
             </DialogHeader>
             <DialogFooter>
-                <Button variant="outline" onClick={() => onOpenChange(false)}>
+                <Button variant="outline" onClick={() => onOpenChange(false)} className='text-[#676767]'>
                     Cancel
                 </Button>
                 <Button onClick={onConfirm}>Reopen Project</Button>

@@ -4,11 +4,12 @@ import { CreateCustomFieldOptionModal } from '@/components/CreateCustomFieldOpti
 import { CustomFieldOptions } from '@/components/CustomFieldOptions';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-// import { useProjectQueries } from '@/hooks/useProjectQueries';
 import { cn } from '@/lib/utils';
 import { compareAndUpdateItems, hasChanges } from '@/utils/array-utils';
 import { createClient } from '@/utils/supabase/client';
 import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Save } from 'lucide-react';
 
 interface Props {
     projectId: string;
@@ -16,7 +17,6 @@ interface Props {
 }
 
 export const Priorities = ({ projectId, items: initialItems }: Props) => {
-    //   const { reloadPriorities, reloadProjectTasks } = useProjectQueries(projectId);
     const [items, setItems] = useState(initialItems);
     const [priorities, setPriorities] = useState(initialItems);
     const [isSaving, setIsSaving] = useState(false);
@@ -28,16 +28,14 @@ export const Priorities = ({ projectId, items: initialItems }: Props) => {
         try {
             setIsSaving(true);
 
-            const { itemsToAdd, itemsToUpdate, itemsToDelete } =
-                compareAndUpdateItems(items, priorities);
+            const { itemsToAdd, itemsToUpdate, itemsToDelete } = compareAndUpdateItems(
+                items,
+                priorities
+            );
 
-            // Perform database operations in parallel
             await Promise.all([
-                // Delete items
                 itemsToDelete.length > 0 &&
                 supabase.from('priorities').delete().in('id', itemsToDelete),
-
-                // Update items
                 itemsToUpdate.length > 0 &&
                 supabase.from('priorities').upsert(
                     itemsToUpdate.map((item) => ({
@@ -46,8 +44,6 @@ export const Priorities = ({ projectId, items: initialItems }: Props) => {
                         updated_at: new Date(),
                     }))
                 ),
-
-                // Add new items
                 itemsToAdd.length > 0 &&
                 supabase.from('priorities').insert(
                     itemsToAdd.map((item) => ({
@@ -59,16 +55,11 @@ export const Priorities = ({ projectId, items: initialItems }: Props) => {
             ]);
 
             setItems(priorities);
-
-            toast.success("Priorities updated successfully");
-            //   await reloadPriorities();
-            //   await reloadProjectTasks();
+            toast.success('Priorities updated successfully');
         } catch (error) {
             console.error('Error saving priorities:', error);
             toast.error(
-                error instanceof Error
-                    ? error.message
-                    : "Failed to save priorities"
+                error instanceof Error ? error.message : 'Failed to save priorities'
             );
         } finally {
             setIsSaving(false);
@@ -76,41 +67,68 @@ export const Priorities = ({ projectId, items: initialItems }: Props) => {
     };
 
     return (
-        <div>
-            <div className="flex justify-end mb-2">
-                <CreateCustomFieldOptionModal
-                    title="Create new priority"
-                    triggerLabel="Create new priority option"
-                    handleSubmit={(data) =>
-                        setPriorities((items) => [
-                            ...items,
-                            { id: crypto.randomUUID(), order: items.length, ...data },
-                        ])
-                    }
-                />
-            </div>
+        <div className="w-full">
+            <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="rounded-2xl border border-gray-800 bg-gray-900/60 dark:bg-gray-900 shadow-sm p-6 space-y-6"
+            >
+                {/* Header */}
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                    <h2 className="text-base font-medium text-gray-200">Manage Priorities</h2>
 
-            <CustomFieldOptions
-                field="priority"
-                options={priorities}
-                setOptions={setPriorities}
-                description="Priorities are ordered from lowest (top) to highest (bottom). The last item in the list has the highest priority."
-            />
+                    <CreateCustomFieldOptionModal
+                        title="Create new priority"
+                        triggerLabel="New Priority"
+                        handleSubmit={(data) =>
+                            setPriorities((items) => [
+                                ...items,
+                                { id: crypto.randomUUID(), order: items.length, ...data },
+                            ])
+                        }
+                    />
+                </div>
 
-            <div className="flex flex-col gap-2 items-end py-4">
-                {hasUnsavedChanges && (
-                    <span className="text-sm text-center text-green-500 w-32">
-                        unsaved
-                    </span>
-                )}
-                <Button
-                    onClick={handleSaveData}
-                    className={cn(primaryBtnStyles)}
-                    disabled={isSaving || !hasUnsavedChanges}
-                >
-                    {isSaving ? 'Saving...' : 'Save changes'}
-                </Button>
-            </div>
+                {/* Description */}
+                <p className="text-sm text-gray-400 leading-relaxed">
+                    Priorities are ordered from lowest (top) to highest (bottom). The last
+                    item in the list has the highest priority.
+                </p>
+
+                {/* Priority list */}
+                <div className="bg-gray-800/50 rounded-xl border border-gray-700 p-4">
+                    <CustomFieldOptions
+                        field="priority"
+                        options={priorities}
+                        setOptions={setPriorities}
+                    />
+                </div>
+
+                {/* Footer actions */}
+                <div className="flex flex-col sm:flex-row justify-end items-center gap-3">
+                    {hasUnsavedChanges && (
+                        <motion.span
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            className="text-sm text-emerald-400 font-medium tracking-wide"
+                        >
+                            Unsaved changes
+                        </motion.span>
+                    )}
+
+                    <Button
+                        onClick={handleSaveData}
+                        disabled={isSaving || !hasUnsavedChanges}
+                        className={cn(
+                            primaryBtnStyles,
+                            'flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50'
+                        )}
+                    >
+                        <Save className="h-4 w-4" />
+                        {isSaving ? 'Saving...' : 'Save Changes'}
+                    </Button>
+                </div>
+            </motion.div>
         </div>
     );
 };

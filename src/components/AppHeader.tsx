@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import { currentUser } from "@clerk/nextjs/server";
 import { ConvexHttpClient } from "convex/browser";
@@ -6,13 +8,13 @@ import { Blocks, Code2, Sparkles } from "lucide-react";
 import { SignedIn } from "@clerk/nextjs";
 import AppHeaderProfile from './AppHeaderProfile';
 
-async function AppHeader() {
+function AppHeader() {
 
     return (
         <div className="relative z-10">
             <div
                 className="flex items-center lg:justify-between justify-center 
-        bg-[#0a0a0f]/80 backdrop-blur-xl p-6 mb-4 rounded-lg mt-4 ml-4 mr-4"
+        bg-[#10182e] backdrop-blur-xl p-6 mb-4 rounded-lg mt-4 ml-4 mr-4"
             >
                 <div className="hidden lg:flex items-center gap-8">
                     <Link href="/" className="flex items-center gap-3 group relative">

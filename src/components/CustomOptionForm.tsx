@@ -56,7 +56,7 @@ export const CustomOptionForm = ({
                     <Label className='text-[#a4a4a4]'>Label text *</Label>
                     <Input
                         placeholder="Label text"
-                        className="h-9 text-[#2f2f2f] dark:bg-black"
+                        className="h-9 text-[#f0f0f0] border border-[#6c6c6c]"
                         value={label}
                         onChange={(e) => setLabel(e.target.value)}
                     />
@@ -68,7 +68,7 @@ export const CustomOptionForm = ({
                     <Label className='text-[#a4a4a4]'>Description </Label>
                     <Textarea
                         placeholder="description"
-                        className="dark:bg-black text-[#2f2f2f]"
+                        className="text-[#f0f0f0] border border-[#6c6c6c]"
                         rows={6}
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}

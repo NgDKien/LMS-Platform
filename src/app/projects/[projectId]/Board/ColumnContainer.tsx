@@ -2,7 +2,6 @@
 import { successBtnStyles } from '@/app/commonStyles';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-// import { useToast } from '@/components/ui/use-toast';
 import { ProjectAction } from '@/consts';
 import { cn } from '@/lib/utils';
 import { createClient } from '@/utils/supabase/client';
@@ -12,8 +11,7 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { User } from '@supabase/supabase-js';
-import { Plus, X } from 'lucide-react';
+import { Plus, X, GripVertical } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { ColumnLabelColor } from './ColumnLabelColor';
 import { ColumnMenuOptions } from './ColumnMenuOptions';
@@ -35,7 +33,6 @@ interface Props {
   tasks: ITaskWithOptions[];
   projectName: string;
   isOver: boolean;
-  // can?: (action: ProjectAction) => boolean;
   onTaskCreated?: (task: ITaskWithOptions) => void;
   onColumnUpdate?: (column: IStatus) => void;
   onColumnDelete?: (columnId: string) => void;
@@ -50,7 +47,6 @@ export const ColumnContainer = ({
   tasks: columnTasks,
   projectName,
   isOver,
-  // can,
   onTaskCreated,
   onColumnUpdate,
   onColumnDelete,
@@ -59,34 +55,13 @@ export const ColumnContainer = ({
   const [showInput, setShowInput] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [isCreating, setIsCreating] = useState(false);
-  // const [user, setUser] = useState<User | null>(null);
-  const { user } = useCurrentUser()
-
-  // const { setNodeRef } = useDroppable({
-  //   id: column.id,
-  //   data: {
-  //     type: 'column',
-  //     column,
-  //   },
-  // });
-
-  // useEffect(() => {
-  //   const getUser = async () => {
-  //     const {
-  //       data: { session },
-  //     } = await supabase.auth.getSession();
-  //     setUser(session?.user || null);
-  //   };
-  //   getUser();
-  // }, []);
+  const { user } = useCurrentUser();
 
   const handleAddItem = async () => {
     if (!inputValue.trim() || isCreating || !user) return;
 
     try {
       setIsCreating(true);
-
-      // Get lowest position as the new position and place it at the bottom
       const newPosition = getLowestColumnPosition(columnTasks);
 
       const task = await taskUtils.create({
@@ -99,11 +74,6 @@ export const ColumnContainer = ({
       });
 
       toast.success("Task created successfully");
-      // toast({
-      //   title: 'Success',
-      //   description: '',
-      // });
-
       onTaskCreated?.({ ...task, assignees: [] });
       setInputValue('');
       setShowInput(false);
@@ -114,11 +84,6 @@ export const ColumnContainer = ({
           ? error.message
           : "Failed to create task"
       );
-      // toast({
-      //   variant: 'destructive',
-      //   title: 'Error',
-      //   description: '',
-      // });
     } finally {
       setIsCreating(false);
     }
@@ -133,128 +98,186 @@ export const ColumnContainer = ({
     }
   };
 
+  // Get column color index for styling
+  const getColumnColorIndex = () => {
+    return columnTasks.length % 5;
+  };
+
+  const getColumnGradient = (index: number) => {
+    const colors = [
+      'from-blue-500/10 to-blue-600/5',
+      'from-purple-500/10 to-purple-600/5',
+      'from-emerald-500/10 to-emerald-600/5',
+      'from-orange-500/10 to-orange-600/5',
+      'from-pink-500/10 to-pink-600/5',
+    ];
+    return colors[index];
+  };
+
+  const getCountColor = (hasLimit: boolean, isOverLimit: boolean) => {
+    if (hasLimit && isOverLimit) {
+      return 'bg-red-500/20 text-red-300 border-red-500/30';
+    }
+    const colors = [
+      'bg-blue-500/20 text-blue-300 border-blue-500/30',
+      'bg-purple-500/20 text-purple-300 border-purple-500/30',
+      'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
+      'bg-orange-500/20 text-orange-300 border-orange-500/30',
+      'bg-pink-500/20 text-pink-300 border-pink-500/30',
+    ];
+    return colors[getColumnColorIndex()];
+  };
+
+  const hasLimit = column.limit > 0;
+  const isOverLimit = hasLimit && columnTasks.length >= column.limit;
+
   return (
     <div
-      // ref={setNodeRef}
-      className="w-[350px] overflow-x-hidden h-full flex-shrink-0 bg-[#242d46] rounded-md border border-[#6e6c6c] flex flex-col"
+      className="flex-shrink-0 w-[350px] h-full flex flex-col transition-all duration-300"
     >
-      <div className="p-2 space-y-1 flex-shrink-0">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <ColumnLabelColor color={column.color} />
-            <h1 className="text-sm font-bold">{column.label}</h1>
+      {/* Column Card */}
+      <div className="flex flex-col h-full bg-zinc-900/50 backdrop-blur-sm border border-zinc-800/50 
+        rounded-2xl shadow-xl overflow-hidden hover:border-zinc-700/50 transition-all duration-300">
 
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div
-                    className={`px-2 h-4 rounded-full flex justify-center items-center text-[10px] ${column.limit > 0 && columnTasks.length >= column.limit
-                      ? 'bg-red-200 dark:bg-red-950 text-red-700 dark:text-red-400'
-                      : 'bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-gray-400'
-                      }`}
-                  >
-                    {columnTasks.length}{' '}
-                    {column.limit ? `/ ${column.limit}` : ''}
-                  </div>
-                </TooltipTrigger>
-                {column.limit > 0 && columnTasks.length >= column.limit && (
-                  <TooltipContent>
-                    <p>
-                      Column limit{' '}
-                      {columnTasks.length > column.limit
-                        ? 'exceeded'
-                        : 'reached'}
-                    </p>
-                  </TooltipContent>
-                )}
-              </Tooltip>
-            </TooltipProvider>
+        {/* Column Header */}
+        <div className={cn(
+          "flex-shrink-0 px-4 py-4 bg-gradient-to-br border-b border-zinc-800/50",
+          getColumnGradient(getColumnColorIndex())
+        )}>
+          <div className="flex items-center justify-between gap-3 mb-2">
+            {/* Title & Color */}
+            <div className="flex items-center gap-3 flex-1 min-w-0">
+              <ColumnLabelColor color={column.color} />
+
+              <h3 className="text-sm font-semibold text-zinc-100 truncate">
+                {column.label}
+              </h3>
+
+              {/* Task Count Badge */}
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className={cn(
+                      "flex-shrink-0 px-2.5 py-1 rounded-lg text-xs font-medium border cursor-default",
+                      getCountColor(hasLimit, isOverLimit)
+                    )}>
+                      {columnTasks.length}
+                      {hasLimit && ` / ${column.limit}`}
+                    </div>
+                  </TooltipTrigger>
+                  {isOverLimit && (
+                    <TooltipContent className="bg-zinc-900/95 border-zinc-800/50">
+                      <p className="text-xs">
+                        Column limit {columnTasks.length > column.limit ? 'exceeded' : 'reached'}
+                      </p>
+                    </TooltipContent>
+                  )}
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+
+            {/* Column Menu */}
+            <ColumnMenuOptions
+              column={column}
+              onColumnUpdate={onColumnUpdate}
+              onColumnDelete={onColumnDelete}
+              onColumnHide={onColumnHide}
+            />
           </div>
-          {/* {can?.(ProjectAction.VIEW_SETTINGS) && ( */}
-          <ColumnMenuOptions
-            column={column}
-            onColumnUpdate={onColumnUpdate}
-            onColumnDelete={onColumnDelete}
-            onColumnHide={onColumnHide}
-          />
-          {/* )} */}
-        </div>
 
-        <div className="text-xs text-gray-500 dark:text-gray-400">
-          {column.description}
-        </div>
-      </div>
-
-      {/* Tasks List */}
-
-      <SortableContext
-        id={column.id}
-        items={columnTasks.map((item) => ({
-          ...item,
-          id: item.id as UniqueIdentifier,
-        }))}
-        strategy={verticalListSortingStrategy}
-      >
-        <div
-          className={cn(
-            'flex-1 overflow-y-auto space-y-2 p-2',
-            isOver &&
-            'bg-[#727286] border border-dashed border-gray-400'
+          {/* Description */}
+          {column.description && (
+            <p className="text-xs text-zinc-500 mt-1 line-clamp-2">
+              {column.description}
+            </p>
           )}
-        >
-          {columnTasks.map((item, index) => (
-            <TaskItem
-              key={item.id}
-              item={item}
-              projectName={projectName}
-              index={index}
-            />
-          ))}
         </div>
-      </SortableContext>
 
-      {/* Add Task Section */}
-      <div className="p-2 dark:border-gray-800">
-        {showInput ? (
-          <div className="flex gap-2">
-            <Input
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="Enter task title..."
-              className="h-8"
-              autoFocus
-            // disabled={isCreating}
-            />
-            <Button
-              onClick={handleAddItem}
-              className={cn(successBtnStyles, 'h-8 px-3')}
-              // disabled={!inputValue.trim() || isCreating}
-              disabled={!inputValue.trim()}
-            >
-              {/* {isCreating ? 'Adding...' : 'Add'} */}
-              Add
-            </Button>
-            <Button
-              onClick={() => {
-                setShowInput(false);
-                setInputValue('');
-              }}
-              variant="ghost"
-              className="h-8 w-8 p-0"
-            // disabled={isCreating}
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          </div>
-        ) : (
-          <Button
-            onClick={() => setShowInput(true)}
-            className="w-full bg-transparent h-8 border border-[#6e6c6c] text-[#fff] hover:text-[#000] hover:bg-gray-200 flex justify-start"
+        {/* Tasks Container with Scroll */}
+        <SortableContext
+          id={column.id}
+          items={columnTasks.map((item) => ({
+            ...item,
+            id: item.id as UniqueIdentifier,
+          }))}
+          strategy={verticalListSortingStrategy}
+        >
+          <div
+            className={cn(
+              'flex-1 overflow-y-auto custom-scrollbar p-3 space-y-3 min-h-0',
+              isOver && 'bg-zinc-800/30 border-2 border-dashed border-zinc-600/50 rounded-lg'
+            )}
           >
-            <Plus className="w-4 h-4 mr-2" /> Add item
-          </Button>
-        )}
+            {columnTasks.length === 0 && !isOver ? (
+              <div className="flex flex-col items-center justify-center h-32 text-center px-4">
+                <div className="w-12 h-12 rounded-full bg-zinc-800/30 flex items-center justify-center mb-3">
+                  <Plus className="w-6 h-6 text-zinc-600" />
+                </div>
+                <p className="text-xs text-zinc-500">No tasks yet</p>
+                <p className="text-xs text-zinc-600 mt-1">Drop tasks here or click + to add</p>
+              </div>
+            ) : (
+              columnTasks.map((item, index) => (
+                <TaskItem
+                  key={item.id}
+                  item={item}
+                  projectName={projectName}
+                  index={index}
+                />
+              ))
+            )}
+          </div>
+        </SortableContext>
+
+        {/* Add Task Section */}
+        <div className="flex-shrink-0 p-3 border-t border-zinc-800/50">
+          {showInput ? (
+            <div className="flex gap-2">
+              <Input
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="Enter task title..."
+                className="h-9 bg-zinc-800/50 border-zinc-700/50 text-zinc-100 
+                  placeholder:text-zinc-500 focus:border-zinc-600/50 text-sm"
+                autoFocus
+                disabled={isCreating}
+              />
+              <Button
+                onClick={handleAddItem}
+                className={cn(
+                  "h-9 px-4 bg-emerald-600/90 hover:bg-emerald-600 text-white text-sm font-medium",
+                  "transition-all duration-200 rounded-lg"
+                )}
+                disabled={!inputValue.trim() || isCreating}
+              >
+                {isCreating ? 'Adding...' : 'Add'}
+              </Button>
+              <Button
+                onClick={() => {
+                  setShowInput(false);
+                  setInputValue('');
+                }}
+                variant="ghost"
+                className="h-9 w-9 p-0 hover:bg-zinc-800/50 text-zinc-400 hover:text-zinc-200"
+                disabled={isCreating}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          ) : (
+            <Button
+              onClick={() => setShowInput(true)}
+              variant="ghost"
+              size="sm"
+              className="w-full h-9 justify-start gap-2 text-zinc-400 hover:text-zinc-200 
+                hover:bg-zinc-800/50 rounded-lg transition-all group"
+            >
+              <Plus className="w-4 h-4 group-hover:rotate-90 transition-transform duration-300" />
+              <span className="text-sm font-medium">Add item</span>
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   );

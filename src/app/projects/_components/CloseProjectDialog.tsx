@@ -22,14 +22,14 @@ export const CloseProjectDialog = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent>
             <DialogHeader>
-                <DialogTitle>Close Project</DialogTitle>
+                <DialogTitle className='text-[#202020]'>Close Project</DialogTitle>
                 <DialogDescription>
                     Are you sure you want to close this project? You can reopen it later
                     from the closed projects tab.
                 </DialogDescription>
             </DialogHeader>
             <DialogFooter>
-                <Button variant="outline" onClick={() => onOpenChange(false)}>
+                <Button variant="outline" onClick={() => onOpenChange(false)} className='text-[#676767]'>
                     Cancel
                 </Button>
                 <Button variant="destructive" onClick={onConfirm}>

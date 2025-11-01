@@ -28,7 +28,7 @@ export const RoleSelect = ({ value, onValueChange, disabled }: Props) => {
 
     return (
         <Select value={value} onValueChange={onValueChange} disabled={disabled}>
-            <SelectTrigger className="w-[120px] h-8 focus:ring-0">
+            <SelectTrigger className="w-[120px] h-8 focus:ring-0 border border-[#4b4b4b]">
                 <div className="flex text-xs">
                     <span>Role: </span>
                     <span className="font-bold mx-1">{getRole(value || 'read')}</span>

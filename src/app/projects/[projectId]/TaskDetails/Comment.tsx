@@ -96,8 +96,8 @@ export const Comment: FC<Props> = ({ comment }) => {
     };
 
     return (
-        <div className="border border-sky-200 dark:border-blue-900 rounded">
-            <div className="flex items-center justify-between bg-sky-100 dark:bg-slate-900 rounded-t border-b border-sky-200 dark:border-blue-900 overflow-x-auto px-4 py-2">
+        <div className="border border-[#4a4f62] rounded">
+            <div className="flex items-center justify-between bg-[#0e162e] rounded-t border-b border-[#4a4f62] overflow-x-auto px-4 py-2">
                 <div className="flex items-center gap-2 text-sm">
                     <span>
                         <UserCard

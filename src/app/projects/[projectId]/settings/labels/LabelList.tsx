@@ -1,13 +1,6 @@
 'use client';
-import { secondaryBtnStyles } from '@/app/commonStyles';
 import { Button } from '@/components/ui/button';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { cn } from '@/lib/utils';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Ellipsis } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { LabelBadge } from '@/components/LabelBadge';
@@ -16,7 +9,7 @@ import { defaultFieldColor } from '@/consts/colors';
 import { CreateOrEditLabelForm } from '@/components/CreateOrEditLabelForm';
 import { createClient } from '@/utils/supabase/client';
 import { toast } from 'sonner';
-// import { useProjectQueries } from '@/hooks/useProjectQueries';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface Props {
     labels: ICustomFieldData[];
@@ -32,9 +25,6 @@ export const LabelList = ({
     onLabelDeleted,
 }: Props) => {
     const { projectId } = useParams();
-    //   const { reloadLabels, reloadProjectTasks } = useProjectQueries(
-    //     projectId as string
-    //   );
     const [labelId, setLabelId] = useState('');
     const [isUpdating, setIsUpdating] = useState(false);
     const searchParams = useSearchParams();
@@ -42,9 +32,7 @@ export const LabelList = ({
 
     useEffect(() => {
         const labelIdParams = searchParams.get('label_id');
-        if (labelIdParams) {
-            setLabelId(labelIdParams);
-        }
+        if (labelIdParams) setLabelId(labelIdParams);
     }, [searchParams]);
 
     const handleUpdateLabel = async (data: ICustomFieldData) => {
@@ -52,26 +40,14 @@ export const LabelList = ({
             setIsUpdating(true);
             const { error } = await supabase
                 .from('labels')
-                .update({
-                    ...data,
-                    updated_at: new Date(),
-                })
+                .update({ ...data, updated_at: new Date() })
                 .eq('id', data.id);
-
             if (error) throw error;
-
             onLabelUpdated?.(data);
-            toast.success("Label updated successfully");
+            toast.success('Label updated successfully');
             setLabelId('');
-            //   await reloadLabels();
-            //   await reloadProjectTasks();
         } catch (error) {
-            console.error('Error updating label:', error);
-            toast.error(
-                error instanceof Error
-                    ? error.message
-                    : "Failed to update label"
-            );
+            toast.error(error instanceof Error ? error.message : 'Failed to update label');
         } finally {
             setIsUpdating(false);
         }
@@ -80,100 +56,86 @@ export const LabelList = ({
     const handleDeleteLabel = async (id: string) => {
         try {
             const { error } = await supabase.from('labels').delete().eq('id', id);
-
             if (error) throw error;
-
             onLabelDeleted?.(id);
-            toast.success("Label deleted successfully");
-            //   await reloadLabels();
-            //   await reloadProjectTasks();
+            toast.success('Label deleted successfully');
         } catch (error) {
-            console.error('Error deleting label:', error);
-            toast.error(
-                error instanceof Error
-                    ? error.message
-                    : "Failed to delete label"
-            );
+            toast.error(error instanceof Error ? error.message : 'Failed to delete label');
         }
     };
 
     return (
-        <div className="w-full rounded-md shadow-md">
-            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                    {labels.map((label) => (
-                        <React.Fragment key={label.id}>
-                            <tr>
-                                <td className="p-4 whitespace-nowrap">
-                                    <LabelBadge
-                                        labelText={label.label || ''}
-                                        description={label.description || ''}
-                                        color={label.color || defaultFieldColor}
-                                    />
-                                </td>
+        <div className="p-4 space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {labels.map((label) => (
+                    <motion.div
+                        key={label.id}
+                        layout
+                        className="bg-gray-800/70 dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-700 hover:shadow-lg transition-all group"
+                    >
+                        <div className="flex items-start justify-between">
+                            <div>
+                                <LabelBadge
+                                    labelText={label.label || ''}
+                                    description={label.description || ''}
+                                    color={label.color || defaultFieldColor}
+                                />
                                 {!hiddenDescription && (
-                                    <td className="p-4 text-sm text-gray-500 dark:text-gray-400 truncate hidden md:block">
+                                    <p className="mt-2 text-sm text-gray-400 line-clamp-2">
                                         {label.description}
-                                    </td>
+                                    </p>
                                 )}
-                                <td className="p-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <div className="relative inline-block text-left">
-                                        <div className="space-x-1 hidden lg:flex">
-                                            <Button
-                                                className={cn(
-                                                    secondaryBtnStyles,
-                                                    'text-xs h-8 rounded-sm'
-                                                )}
-                                                onClick={() => setLabelId(label.id)}
-                                            >
-                                                Edit
-                                            </Button>
-                                            <Button
-                                                className={cn(
-                                                    secondaryBtnStyles,
-                                                    'text-xs text-red-600 dark:text-red-300 h-8 rounded-sm'
-                                                )}
-                                                onClick={() => handleDeleteLabel(label.id)}
-                                            >
-                                                Delete
-                                            </Button>
-                                        </div>
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger className="lg:hidden">
-                                                <Ellipsis />
-                                            </DropdownMenuTrigger>
+                            </div>
 
-                                            <DropdownMenuContent>
-                                                <DropdownMenuItem onClick={() => setLabelId(label.id)}>
-                                                    Edit
-                                                </DropdownMenuItem>
-                                                <DropdownMenuItem
-                                                    onClick={() => handleDeleteLabel(label.id)}
-                                                >
-                                                    Delete
-                                                </DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
-                                    </div>
-                                </td>
-                            </tr>
-                            {labelId === label.id && (
-                                <tr>
-                                    <td colSpan={4} className="p-4">
-                                        <CreateOrEditLabelForm
-                                            mode="edit"
-                                            cancel={() => setLabelId('')}
-                                            save={handleUpdateLabel}
-                                            data={label}
-                                            isSubmitting={isUpdating}
-                                        />
-                                    </td>
-                                </tr>
-                            )}
-                        </React.Fragment>
-                    ))}
-                </tbody>
-            </table>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="opacity-0 group-hover:opacity-100 transition-opacity"
+                                    >
+                                        <Ellipsis className="h-4 w-4 text-gray-400" />
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                    <DropdownMenuItem onClick={() => setLabelId(label.id)}>
+                                        Edit
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem
+                                        onClick={() => handleDeleteLabel(label.id)}
+                                        className="text-red-500"
+                                    >
+                                        Delete
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
+                    </motion.div>
+                ))}
+            </div>
+
+            <AnimatePresence>
+                {labelId && (
+                    <motion.div
+                        key="edit-form"
+                        initial={{ opacity: 0, y: -8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        className="w-full"
+                    >
+                        <div className="p-4 bg-gray-900/80 border border-gray-700 rounded-2xl shadow-md flex justify-center">
+                            <CreateOrEditLabelForm
+                                mode="edit"
+                                cancel={() => setLabelId('')}
+                                save={handleUpdateLabel}
+                                data={labels.find((l) => l.id === labelId)}
+                                isSubmitting={isUpdating}
+                            />
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
+
 };

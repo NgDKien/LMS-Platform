@@ -40,6 +40,7 @@ export const UserAvatar: React.FC<Props> = React.memo(
                 )}
                 <AvatarFallback
                     className={cn(
+                        'flex items-center justify-center bg-gray-500 text-white font-semibold',
                         'transition-opacity duration-300',
                         !src || hasError || isLoading ? 'opacity-100' : 'opacity-0'
                     )}

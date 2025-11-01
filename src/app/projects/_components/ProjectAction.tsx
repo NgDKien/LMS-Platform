@@ -30,10 +30,11 @@ export const ProjectActions = ({
             <DropdownMenuTrigger className="font-bold">. . .</DropdownMenuTrigger>
             <DropdownMenuContent
                 onClick={(e: React.MouseEvent) => e.stopPropagation()}
+                className='bg-[#182446] border border-[#2C2F3A]'
             >
                 {tab === 'closed' || (tab === 'all' && project.closed) ? (
                     <>
-                        <DropdownMenuItem onClick={() => setProjectToReopen?.(project.id)}>
+                        <DropdownMenuItem className='text-white' onClick={() => setProjectToReopen?.(project.id)}>
                             ReOpen
                         </DropdownMenuItem>
                         <DropdownMenuItem
@@ -46,7 +47,7 @@ export const ProjectActions = ({
                 ) : (
                     <>
                         <DropdownMenuItem asChild>
-                            <Link href={`/projects/${project.id}/settings`}>Edit</Link>
+                            <Link className='text-white' href={`/projects/${project.id}/settings`}>Edit</Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             className={cn(deleteBtnStyles)}

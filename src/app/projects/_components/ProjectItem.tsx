@@ -24,7 +24,7 @@ export const ProjectItem = ({
     //   const { can } = useProjectAccess({ projectId: project.id });
 
     return (
-        <div className="p-6 border-b border-[#6e6c6c] flex justify-between items-center">
+        <div className="p-6 border-b border-[#101014] flex justify-between items-center">
             <div>
                 <div className="flex items-center gap-2">
                     {project.closed ? (

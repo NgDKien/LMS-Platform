@@ -31,7 +31,7 @@ export const ProjectTabs = ({
   setProjectToDelete,
 }: ProjectTabsProps) => (
   <Tabs defaultValue="active-projects">
-    <TabsList className="bg-[#293148] dark:bg-slate-900 rounded">
+    <TabsList className="bg-[#182446] text-[#afafaf] rounded">
       <TabsTrigger value="active-projects">
         <PanelsTopLeft className="w-4 h-4 mr-2" />
         <span>Active Projects</span>

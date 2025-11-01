@@ -59,9 +59,9 @@ export const CreateCustomFieldOptionModal = ({
                 )}
             </DialogTrigger>
 
-            <DialogContent className="max-w-96 max-h-[100vh] overflow-y-auto">
+            <DialogContent className="max-w-96 max-h-[100vh] overflow-y-auto bg-[#202020] border border-[#202020]">
                 <DialogHeader>
-                    <DialogTitle className='text-[#424242]'>{title}</DialogTitle>
+                    <DialogTitle className='text-[#f0f0f0]'>{title}</DialogTitle>
                 </DialogHeader>
                 <Separator className="mb-4" />
                 <CustomOptionForm

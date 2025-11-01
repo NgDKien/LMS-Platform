@@ -3,12 +3,11 @@ import { successBtnStyles } from '@/app/commonStyles';
 import { CreateOrEditLabelForm } from '@/components/CreateOrEditLabelForm';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { ProjectAction } from '@/consts';
-// import { useProjectAccess } from '@/hooks/useProjectAccess';
-// import { useProjectQueries } from '@/hooks/useProjectQueries';
 import { cn } from '@/lib/utils';
 import { createClient } from '@/utils/supabase/client';
 import React, { useState } from 'react';
+import { PlusCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface Props {
     projectId: string;
@@ -16,8 +15,6 @@ interface Props {
 }
 
 export const CreateNewLabel = ({ projectId, onLabelCreated }: Props) => {
-    //   const { reloadLabels, reloadProjectTasks } = useProjectQueries(projectId);
-    //   const { can } = useProjectAccess({ projectId });
     const [show, setShow] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
     const supabase = createClient();
@@ -33,21 +30,14 @@ export const CreateNewLabel = ({ projectId, onLabelCreated }: Props) => {
             };
 
             const { error } = await supabase.from('labels').insert(newLabel);
-
             if (error) throw error;
 
             onLabelCreated?.(newLabel);
-
-            toast.success("Label created successfully");
+            toast.success('Label created successfully');
             setShow(false);
-            //   await reloadLabels();
-            //   await reloadProjectTasks();
         } catch (error) {
-            console.error('Error creating label:', error);
             toast.error(
-                error instanceof Error
-                    ? error.message
-                    : "Failed to create label"
+                error instanceof Error ? error.message : 'Failed to create label'
             );
         } finally {
             setIsCreating(false);
@@ -55,25 +45,39 @@ export const CreateNewLabel = ({ projectId, onLabelCreated }: Props) => {
     };
 
     return (
-        <div>
-            <div className="flex justify-end py-4">
-                {/* {can?.(ProjectAction.UPDATE_OPTIONS) ? ( */}
+        <div className="w-full">
+            <div className="flex justify-end mb-6">
                 <Button
-                    className={cn(successBtnStyles)}
+                    className={cn(
+                        successBtnStyles,
+                        'flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600 transition-all'
+                    )}
                     onClick={() => setShow(true)}
                 >
-                    New label
+                    <PlusCircle className="h-4 w-4" />
+                    New Label
                 </Button>
-                {/* ) : null} */}
             </div>
 
-            {show && (
-                <CreateOrEditLabelForm
-                    cancel={() => setShow(false)}
-                    save={saveLabel}
-                    isSubmitting={isCreating}
-                />
-            )}
+            <AnimatePresence>
+                {show && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="p-4 bg-muted/30 rounded-xl shadow-md dark:bg-gray-800 border border-gray-700"
+                    >
+                        <div className="flex justify-center">
+
+                            <CreateOrEditLabelForm
+                                cancel={() => setShow(false)}
+                                save={saveLabel}
+                                isSubmitting={isCreating}
+                            />
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };

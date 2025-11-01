@@ -20,53 +20,23 @@ interface Props {
     avatarStyles?: string;
 }
 
-// Memoized link component to prevent re-renders
-const UserLink = memo(({ link }: { link: IUserLink }) => (
-    <div className="flex items-center">
-        <LinkIcon className="w-3 h-3 mr-1" />
-        <Link
-            href={link.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-muted-foreground hover:text-sky-500"
-        >
-            {link.label}
-        </Link>
-        <span className="text-xs text-muted-foreground px-3">|</span>
-    </div>
-));
-
-UserLink.displayName = 'UserLink';
-
-// Memoized card content to prevent re-renders
 const UserCardContent = memo(
     ({ name, avatarUrl, description, links, id }: Props) => (
-        <div>
-            <div className="flex items-center gap-2">
-                <Link href={`/profile/${id}`}>
-                    <UserAvatar src={avatarUrl} fallback={name.charAt(0)} />
-                </Link>
-                <p className="text-bold py-2 text-lg">{name}</p>
+        <div className="bg-zinc-900/80 backdrop-blur-md border border-zinc-800 rounded-xl p-4 shadow-xl transition-all duration-300 hover:border-sky-500/40 hover:shadow-sky-500/20">
+            <div className="flex items-center gap-3 mb-3">
+                <UserAvatar
+                    src={avatarUrl}
+                    fallback={name.charAt(0)}
+                    className="w-10 h-10 border border-zinc-700 shadow-md"
+                />
+                <p className="text-white font-semibold text-lg tracking-wide">{name}</p>
             </div>
-
-            {description && (
-                <p className="text-sm text-muted-foreground py-3">{description}</p>
-            )}
-
-            {links && links.length > 0 && (
-                <>
-                    <Separator className="my-2" />
-                    <div className="flex items-center">
-                        {links?.map((link) => <UserLink key={link.id} link={link} />)}
-                    </div>
-                </>
-            )}
         </div>
     )
 );
-
 UserCardContent.displayName = 'UserCardContent';
 
+// 🧠 Main UserCard
 export const UserCard: FC<Props> = memo(
     ({
         id,
@@ -79,19 +49,28 @@ export const UserCard: FC<Props> = memo(
     }) => {
         return (
             <HoverCard>
-                <Link href={`/profile/${id}`}>
-                    <HoverCardTrigger asChild>
-                        <div className="flex items-center gap-2 cursor-pointer">
-                            <UserAvatar
-                                src={avatarUrl}
-                                fallback={name.charAt(0)}
-                                className={cn('w-6 h-6', avatarStyles)}
-                            />
-                            {showPreviewName && <span className="text-bold">{name}</span>}
-                        </div>
-                    </HoverCardTrigger>
-                </Link>
-                <HoverCardContent side="top" className="w-80">
+                <HoverCardTrigger asChild>
+                    <div className="flex items-center gap-2 cursor-pointer hover:opacity-90 transition-all">
+                        <UserAvatar
+                            src={avatarUrl}
+                            fallback={name.charAt(0)}
+                            className={cn(
+                                'w-8 h-8 border border-zinc-700 bg-zinc-800 text-white',
+                                avatarStyles
+                            )}
+                        />
+                        {showPreviewName && (
+                            <span className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
+                                {name}
+                            </span>
+                        )}
+                    </div>
+                </HoverCardTrigger>
+
+                <HoverCardContent
+                    side="top"
+                    className="w-80 bg-zinc-950/90 border border-zinc-800 rounded-xl shadow-2xl p-0 backdrop-blur-md"
+                >
                     <UserCardContent
                         id={id}
                         name={name}
@@ -104,5 +83,4 @@ export const UserCard: FC<Props> = memo(
         );
     }
 );
-
 UserCard.displayName = 'UserCard';

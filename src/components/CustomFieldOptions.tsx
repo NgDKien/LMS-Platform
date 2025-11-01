@@ -143,7 +143,7 @@ export const CustomFieldOptions = ({
                         </p>
                     )}
 
-                    <div className="border-[0.1px] border-[#7c7c7c] rounded-sm">
+                    <div className="border-[0.1px] border-[#202020] rounded-sm">
                         <DndContext
                             collisionDetection={closestCenter}
                             onDragEnd={onDragEnd}
@@ -262,7 +262,7 @@ const OptionItem = (props: DropContainerProps) => {
         <div
             ref={setNodeRef}
             style={style}
-            className="border-[0.1px] border-[#7c7c7c] bg-[#030416] h-[60px]"
+            className="border-[0.1px] border-[#202020] bg-[#030416] h-[60px]"
         >
             <div className="flex justify-between items-center p-4">
                 <div className="flex gap-4 items-center">
@@ -302,7 +302,7 @@ const OptionItem = (props: DropContainerProps) => {
             </div>
 
             {item.id === selectedOptionId && (
-                <DialogContent className="max-w-96 max-h-[100vh] overflow-y-auto">
+                <DialogContent className="max-w-96 max-h-[100vh] overflow-y-auto bg-[#202020] border border-[#202020]">
                     <DialogHeader>
                         <DialogTitle>Update {field}</DialogTitle>
                     </DialogHeader>

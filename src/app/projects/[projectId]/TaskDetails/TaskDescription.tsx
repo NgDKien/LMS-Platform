@@ -40,8 +40,8 @@ export const TaskDescription = () => {
     };
 
     return (
-        <div className="border border-sky-200 dark:border-blue-900 rounded">
-            <div className="flex items-center justify-end bg-sky-100 dark:bg-slate-900 rounded-t border-b border-sky-200 dark:border-blue-900 overflow-x-auto px-4 py-2">
+        <div className="border border-[#2C2F3A] rounded">
+            <div className="flex items-center justify-end bg-[#182446] rounded-t border-b border-[#2C2F3A] overflow-x-auto px-4 py-2">
                 <div className="flex justify-between items-center gap-2 text-sm">
                     <UserCard
                         id={selectedTask?.creator?.id!}
@@ -56,10 +56,10 @@ export const TaskDescription = () => {
                 </div>
                 <Button
                     variant="ghost"
-                    className="h-7 py-1 px-2 mx-2 text-xs"
+                    className="h-7 py-1 px-2 ml-7 text-xs"
                     onClick={() => setEditable(true)}
                 >
-                    <Pen className="h-3 w-3 mr-2" />
+                    <Pen className="h-3 w-3" />
                     Edit
                 </Button>
             </div>

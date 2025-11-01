@@ -52,7 +52,7 @@ export const ToolBar = ({ editor }: { editor: Editor | null }) => {
     };
 
     return (
-        <div className="flex items-center space-x-2 px-2">
+        <div className="flex items-center space-x-2 px-2 bg-transparent">
             <HeadingMenu editor={editor} />
             <ToolbarIconButton
                 onClick={handleBold}

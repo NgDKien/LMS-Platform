@@ -43,24 +43,6 @@ export const HeaderSection = ({
                 setIsEditing={setIsEditing}
                 onSave={handleSaveTitle}
             />
-
-            {!hideCopyLink && (
-                <div className="flex items-center gap-3 ml-4">
-                    <Button
-                        className="p-1 bg-transparent hover:bg-transparent hidden md:block"
-                        title="Copy permalink"
-                        onClick={() => handleCopy(permalink)}
-                    >
-                        {isCopied ? (
-                            <Check className="w-4 h-4 text-green-600" />
-                        ) : (
-                            <Copy className="w-4 h-4 text-gray-600" />
-                        )}
-                    </Button>
-
-                    <TaskActionsMenu setIsEditing={setIsEditing} permalink={permalink} />
-                </div>
-            )}
         </>
     );
 };

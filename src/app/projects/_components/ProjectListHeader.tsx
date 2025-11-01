@@ -21,12 +21,12 @@ export const ProjectListHeader = ({
     sortOrder,
     onSort,
 }: ProjectListHeaderProps) => (
-    <div className="flex justify-between items-center rounded bg-[#293148] p-6">
+    <div className="flex justify-between items-center rounded bg-[#182446] p-6">
         <div>
             <span className="text-sm">
-                {tab === 'active' && `Active Projects(${count})`}
-                {tab === 'closed' && `Closed Projects(${count})`}
-                {tab === 'all' && `All Projects(${count})`}
+                {tab === 'active' && `Active Projects (${count})`}
+                {tab === 'closed' && `Closed Projects (${count})`}
+                {tab === 'all' && `All Projects (${count})`}
             </span>
         </div>
         <DropdownMenu>
@@ -34,7 +34,7 @@ export const ProjectListHeader = ({
                 <span className="text-sm">Sort</span>
                 <ChevronDown className="w-4 h-4 ml-1" />
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent className='bg-[#0f172d] border border-[#2C2F3A] text-white'>
                 <DropdownMenuItem onClick={() => onSort?.('newest')}>
                     Newest {sortOrder === 'newest' && '✓'}
                 </DropdownMenuItem>

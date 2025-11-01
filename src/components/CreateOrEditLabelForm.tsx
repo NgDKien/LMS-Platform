@@ -1,5 +1,4 @@
 'use client';
-import { secondaryBtnStyles, successBtnStyles } from '@/app/commonStyles';
 import { cn } from '@/lib/utils';
 import { Check, RefreshCcw } from 'lucide-react';
 import { useState } from 'react';
@@ -14,6 +13,7 @@ import {
     PopoverTrigger,
 } from '@/components/ui/popover';
 import { labelColors } from '@/consts/colors';
+import { motion } from 'framer-motion';
 
 const defaultColor = labelColors[1];
 
@@ -47,59 +47,85 @@ export const CreateOrEditLabelForm = ({
     }
 
     return (
-        <Card className="p-6 mb-6 bg-muted dark:bg-muted/20">
-            <Badge className="py-1 px-4 mb-8 " style={{ backgroundColor: color }}>
-                <span className="text-white">{labelName || 'Label preview'}</span>
-            </Badge>
-            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 flex-wrap">
-                <div className="flex flex-col lg:flex-row gap-6">
-                    <div className="space-y-2 lg:flex-grow">
-                        <Label>Label name</Label>
+        <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            className="max-w-[420px] w-full"
+        >
+            <Card className="p-5 bg-gray-900/70 border border-gray-800 rounded-2xl shadow-md backdrop-blur-sm">
+                {/* Preview */}
+                <div className="flex justify-between items-center mb-5">
+                    <Badge
+                        className="py-1 px-4 rounded-full text-sm font-medium text-white"
+                        style={{ backgroundColor: color }}
+                    >
+                        {labelName || 'Label preview'}
+                    </Badge>
+                    <span className="text-xs text-gray-400 uppercase tracking-wide">
+                        {mode === 'edit' ? 'Edit mode' : 'Create new label'}
+                    </span>
+                </div>
+
+                {/* Form fields */}
+                <div className="space-y-4 mb-5">
+                    <div className="flex flex-col space-y-2">
+                        <Label className="text-gray-300">Label name</Label>
                         <Input
-                            placeholder="Label name"
-                            className="h-8"
+                            placeholder="Enter label name"
+                            className="bg-gray-800 border-gray-700 focus:ring-indigo-500 focus:border-indigo-500 text-white"
                             value={labelName}
                             onChange={(e) => setLabelName(e.currentTarget.value)}
                         />
                     </div>
-                    <div className="space-y-2 lg:flex-grow">
-                        <Label>Description</Label>
+
+                    <div className="flex flex-col space-y-2">
+                        <Label className="text-gray-300">Description</Label>
                         <Input
-                            placeholder="Description (optional)"
-                            className="h-8"
+                            placeholder="Short description (optional)"
+                            className="bg-gray-800 border-gray-700 focus:ring-indigo-500 focus:border-indigo-500 text-white"
                             value={description}
                             onChange={(e) => setDescription(e.currentTarget.value)}
                         />
                     </div>
 
-                    <div className="space-y-2">
-                        <Label>Color</Label>
-                        <div className="flex items-center gap-2">
+                    <div className="flex flex-col space-y-2">
+                        <Label className="text-gray-300">Color</Label>
+                        <div className="flex items-center gap-3">
                             <Button
-                                className={cn('px-3 h-8 text-white')}
-                                style={{ backgroundColor: color }}
+                                type="button"
+                                size="icon"
                                 onClick={selectRandomColor}
+                                className="h-9 w-9 flex items-center justify-center rounded-md text-white"
+                                style={{ backgroundColor: color }}
                             >
-                                <RefreshCcw className="w-5 h-5" />
+                                <RefreshCcw className="h-4 w-4" />
                             </Button>
                             <Popover>
-                                <PopoverTrigger>
+                                <PopoverTrigger asChild>
                                     <Input
-                                        placeholder="color"
+                                        placeholder="#000000"
                                         value={color}
                                         onChange={(e) => setColor(e.currentTarget.value)}
-                                        className={`lg:w-[110px] h-8 ${!isValidHexColor(color)
-                                                ? 'focus:ring-red-500 focus:outline-red-500'
-                                                : ''
-                                            }`}
+                                        className={cn(
+                                            'w-[110px] bg-gray-800 border-gray-700 h-9 text-sm text-gray-300 focus:ring-indigo-500 focus:border-indigo-500',
+                                            !isValidHexColor(color) && 'ring-red-500'
+                                        )}
                                     />
                                 </PopoverTrigger>
-                                <PopoverContent className="flex justify-center flex-wrap">
+                                <PopoverContent
+                                    className="flex justify-center flex-wrap gap-2 bg-gray-900 border border-gray-700 p-3 z-50"
+                                    sideOffset={8}
+                                >
                                     {labelColors.map((labelColor) => (
                                         <Button
                                             key={labelColor}
                                             onClick={() => setColor(labelColor)}
-                                            className="w-8 h-8 mr-2 mb-2 p-1"
+                                            className={cn(
+                                                'w-8 h-8 rounded-md border border-transparent',
+                                                labelColor === color &&
+                                                'ring-2 ring-indigo-400 ring-offset-1 ring-offset-gray-900'
+                                            )}
                                             style={{ backgroundColor: labelColor }}
                                         >
                                             {labelColor === color && (
@@ -113,8 +139,13 @@ export const CreateOrEditLabelForm = ({
                     </div>
                 </div>
 
-                <div className="flex justify-end items-center gap-2 ">
-                    <Button className={cn(secondaryBtnStyles)} onClick={() => cancel?.()}>
+                {/* Actions */}
+                <div className="flex justify-end gap-3 pt-4 border-t border-gray-800">
+                    <Button
+                        variant="outline"
+                        onClick={() => cancel?.()}
+                        className="bg-transparent border-gray-700 text-gray-300 hover:bg-gray-800"
+                    >
                         Cancel
                     </Button>
                     <Button
@@ -126,19 +157,17 @@ export const CreateOrEditLabelForm = ({
                                 color,
                             })
                         }
-                        className={cn(successBtnStyles)}
-                        disabled={
-                            !isValidHexColor(color) || !labelName.trim() || isSubmitting
-                        }
+                        disabled={!isValidHexColor(color) || !labelName.trim() || isSubmitting}
+                        className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm"
                     >
                         {isSubmitting
                             ? 'Submitting...'
                             : mode === 'edit'
-                                ? 'Update label'
-                                : 'Create label'}
+                                ? 'Update Label'
+                                : 'Create Label'}
                     </Button>
                 </div>
-            </div>
-        </Card>
+            </Card>
+        </motion.div>
     );
 };

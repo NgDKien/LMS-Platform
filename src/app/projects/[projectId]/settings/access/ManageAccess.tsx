@@ -3,15 +3,15 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { UserAvatar } from '@/components/Avatar';
+import { Badge } from '@/components/ui/badge';
+import { RoleSelect } from './RoleSelect';
 import { toast } from 'sonner';
 import { createClient } from '@/utils/supabase/client';
 import { useState, useMemo } from 'react';
-import { RoleSelect } from './RoleSelect';
 import { useProjectAccess } from '@/hooks/useProjectAccess';
-// import { useAccessStore } from '@/stores/useAccessStore';
-import { ProjectAction } from '@/consts';
 import { useProjectOwner } from '@/hooks/useProjectOwner';
-import { Badge } from '@/components/ui/badge';
+import { ProjectAction } from '@/consts';
+import { Trash2, Users } from 'lucide-react';
 
 interface MemberWithUser extends IProjectMember {
   user: Pick<IUser, 'clerk_id' | 'name' | 'email' | 'avatar'>;
@@ -37,20 +37,16 @@ export const ManageAccess = ({
   onCurrentUserRoleChange,
 }: Props) => {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-  //   const [searchTerm, setSearchTerm] = useState('');
   const [isUpdatingMembers, setIsUpdatingMembers] = useState(false);
-  //   const { toast } = useToast();
+  const [searchTerm, setSearchTerm] = useState('');
   const supabase = createClient();
-  const { can, isLoading } = useProjectAccess({ projectId });
+  const { can } = useProjectAccess({ projectId });
   const { owner, isLoading: isLoadingOwner } = useProjectOwner(projectId);
 
-  // Combine project members with owner if not already included
   const allMembers = useMemo(() => {
     if (!members || !owner) return members ?? [];
     const isOwnerInMembers = members.some((m) => m.user_id === owner.clerk_id);
     if (isOwnerInMembers) return members;
-
-    // Add owner as a member
     return [
       {
         id: `owner-${owner.clerk_id}`,
@@ -71,37 +67,28 @@ export const ManageAccess = ({
     ];
   }, [members, owner, projectId]);
 
-  //   const filteredMembers = useMemo(() => {
-  //     return allMembers.filter((member) =>
-  //       member.user.name.toLowerCase().includes(searchTerm.toLowerCase())
-  //     );
-  //   }, [allMembers, searchTerm]);
+  const filteredMembers = useMemo(() => {
+    if (!searchTerm.trim()) return allMembers;
+    return allMembers.filter((m) =>
+      m.user.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [allMembers, searchTerm]);
 
   if (isLoadingOwner) return <div>Loading...</div>;
 
-  //   const totalMemberCount = allMembers.length;
-
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      const selectableMembers = allMembers.filter(
-        (member) =>
-          // Don't select current user and creator
-          member.user_id !== currentUserId && member.user_id !== createdBy
+      const selectable = allMembers.filter(
+        (m) => m.user_id !== currentUserId && m.user_id !== createdBy
       );
-      setSelectedIds(new Set(selectableMembers.map((m) => m.id)));
-    } else {
-      setSelectedIds(new Set());
-    }
+      setSelectedIds(new Set(selectable.map((m) => m.id)));
+    } else setSelectedIds(new Set());
   };
 
   const handleSelectMember = (id: string, checked: boolean) => {
-    const newSelected = new Set(selectedIds);
-    if (checked) {
-      newSelected.add(id);
-    } else {
-      newSelected.delete(id);
-    }
-    setSelectedIds(newSelected);
+    const updated = new Set(selectedIds);
+    checked ? updated.add(id) : updated.delete(id);
+    setSelectedIds(updated);
   };
 
   const handleRoleChange = async (memberId: string, newRole: Role) => {
@@ -111,31 +98,18 @@ export const ManageAccess = ({
         .from('project_members')
         .update({ role: newRole, updated_at: new Date() })
         .eq('id', memberId);
-
       if (error) throw error;
-
-      const member = members.find((m) => m.id === memberId);
-      if (member?.user_id === currentUserId) {
-        onCurrentUserRoleChange?.(newRole);
-      }
-
       onMembersChange?.((prev: MemberWithUser[]) =>
-        prev.map((member) =>
-          member.id === memberId ? { ...member, role: newRole } : member
+        prev.map((m) =>
+          m.id === memberId ? { ...m, role: newRole } : m
         )
       );
-
-      toast.success("Member role updated successfully");
-
-      // useAccessStore.getState().reset();
-
-    } catch (error) {
-      console.error('Error updating member role:', error);
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : "Failed to update member role"
-      );
+      toast.success('Member role updated');
+      const member = members.find((m) => m.id === memberId);
+      if (member?.user_id === currentUserId)
+        onCurrentUserRoleChange?.(newRole);
+    } catch (err) {
+      toast.error('Failed to update role');
     } finally {
       setIsUpdatingMembers(false);
     }
@@ -143,7 +117,6 @@ export const ManageAccess = ({
 
   const handleRemoveMembers = async () => {
     if (selectedIds.size === 0) return;
-
     try {
       setIsUpdatingMembers(true);
       const idsToRemove = Array.from(selectedIds).filter((id) => {
@@ -151,56 +124,54 @@ export const ManageAccess = ({
         return (
           member?.user_id !== currentUserId &&
           member?.user_id !== createdBy
-          // member?.role !== 'admin'
         );
       });
-
       if (idsToRemove.length === 0) return;
 
       const { error } = await supabase
         .from('project_members')
         .delete()
         .in('id', idsToRemove);
-
       if (error) throw error;
 
       onMembersChange?.((prev: MemberWithUser[]) =>
-        prev.filter((member) => !idsToRemove.includes(member.id))
+        prev.filter((m) => !idsToRemove.includes(m.id))
       );
       setSelectedIds(new Set());
-
-      toast.success("Members removed successfully");
-
-    } catch (error) {
-      console.error('Error removing members:', error);
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : "Failed to remove members"
-      );
+      toast.success('Members removed');
+    } catch (err) {
+      toast.error('Failed to remove members');
     } finally {
       setIsUpdatingMembers(false);
     }
   };
 
-  // const canRemoveMembers = can(ProjectAction.REMOVE_MEMBERS);
-
-  // const canUpdateRole = (memberId: string) => {
-  //   const member = members.find((m) => m.id === memberId);
-  //   return (
-  //     can(ProjectAction.UPDATE_MEMBER_ROLE) && member?.user_id !== createdBy
-  //   );
-  // };
-
   return (
-    <div>
-      {/* {can(ProjectAction.INVITE_MEMBERS) && ( */}
-      <h1 className="text-xl mb-4">Manage access</h1>
-      {/* )} */}
-      <div className="rounded-md border overflow-hidden mt-4">
-        <div className="bg-muted dark:bg-muted/30 flex justify-between items-center px-4 py-2 border-b">
-          {/* {canRemoveMembers && ( */}
-          <div className="flex items-center gap-4">
+    <div className="max-w-4xl mx-auto mt-10">
+      <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md shadow-sm overflow-hidden">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800 sticky top-0 bg-zinc-900/70 backdrop-blur-md z-10">
+          <div className="flex items-center gap-3">
+            <Users className="w-5 h-5 text-zinc-400" />
+            <h2 className="text-lg font-semibold text-white">
+              Manage Access
+            </h2>
+          </div>
+          {selectedIds.size > 0 && (
+            <Button
+              size="sm"
+              variant="ghost"
+              disabled={isUpdatingMembers}
+              onClick={handleRemoveMembers}
+              className="text-red-400 hover:text-red-300 hover:bg-red-500/10 flex items-center gap-1"
+            >
+              <Trash2 className="w-4 h-4" /> Remove
+            </Button>
+          )}
+        </div>
+
+        {/* Filter + select all */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-6 py-3 border-b border-zinc-800">
+          <div className="flex items-center gap-3">
             <Checkbox
               checked={
                 allMembers.length > 0 &&
@@ -209,52 +180,32 @@ export const ManageAccess = ({
                     (m) =>
                       m.user_id !== currentUserId &&
                       m.user_id !== createdBy
-                    // &&
-                    // m.role !== 'admin'
                   )
                   .every((m) => selectedIds.has(m.id))
               }
               onCheckedChange={handleSelectAll}
             />
-            <span className="text-xs">
-              {/* {selectedIds.size} of {totalMemberCount} members */}
-              {selectedIds.size} of {allMembers.length} members
+            <span className="text-sm text-zinc-400">
+              {selectedIds.size} selected
             </span>
           </div>
-          {/* )} */}
-
-          {selectedIds.size > 0 && (
-            <Button
-              variant="ghost"
-              size="sm"
-              disabled={isUpdatingMembers}
-              onClick={handleRemoveMembers}
-              className="text-red-500 hover:text-red-600"
-            >
-              Remove selected
-            </Button>
-          )}
-        </div>
-
-        <div className="px-4 py-3 border-b">
           <Input
-            placeholder="Find a member"
-            // value={searchTerm}
-            // onChange={(e) => setSearchTerm(e.target.value)}
-            className="h-7 rounded-sm bg-muted/50 dark:bg-muted/20"
+            placeholder="Search members..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="h-8 bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500 max-w-xs"
           />
         </div>
 
-        <div className="divide-y">
-          {/* {filteredMembers.map((member) => ( */}
-          {allMembers.map((member) => (
+        {/* Member list */}
+        <div className="divide-y divide-zinc-800">
+          {filteredMembers.map((member) => (
             <div
               key={member.id}
-              className="p-4 flex items-center justify-between hover:bg-muted/50"
+              className="flex items-center justify-between px-6 py-4 hover:bg-zinc-800/40 transition-colors"
             >
-              <div className="flex items-center gap-3">
-                {/* {canRemoveMembers && */}
-                {currentUserId !== member.user_id &&
+              <div className="flex items-center gap-3 min-w-0">
+                {member.user_id !== currentUserId &&
                   member.user_id !== owner?.clerk_id && (
                     <Checkbox
                       checked={selectedIds.has(member.id)}
@@ -263,56 +214,51 @@ export const ManageAccess = ({
                       }
                     />
                   )}
-                <div className="flex items-center gap-2">
-                  <UserAvatar
-                    // src={member.user.avatar}
-                    // fallback={member.user.name}
-                    src={''}
-                    fallback={''}
-                    className="h-6 w-6"
-                  />
-                  <div>
-                    <p className="text-sm font-medium">
-                      {member.user.name}
-                      {member.user_id === currentUserId && (
-                        <span className="text-xs text-muted-foreground">
-                          {' '}
-                          (You)
-                        </span>
-                      )}
-                    </p>
-                    {member.invitationStatus === 'invited' && (
-                      <p className="text-xs text-muted-foreground">
-                        Pending invitation
-                      </p>
+
+                <UserAvatar
+                  src={member.user.avatar ?? ''}
+                  fallback={member.user.name}
+                  className="h-8 w-8"
+                />
+
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-white truncate">
+                    {member.user.name}{' '}
+                    {member.user_id === currentUserId && (
+                      <span className="text-xs text-zinc-500">(You)</span>
                     )}
-                  </div>
+                  </p>
+                  <p className="text-xs text-zinc-400 truncate">
+                    {member.user.email}
+                  </p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 {member.user_id === owner?.clerk_id ? (
-                  <Badge variant="secondary" className="text-xs">
+                  <Badge
+                    variant="secondary"
+                    className="bg-zinc-800 text-zinc-300 text-xs px-2 py-0.5"
+                  >
                     Owner
                   </Badge>
+                ) : can(ProjectAction.UPDATE_MEMBER_ROLE) ? (
+                  <RoleSelect
+                    value={member.role}
+                    onValueChange={(r) => handleRoleChange(member.id, r)}
+                    disabled={isUpdatingMembers}
+                  />
                 ) : (
-                  // canUpdateRole(member.id) && (
-                  can(ProjectAction.UPDATE_MEMBER_ROLE) && (
-                    <RoleSelect
-                      value={member.role}
-                      onValueChange={(role) =>
-                        handleRoleChange(member.id, role)
-                      }
-                      disabled={isUpdatingMembers}
-                    />
-                  )
-                  // )
+                  <Badge
+                    variant="outline"
+                    className="text-xs border-zinc-700 text-zinc-400"
+                  >
+                    {member.role}
+                  </Badge>
                 )}
-                {/* <RoleSelect value={'read'} onValueChange={() => {}}/> */}
               </div>
             </div>
           ))}
-          {/* ))} */}
         </div>
       </div>
     </div>
