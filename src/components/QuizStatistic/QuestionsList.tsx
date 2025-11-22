@@ -49,12 +49,12 @@ const QuestionsList = ({ questions }: Props) => {
                     <Table>
                         <TableHeader>
                             <TableRow className="bg-gray-800/50 hover:bg-gray-800/70 border-gray-700">
-                                <TableHead className="w-16 font-semibold text-gray-300">No.</TableHead>
+                                <TableHead className="w-16 text-center font-semibold text-gray-300">No.</TableHead>
                                 <TableHead className="font-semibold text-gray-300">Question & Correct Answer</TableHead>
                                 <TableHead className="font-semibold text-gray-300">Your Answer</TableHead>
-                                <TableHead className="w-20 text-center font-semibold text-gray-300">Status</TableHead>
+                                <TableHead className="w-20 text-left font-semibold text-gray-300">Status</TableHead>
                                 {questions[0]?.questionType === "open_ended" && (
-                                    <TableHead className="w-24 text-right font-semibold text-gray-300">Score</TableHead>
+                                    <TableHead className="w-24 text-center font-semibold text-gray-300">Score</TableHead>
                                 )}
                             </TableRow>
                         </TableHeader>
@@ -96,8 +96,8 @@ const QuestionsList = ({ questions }: Props) => {
                                             </div>
                                         ) : (
                                             <div className={`border rounded-lg p-3 ${question.isCorrect
-                                                    ? 'bg-green-950/30 border-green-800/50'
-                                                    : 'bg-red-950/30 border-red-800/50'
+                                                ? 'bg-green-950/30 border-green-800/50'
+                                                : 'bg-red-950/30 border-red-800/50'
                                                 }`}>
                                                 <div className={`text-xs font-semibold uppercase tracking-wide mb-1 ${question.isCorrect ? 'text-green-400' : 'text-red-400'
                                                     }`}>
@@ -116,12 +116,12 @@ const QuestionsList = ({ questions }: Props) => {
                                     </TableCell>
 
                                     {question.percentageCorrect !== null && question.percentageCorrect !== undefined && (
-                                        <TableCell className="text-right">
+                                        <TableCell className="text-center">
                                             <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-bold border ${question.percentageCorrect >= 80
-                                                    ? 'bg-green-950/50 text-green-300 border-green-800/50'
-                                                    : question.percentageCorrect >= 60
-                                                        ? 'bg-yellow-950/50 text-yellow-300 border-yellow-800/50'
-                                                        : 'bg-red-950/50 text-red-300 border-red-800/50'
+                                                ? 'bg-green-950/50 text-green-300 border-green-800/50'
+                                                : question.percentageCorrect >= 60
+                                                    ? 'bg-yellow-950/50 text-yellow-300 border-yellow-800/50'
+                                                    : 'bg-red-950/50 text-red-300 border-red-800/50'
                                                 }`}>
                                                 {question.percentageCorrect}%
                                             </span>

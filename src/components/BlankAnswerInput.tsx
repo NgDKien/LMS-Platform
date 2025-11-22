@@ -20,13 +20,11 @@ const BlankAnswerInput = ({ answer, setBlankAnswer }: Props) => {
             remove_duplicates: false,
         });
 
-        // Shuffle và pick 2 keywords chỉ chạy trên client
         const shuffled = words.sort(() => 0.5 - Math.random());
         const selectedKeywords = shuffled.slice(0, 2);
 
         setKeywords(selectedKeywords);
 
-        // Tạo answer với blanks
         const newAnswerWithBlanks = selectedKeywords.reduce((acc, curr) => {
             return acc.replaceAll(curr, blank);
         }, answer);
@@ -38,32 +36,26 @@ const BlankAnswerInput = ({ answer, setBlankAnswer }: Props) => {
     if (!keywords.length) {
         return (
             <div className="flex justify-start w-full mt-4">
-                <h1 className="text-xl font-semibold">
-                    {answer}
-                </h1>
+                <h1 className="text-xl font-semibold">{answer}</h1>
             </div>
         );
     }
 
     return (
-        <div className="flex justify-start w-full mt-4">
-            <h1 className="text-xl font-semibold">
-                {answerWithBlanks.split(blank).map((part, index) => {
-                    return (
-                        <React.Fragment key={index}>
-                            {part}
-                            {index === answerWithBlanks.split(blank).length - 1 ? (
-                                ""
-                            ) : (
-                                <input
-                                    id="user-blank-input"
-                                    className="text-center border-b-2 border-black dark:border-white w-28 focus:border-2 focus:border-b-4 focus:outline-none"
-                                    type="text"
-                                />
-                            )}
-                        </React.Fragment>
-                    );
-                })}
+        <div className="flex justify-center w-full mt-6 text-center">
+            <h1 className="text-xl font-semibold text-white leading-relaxed">
+                {answerWithBlanks.split(blank).map((part, index) => (
+                    <React.Fragment key={index}>
+                        {part}
+                        {index !== answerWithBlanks.split(blank).length - 1 && (
+                            <input
+                                id="user-blank-input"
+                                type="text"
+                                className="mx-2 w-32 px-3 py-1 bg-slate-900/60 border border-slate-700 rounded-md text-center text-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-400 transition-all duration-200"
+                            />
+                        )}
+                    </React.Fragment>
+                ))}
             </h1>
         </div>
     );
