@@ -14,12 +14,17 @@ import { CloseProjectDialog } from '@/app/projects/_components/CloseProjectDialo
 import { DeleteProjectDialog } from '@/app/projects/_components/DeleteProjectDialog';
 import TextEditor from '@/components/TextEditor';
 import { toast } from 'sonner';
+import { useProjectAccess } from '@/hooks/useProjectAccess';
+import { ProjectAction } from '@/consts';
 
 interface ProjectSettingsFormProps {
     project: IProject;
 }
 
 export function ProjectSettingsForm({ project }: ProjectSettingsFormProps) {
+    const { can, role, isLoading } = useProjectAccess({
+        projectId: project.id,
+    });
     const [isSaving, setIsSaving] = useState(false);
     const [showCloseDialog, setShowCloseDialog] = useState(false);
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -30,6 +35,13 @@ export function ProjectSettingsForm({ project }: ProjectSettingsFormProps) {
     });
 
     const router = useRouter();
+
+    if (isLoading) return <div>Loading...</div>;
+    if (!can(ProjectAction.VIEW_SETTINGS)) {
+        return (
+            <div>You don&apos;t have permission to manage project settings.</div>
+        );
+    }
 
     const handleUpdateProject = async () => {
         try {
@@ -165,6 +177,7 @@ export function ProjectSettingsForm({ project }: ProjectSettingsFormProps) {
                 <Separator className="opacity-40 border-red-900" />
 
                 <div className="space-y-5">
+
                     <div className="flex justify-between items-center flex-wrap gap-3">
                         <div>
                             <p className="text-sm font-medium text-white">
@@ -175,15 +188,19 @@ export function ProjectSettingsForm({ project }: ProjectSettingsFormProps) {
                                 the list of open projects.
                             </p>
                         </div>
-                        <Button
-                            onClick={() => setShowCloseDialog(true)}
-                            className="border border-red-500 text-red-400 hover:bg-red-500/10"
-                        >
-                            Close this project
-                        </Button>
+                        {can(ProjectAction.CLOSE_PROJECT) && (
+                            <Button
+                                onClick={() => setShowCloseDialog(true)}
+                                className="border border-red-500 text-red-400 hover:bg-red-500/10"
+                            >
+                                Close this project
+                            </Button>
+                        )}
                     </div>
 
+
                     <Separator className="opacity-30" />
+
 
                     <div className="flex justify-between items-center flex-wrap gap-3">
                         <div>
@@ -195,13 +212,16 @@ export function ProjectSettingsForm({ project }: ProjectSettingsFormProps) {
                                 certain.
                             </p>
                         </div>
-                        <Button
-                            onClick={() => setShowDeleteDialog(true)}
-                            className="border border-red-500 text-red-400 hover:bg-red-500/10"
-                        >
-                            Delete this project
-                        </Button>
+                        {can(ProjectAction.DELETE_PROJECT) && (
+                            <Button
+                                onClick={() => setShowDeleteDialog(true)}
+                                className="border border-red-500 text-red-400 hover:bg-red-500/10"
+                            >
+                                Delete this project
+                            </Button>
+                        )}
                     </div>
+
                 </div>
             </section>
 

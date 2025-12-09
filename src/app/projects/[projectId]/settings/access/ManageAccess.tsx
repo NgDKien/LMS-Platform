@@ -146,16 +146,27 @@ export const ManageAccess = ({
     }
   };
 
+  const canRemoveMembers = can(ProjectAction.REMOVE_MEMBERS);
+
+  const canUpdateRole = (memberId: string) => {
+    const member = members.find((m) => m.id === memberId);
+    return (
+      can(ProjectAction.UPDATE_MEMBER_ROLE) && member?.user_id !== createdBy
+    );
+  };
+
   return (
     <div className="max-w-4xl mx-auto mt-10">
       <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md shadow-sm overflow-hidden">
         <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800 sticky top-0 bg-zinc-900/70 backdrop-blur-md z-10">
-          <div className="flex items-center gap-3">
-            <Users className="w-5 h-5 text-zinc-400" />
-            <h2 className="text-lg font-semibold text-white">
-              Manage Access
-            </h2>
-          </div>
+          {can(ProjectAction.INVITE_MEMBERS) && (
+            <div className="flex items-center gap-3">
+              <Users className="w-5 h-5 text-zinc-400" />
+              <h2 className="text-lg font-semibold text-white">
+                Manage Access
+              </h2>
+            </div>
+          )}
           {selectedIds.size > 0 && (
             <Button
               size="sm"
@@ -171,24 +182,26 @@ export const ManageAccess = ({
 
         {/* Filter + select all */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-6 py-3 border-b border-zinc-800">
-          <div className="flex items-center gap-3">
-            <Checkbox
-              checked={
-                allMembers.length > 0 &&
-                allMembers
-                  .filter(
-                    (m) =>
-                      m.user_id !== currentUserId &&
-                      m.user_id !== createdBy
-                  )
-                  .every((m) => selectedIds.has(m.id))
-              }
-              onCheckedChange={handleSelectAll}
-            />
-            <span className="text-sm text-zinc-400">
-              {selectedIds.size} selected
-            </span>
-          </div>
+          {canRemoveMembers && (
+            <div className="flex items-center gap-3">
+              <Checkbox
+                checked={
+                  allMembers.length > 0 &&
+                  allMembers
+                    .filter(
+                      (m) =>
+                        m.user_id !== currentUserId &&
+                        m.user_id !== createdBy
+                    )
+                    .every((m) => selectedIds.has(m.id))
+                }
+                onCheckedChange={handleSelectAll}
+              />
+              <span className="text-sm text-zinc-400">
+                {selectedIds.size} selected
+              </span>
+            </div>
+          )}
           <Input
             placeholder="Search members..."
             value={searchTerm}
@@ -205,7 +218,8 @@ export const ManageAccess = ({
               className="flex items-center justify-between px-6 py-4 hover:bg-zinc-800/40 transition-colors"
             >
               <div className="flex items-center gap-3 min-w-0">
-                {member.user_id !== currentUserId &&
+                {canRemoveMembers &&
+                  member.user_id !== currentUserId &&
                   member.user_id !== owner?.clerk_id && (
                     <Checkbox
                       checked={selectedIds.has(member.id)}
@@ -214,7 +228,6 @@ export const ManageAccess = ({
                       }
                     />
                   )}
-
                 <UserAvatar
                   src={member.user.avatar ?? ''}
                   fallback={member.user.name}

@@ -136,14 +136,14 @@ export const Comment: FC<Props> = ({ comment }) => {
                                 </AlertDialogTrigger>
                                 <AlertDialogContent>
                                     <AlertDialogHeader>
-                                        <AlertDialogTitle>Delete Comment</AlertDialogTitle>
+                                        <AlertDialogTitle className='text-black'>Delete Comment</AlertDialogTitle>
                                         <AlertDialogDescription>
                                             Are you sure you want to delete this comment? This action
                                             cannot be undone.
                                         </AlertDialogDescription>
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
-                                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                        <AlertDialogCancel className='text-[#9a9a9a]'>Cancel</AlertDialogCancel>
                                         <AlertDialogAction
                                             onClick={handleDeleteComment}
                                             className="bg-red-500 hover:bg-red-600"

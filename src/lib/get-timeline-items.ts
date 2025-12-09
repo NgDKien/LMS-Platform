@@ -1,16 +1,9 @@
 import { v4 as uid } from 'uuid';
 
 export const getTimelineItems = (
-    activities: ActivityResponse[],
     comments: CommentResponse[]
 ) => {
     const timelineItems: ITimeline[] = [
-        ...activities.map((activity) => ({
-            id: uid(),
-            created_at: new Date(activity.created_at),
-            type: 'activity' as TimelineType,
-            value: activity,
-        })),
 
         ...comments.map((comment) => ({
             id: uid(),

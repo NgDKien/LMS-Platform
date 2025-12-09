@@ -33,6 +33,7 @@ interface Props {
   tasks: ITaskWithOptions[];
   projectName: string;
   isOver: boolean;
+  can?: (action: ProjectAction) => boolean;
   onTaskCreated?: (task: ITaskWithOptions) => void;
   onColumnUpdate?: (column: IStatus) => void;
   onColumnDelete?: (columnId: string) => void;
@@ -47,6 +48,7 @@ export const ColumnContainer = ({
   tasks: columnTasks,
   projectName,
   isOver,
+  can,
   onTaskCreated,
   onColumnUpdate,
   onColumnDelete,
@@ -177,12 +179,14 @@ export const ColumnContainer = ({
             </div>
 
             {/* Column Menu */}
-            <ColumnMenuOptions
-              column={column}
-              onColumnUpdate={onColumnUpdate}
-              onColumnDelete={onColumnDelete}
-              onColumnHide={onColumnHide}
-            />
+            {can?.(ProjectAction.VIEW_SETTINGS) && (
+              <ColumnMenuOptions
+                column={column}
+                onColumnUpdate={onColumnUpdate}
+                onColumnDelete={onColumnDelete}
+                onColumnHide={onColumnHide}
+              />
+            )}
           </div>
 
           {/* Description */}

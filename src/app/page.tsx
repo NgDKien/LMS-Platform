@@ -85,7 +85,7 @@ export default function LandingPage() {
         return (
             <SignInButton
                 mode="modal"
-                forceRedirectUrl="/root"
+                forceRedirectUrl="/code_editor"
             >
                 <button className={className}>
                     {children}

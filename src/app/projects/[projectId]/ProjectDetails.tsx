@@ -98,25 +98,6 @@ export const ProjectDetails = ({
                                                 </div>
                                             </DropdownMenuItem>
                                         </Link>
-
-                                        <Link href={`/projects/${projectId}/insights`}>
-                                            <DropdownMenuItem className="rounded-lg px-3 py-2.5 cursor-pointer
-                                                text-zinc-300 hover:text-zinc-100 hover:bg-zinc-800/50
-                                                focus:bg-zinc-800/50 focus:text-zinc-100 transition-all duration-150
-                                                group">
-                                                <div className="flex items-center justify-between w-full">
-                                                    <div className="flex items-center gap-3">
-                                                        <div className="w-8 h-8 rounded-lg bg-zinc-800/50 flex items-center justify-center
-                                                            group-hover:bg-zinc-700/50 transition-colors">
-                                                            <LineChart className="w-4 h-4" />
-                                                        </div>
-                                                        <span className="text-sm font-medium">Insights</span>
-                                                    </div>
-                                                    <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 
-                                                        -translate-x-1 group-hover:translate-x-0 transition-all" />
-                                                </div>
-                                            </DropdownMenuItem>
-                                        </Link>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                             </div>

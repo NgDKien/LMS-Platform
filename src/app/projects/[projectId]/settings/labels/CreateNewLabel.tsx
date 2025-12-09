@@ -8,6 +8,8 @@ import { createClient } from '@/utils/supabase/client';
 import React, { useState } from 'react';
 import { PlusCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useProjectAccess } from '@/hooks/useProjectAccess';
+import { ProjectAction } from '@/consts';
 
 interface Props {
     projectId: string;
@@ -15,6 +17,7 @@ interface Props {
 }
 
 export const CreateNewLabel = ({ projectId, onLabelCreated }: Props) => {
+    const { can } = useProjectAccess({ projectId });
     const [show, setShow] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
     const supabase = createClient();
@@ -47,16 +50,18 @@ export const CreateNewLabel = ({ projectId, onLabelCreated }: Props) => {
     return (
         <div className="w-full">
             <div className="flex justify-end mb-6">
-                <Button
-                    className={cn(
-                        successBtnStyles,
-                        'flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600 transition-all'
-                    )}
-                    onClick={() => setShow(true)}
-                >
-                    <PlusCircle className="h-4 w-4" />
-                    New Label
-                </Button>
+                {can?.(ProjectAction.UPDATE_OPTIONS) ? (
+                    <Button
+                        className={cn(
+                            successBtnStyles,
+                            'flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600 transition-all'
+                        )}
+                        onClick={() => setShow(true)}
+                    >
+                        <PlusCircle className="h-4 w-4" />
+                        New Label
+                    </Button>
+                ) : null}
             </div>
 
             <AnimatePresence>

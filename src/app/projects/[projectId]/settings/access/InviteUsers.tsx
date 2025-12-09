@@ -75,7 +75,7 @@ export const InviteUsers = ({
         project_id: projectId,
         user_id: selectedUser.clerk_id,
         role,
-        invitationStatus: 'invited',
+        invitationStatus: 'accepted',
         invited_at: new Date(),
       };
 

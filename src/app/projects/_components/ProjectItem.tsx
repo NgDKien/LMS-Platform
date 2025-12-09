@@ -3,7 +3,7 @@
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { ProjectActions } from './ProjectAction';
-// import { useProjectAccess } from '@/hooks/useProjectAccess';
+import { useProjectAccess } from '@/hooks/useProjectAccess';
 import { ProjectAction } from '@/consts';
 
 interface ProjectItemProps {
@@ -21,7 +21,7 @@ export const ProjectItem = ({
     setProjectToReopen,
     setProjectToDelete,
 }: ProjectItemProps) => {
-    //   const { can } = useProjectAccess({ projectId: project.id });
+    const { can } = useProjectAccess({ projectId: project.id });
 
     return (
         <div className="p-6 border-b border-[#101014] flex justify-between items-center">
@@ -49,22 +49,15 @@ export const ProjectItem = ({
                     {new Date(project.created_at).toDateString()}
                 </p>
             </div>
-            {/* {can(ProjectAction.CLOSE_PROJECT) && (
-        <ProjectActions
-          project={project}
-          tab={tab}
-          setProjectToClose={setProjectToClose}
-          setProjectToReopen={setProjectToReopen}
-          setProjectToDelete={setProjectToDelete}
-        />
-      )} */}
-            <ProjectActions
-                project={project}
-                tab={tab}
-                setProjectToClose={setProjectToClose}
-                setProjectToReopen={setProjectToReopen}
-                setProjectToDelete={setProjectToDelete}
-            />
+            {can(ProjectAction.CLOSE_PROJECT) && (
+                <ProjectActions
+                    project={project}
+                    tab={tab}
+                    setProjectToClose={setProjectToClose}
+                    setProjectToReopen={setProjectToReopen}
+                    setProjectToDelete={setProjectToDelete}
+                />
+            )}
         </div>
     );
 };

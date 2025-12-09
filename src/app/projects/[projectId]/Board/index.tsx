@@ -16,6 +16,7 @@ import { TaskDetailsDrawer } from './TaskDetailsDrawer';
 import { TaskItem } from './TaskItem';
 import { useBoardDragAndDrop } from './useBoardDragAndDrop';
 import { createPortal } from 'react-dom';
+import { useProjectAccess } from '@/hooks/useProjectAccess';
 
 interface Props {
   projectId: string;
@@ -28,6 +29,7 @@ export const Board: React.FC<Props> = ({
   projectName,
   statuses,
 }) => {
+  const { can } = useProjectAccess({ projectId });
   const [columns, setColumns] = useState(statuses);
   const [hiddenColumns, setHiddenColumns] = useState<Set<string>>(new Set());
   const [isLoading, setIsLoading] = useState(false);
@@ -156,6 +158,7 @@ export const Board: React.FC<Props> = ({
                   projectId={projectId}
                   key={status.id}
                   column={status}
+                  can={can}
                   tasks={getColumnTasks(status.id)}
                   projectName={projectName}
                   onColumnHide={handleColumnHide}

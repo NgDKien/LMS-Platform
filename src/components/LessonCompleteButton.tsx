@@ -45,6 +45,7 @@ export function LessonCompleteButton({
             }
 
             startTransition(async () => {
+                //This func return true/false for UI update
                 const newStatus = await getLessonCompletionStatusAction(
                     lessonId,
                     clerkId

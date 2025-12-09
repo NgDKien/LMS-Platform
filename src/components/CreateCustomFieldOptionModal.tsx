@@ -14,7 +14,7 @@ import { cn } from '@/lib/utils';
 import React, { ReactElement } from 'react';
 import { CustomOptionForm } from './CustomOptionForm';
 import { ProjectAction } from '@/consts';
-// import { useProjectAccess } from '@/hooks/useProjectAccess';
+import { useProjectAccess } from '@/hooks/useProjectAccess';
 import { useParams } from 'next/navigation';
 
 interface Props {
@@ -33,7 +33,7 @@ export const CreateCustomFieldOptionModal = ({
 }: Props) => {
     const { projectId } = useParams();
     const { isModalOpen, openModal, closeModal } = useModalDialog();
-    //   const { can } = useProjectAccess({ projectId: projectId as string });
+    const { can } = useProjectAccess({ projectId: projectId as string });
 
     const handleSubmitData = (data: Omit<ICustomFieldData, 'id'>) => {
         if (typeof handleSubmit === 'function') {
@@ -50,13 +50,11 @@ export const CreateCustomFieldOptionModal = ({
             <DialogTrigger asChild>
                 {triggerBtn ? (
                     React.cloneElement(triggerBtn, { onClick: openModal })
-                    // ) : can?.(ProjectAction.UPDATE_OPTIONS) ? ( 
-                ) : (
+                ) : can?.(ProjectAction.UPDATE_OPTIONS) ? (
                     <Button className={cn(successBtnStyles)} onClick={openModal}>
                         {triggerLabel}
                     </Button>
-                    // ) : null}
-                )}
+                ) : null}
             </DialogTrigger>
 
             <DialogContent className="max-w-96 max-h-[100vh] overflow-y-auto bg-[#202020] border border-[#202020]">

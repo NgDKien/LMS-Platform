@@ -5,11 +5,11 @@ import { SettingsLayout } from './SettingLayout';
 import { auth } from '@clerk/nextjs/server';
 
 interface Props {
-    params: { projectId: string };
+    params: Promise<{ projectId: string }>;
 }
 
 export default async function SettingsPage({ params }: Props) {
-    const { projectId } = params;
+    const { projectId } = await params;
     const supabase = await createClient();
 
     const { userId } = await auth();

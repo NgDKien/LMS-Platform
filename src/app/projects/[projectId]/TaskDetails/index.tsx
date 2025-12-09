@@ -84,41 +84,6 @@ const CommentForm = () => {
     );
 };
 
-// Memoized timeline item renderer
-const MemoizedTimelineItem = React.memo(
-    ({
-        item,
-        allMembers,
-        statuses,
-        labels,
-    }: {
-        item: any;
-        allMembers: any[];
-        statuses: any[];
-        labels: any[];
-    }) => {
-        if (item.type === 'activity') {
-            return (
-                <div className="relative pl-6 group mb-6">
-                    <ActivityRenderer
-                        activity={item.value as ActivityResponse}
-                        allMembers={allMembers}
-                        statuses={statuses}
-                        labels={labels}
-                    />
-                </div>
-            );
-        }
-        return (
-            <div className="relative pl-6 group mb-6">
-                <Comment comment={item.value as CommentResponse} />
-            </div>
-        );
-    }
-);
-
-MemoizedTimelineItem.displayName = 'MemoizedTimelineItem';
-
 export const TaskDetails = () => {
     const { selectedTask } = useTaskDetails();
     const { taskActivities } = useActivityQueries(selectedTask?.id as string);
@@ -138,13 +103,12 @@ export const TaskDetails = () => {
 
     // Memoize timeline items
     const timelineItems = useMemo(
-        () => getTimelineItems(taskActivities || [], taskComments || []),
-        [taskActivities, taskComments]
+        () => getTimelineItems(taskComments || []),
+        [taskComments]
     );
 
     // Separate comments and activities
     const comments = timelineItems.filter(item => item.type === 'comment');
-    const activities = timelineItems.filter(item => item.type === 'activity');
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

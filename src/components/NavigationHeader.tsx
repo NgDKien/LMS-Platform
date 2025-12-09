@@ -1,4 +1,4 @@
-import HeaderProfileBtn from "@/app/(root)/_components/HeaderProfileBtn";
+import HeaderProfileBtn from "@/app/code_editor/_components/HeaderProfileBtn";
 import { SignedOut } from "@clerk/nextjs";
 import { Blocks, Code2, Sparkles } from "lucide-react";
 import Link from "next/link";
@@ -11,7 +11,7 @@ function NavigationHeader() {
                 <div className="relative h-16 flex items-center justify-between">
                     <div className="flex items-center gap-8">
                         {/* Logo */}
-                        <Link href="/" className="flex items-center gap-3 group relative">
+                        <Link href="/code_editor" className="flex items-center gap-3 group relative">
                             {/* logo hover effect */}
                             <div
                                 className="absolute -inset-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-lg opacity-0 

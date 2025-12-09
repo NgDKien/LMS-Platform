@@ -25,7 +25,7 @@ async function Header() {
         bg-[#0a0a0f]/80 backdrop-blur-xl p-6 mb-4 rounded-lg"
             >
                 <div className="hidden lg:flex items-center gap-8">
-                    <Link href="/" className="flex items-center gap-3 group relative">
+                    <Link href="/code_editor" className="flex items-center gap-3 group relative">
                         {/* Logo hover effect */}
 
                         <div
