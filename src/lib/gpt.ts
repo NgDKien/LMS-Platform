@@ -15,7 +15,7 @@ export async function strict_output(
     default_category: string = "",
     output_value_only: boolean = false,
     model: string = "llama-3.3-70b-versatile",
-    temperature: number = 0.7, // Giảm temperature để output ổn định hơn
+    temperature: number = 0.5,
     num_tries: number = 3,
     verbose: boolean = false
 ): Promise<
@@ -31,21 +31,28 @@ export async function strict_output(
     let error_msg: string = "";
 
     for (let i = 0; i < num_tries; i++) {
-        let output_format_prompt: string = `\nYou MUST output in valid JSON format: ${JSON.stringify(output_format)}`;
+        let output_format_prompt: string = `\n\nYou are a JSON generator. You MUST respond with ONLY valid JSON, nothing else.`;
+
+        output_format_prompt += `\n\nOUTPUT FORMAT (strict JSON):`;
+        output_format_prompt += `\n${JSON.stringify(output_format, null, 2)}`;
 
         if (list_input) {
-            output_format_prompt += `\nReturn a JSON array with ${Array.isArray(user_prompt) ? user_prompt.length : 1} objects.`;
-            output_format_prompt += `\nExample format: [${JSON.stringify(output_format)}, ${JSON.stringify(output_format)}]`;
+            output_format_prompt += `\n\nYou MUST return a JSON array with exactly ${Array.isArray(user_prompt) ? user_prompt.length : 1} objects.`;
+            output_format_prompt += `\nExample: [${JSON.stringify(output_format)}, ${JSON.stringify(output_format)}]`;
         }
 
-        output_format_prompt += `\nIMPORTANT: 
-- Use double quotes for all strings
-- Ensure proper JSON syntax
-- No trailing commas
-- Return ONLY valid JSON, no extra text`;
+        output_format_prompt += `\n\nCRITICAL RULES:
+            1. Use double quotes (") for ALL strings, keys, and values
+            2. NO single quotes (')
+            3. NO trailing commas
+            4. NO comments in JSON
+            5. NO extra text before or after JSON
+            6. ALL keys must be in double quotes
+            7. Ensure all brackets and braces are properly closed
+            8. Each answer and option must be maximum 15 words`;
 
         if (dynamic_elements) {
-            output_format_prompt += `\nReplace any text in < > with actual content.`;
+            output_format_prompt += `\n9. Replace any text in < > with actual content.`;
         }
 
         try {
@@ -59,7 +66,7 @@ export async function strict_output(
                     },
                     {
                         role: "user",
-                        content: Array.isArray(user_prompt) ? user_prompt.join(", ") : user_prompt.toString()
+                        content: Array.isArray(user_prompt) ? user_prompt.join("\n") : user_prompt.toString()
                     },
                 ],
             });
@@ -69,32 +76,78 @@ export async function strict_output(
             if (verbose) {
                 console.log("System prompt:", system_prompt + output_format_prompt + error_msg);
                 console.log("\nUser prompt:", user_prompt);
-                console.log("\nGroq response:", res);
+                console.log("\nGroq raw response:", res);
             }
 
-            // Làm sạch response
-            res = res.replace(/```json|```/g, ''); // Loại bỏ markdown code blocks
+            res = res.replace(/```json\s*/g, '');
+            res = res.replace(/```\s*/g, '');
             res = res.trim();
 
-            // Fix common JSON issues
-            res = res.replace(/(\w)"/g, '$1"'); // Fix quotes
-            res = res.replace(/"(\w)/g, '"$1'); // Fix quotes
-            res = res.replace(/'/g, '"'); // Replace single quotes with double quotes
+            // Remove any text before first [ or {
+            const jsonStart = Math.min(
+                res.indexOf('[') !== -1 ? res.indexOf('[') : Infinity,
+                res.indexOf('{') !== -1 ? res.indexOf('{') : Infinity
+            );
+            if (jsonStart !== Infinity && jsonStart > 0) {
+                res = res.substring(jsonStart);
+            }
+
+            // Remove any text after last ] or }
+            const jsonEnd = Math.max(
+                res.lastIndexOf(']'),
+                res.lastIndexOf('}')
+            );
+            if (jsonEnd !== -1 && jsonEnd < res.length - 1) {
+                res = res.substring(0, jsonEnd + 1);
+            }
+
+            // Replace single quotes with double quotes
+            res = res.replace(/'/g, '"');
+
+            // Fix missing commas between objects
+            res = res.replace(/}\s*{/g, '},{');
+
+            // Remove trailing commas before } or ]
+            res = res.replace(/,(\s*[}\]])/g, '$1');
+
+            if (verbose) {
+                console.log("\nCleaned response:", res);
+            }
 
             // Ensure it's wrapped in array brackets if list_input
             if (list_input && !res.startsWith('[')) {
-                // Split individual objects and wrap in array
-                const objects = res.split('\n\n').filter(obj => obj.trim());
-                const jsonObjects = objects.map(obj => {
-                    obj = obj.trim();
-                    if (!obj.startsWith('{')) obj = '{' + obj;
-                    if (!obj.endsWith('}')) obj = obj + '}';
-                    return obj;
-                });
-                res = '[' + jsonObjects.join(',') + ']';
+                res = '[' + res + ']';
             }
 
-            let output: any = JSON.parse(res);
+            let output: any;
+
+            try {
+                output = JSON.parse(res);
+            } catch (parseError) {
+                console.log(`JSON parse failed, attempting repair...`);
+
+                // Try to extract JSON objects manually
+                const objectMatches = res.match(/\{[^{}]*\}/g);
+                if (objectMatches && objectMatches.length > 0) {
+                    // Try parsing each object individually
+                    const validObjects = [];
+                    for (const match of objectMatches) {
+                        try {
+                            const obj = JSON.parse(match);
+                            validObjects.push(obj);
+                        } catch (e) {
+                            console.log(`Failed to parse object: ${match}`);
+                        }
+                    }
+                    if (validObjects.length > 0) {
+                        output = validObjects;
+                    } else {
+                        throw parseError;
+                    }
+                } else {
+                    throw parseError;
+                }
+            }
 
             if (list_input) {
                 if (!Array.isArray(output)) {
@@ -110,7 +163,7 @@ export async function strict_output(
                     if (/<.*?>/.test(key)) continue;
 
                     if (!(key in output[index])) {
-                        throw new Error(`Missing key: ${key}`);
+                        throw new Error(`Missing key: ${key} in object ${index}`);
                     }
 
                     // Handle array choices
@@ -136,12 +189,18 @@ export async function strict_output(
                 }
             }
 
+            console.log(`Successfully parsed ${output.length} questions`);
             return list_input ? output : output[0];
 
         } catch (e) {
-            error_msg = `\n\nPrevious attempt failed with: ${e}\nPlease fix the JSON format.`;
+            error_msg = `\n\nPrevious attempt ${i + 1} failed with error: ${e}
+                Please ensure you return ONLY valid JSON with:
+                - Double quotes for all strings
+                - No trailing commas
+                - Properly closed brackets
+                - No extra text outside JSON`;
+
             console.log(`Attempt ${i + 1} failed:`, e);
-            // console.log("Invalid response:", res);
 
             if (i === num_tries - 1) {
                 console.error("All attempts failed. Returning empty array.");

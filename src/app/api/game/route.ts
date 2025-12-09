@@ -121,7 +121,7 @@ export async function POST(req: Request) {
                 return {
                     question: question.question,
                     answer: question.answer,
-                    options: options, // Supabase handles JSON automatically
+                    options: options,
                     gameId: game.id,
                     questionType: "mcq",
                 };
@@ -129,7 +129,7 @@ export async function POST(req: Request) {
 
             const { error: questionsError } = await supabase
                 .from("Question")
-                .insert(questionsToInsert);
+                .insert(questionsToInsert)
 
             if (questionsError) {
                 console.error("Error inserting MCQ questions:", questionsError);

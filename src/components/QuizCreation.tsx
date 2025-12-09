@@ -190,15 +190,15 @@ const QuizCreation = ({ topic: topicParam }: Props) => {
 
                 {/* Type buttons */}
                 {(() => {
-                  const selectedType = form.watch("type"); // 👈 watch thay vì getValues
+                  const selectedType = form.watch("type");
 
                   return (
                     <div className="flex rounded-lg overflow-hidden border border-zinc-700 bg-zinc-800/50">
                       <Button
                         variant={selectedType === "mcq" ? "default" : "ghost"}
                         className={`w-1/2 py-3 rounded-none transition-all duration-300 ${selectedType === "mcq"
-                            ? "bg-indigo-600 text-white shadow-[0_0_15px_rgba(99,102,241,0.6)] scale-[1.02]"
-                            : "text-zinc-400 hover:bg-zinc-700/60 hover:text-white"
+                          ? "bg-indigo-600 text-white shadow-[0_0_15px_rgba(99,102,241,0.6)] scale-[1.02]"
+                          : "text-zinc-400 hover:bg-zinc-700/60 hover:text-white"
                           }`}
                         onClick={() => form.setValue("type", "mcq")}
                         type="button"
@@ -211,8 +211,8 @@ const QuizCreation = ({ topic: topicParam }: Props) => {
                       <Button
                         variant={selectedType === "open_ended" ? "default" : "ghost"}
                         className={`w-1/2 py-3 rounded-none transition-all duration-300 ${selectedType === "open_ended"
-                            ? "bg-purple-600 text-white shadow-[0_0_15px_rgba(168,85,247,0.6)] scale-[1.02]"
-                            : "text-zinc-400 hover:bg-zinc-700/60 hover:text-white"
+                          ? "bg-purple-600 text-white shadow-[0_0_15px_rgba(168,85,247,0.6)] scale-[1.02]"
+                          : "text-zinc-400 hover:bg-zinc-700/60 hover:text-white"
                           }`}
                         onClick={() => form.setValue("type", "open_ended")}
                         type="button"

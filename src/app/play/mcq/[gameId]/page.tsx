@@ -38,6 +38,12 @@ const MCQPage = async ({ params }: Props) => {
         .single();
 
     if (error || !game || game.gameType === "open_ended") {
+        console.error("Game error:", error);
+        return redirect("/quiz");
+    }
+
+    if (!game.questions || game.questions.length === 0) {
+        console.error("No questions found for game:", gameId);
         return redirect("/quiz");
     }
 

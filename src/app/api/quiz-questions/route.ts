@@ -15,27 +15,27 @@ export async function POST(req: Request, res: Response) {
 
         if (type === "open_ended") {
             questions = await strict_output(
-                "You are a helpful AI that generates question-answer pairs. You must return a valid JSON array format. Each answer should be maximum 15 words.",
+                "You are a helpful AI that generates question-answer pairs. You must return a valid JSON array format. Each answer should be maximum 30 words. IMPORTANT: option1, option2, and option3 must be DIFFERENT from the correct answer.",
                 new Array(amount).fill(
                     `Generate a hard open-ended question about ${topic}`
                 ),
                 {
                     question: "question",
-                    answer: "answer with max length of 15 words",
+                    answer: "answer with max length of 30 words",
                 }
             );
         } else if (type === "mcq") {
             questions = await strict_output(
-                "You are a helpful AI that generates MCQ questions. You must return a valid JSON array format. Each answer and option should be maximum 15 words.",
+                "You are a helpful AI that generates MCQ questions. You must return a valid JSON array format. Each answer and option should be maximum 30 words. IMPORTANT: option1, option2, and option3 must be DIFFERENT from the correct answer.",
                 new Array(amount).fill(
                     `Generate a hard multiple choice question about ${topic}`
                 ),
                 {
                     question: "question",
-                    answer: "answer with max length of 15 words",
-                    option1: "option1 with max length of 15 words",
-                    option2: "option2 with max length of 15 words",
-                    option3: "option3 with max length of 15 words",
+                    answer: "answer with max length of 30 words",
+                    option1: "option1 with max length of 30 words",
+                    option2: "option2 with max length of 30 words",
+                    option3: "option3 with max length of 30 words",
                 }
             );
         }
