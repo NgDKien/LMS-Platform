@@ -4,7 +4,7 @@ import { SearchInput } from "./SearchInput";
 
 export default function Hero() {
     return (
-        <div className="relative min-h-screen w-full bg-[#030712] overflow-hidden">
+        <div className="relative min-h-screen w-full bg-[#030712] overflow-hidden mt-[-50px]">
             {/* Animated background grid */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#0a0f1e_1px,transparent_1px),linear-gradient(to_bottom,#0a0f1e_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#030712_70%,transparent_110%)]" />
 

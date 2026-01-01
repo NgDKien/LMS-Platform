@@ -1,6 +1,6 @@
 'use client'
 
-import AppHeader from '@/components/AppHeader';
+import AppHeaderQuiz from '@/components/AppHeaderQuiz';
 import AppSidebar from '@/components/AppSidebar';
 
 export default function DashboardLayout({
@@ -15,7 +15,7 @@ export default function DashboardLayout({
 
             {/* Main content area */}
             <div className="flex-1 flex flex-col">
-                <AppHeader />
+                <AppHeaderQuiz />
                 <main className="flex-1">
                     {children}
                 </main>

@@ -8,13 +8,13 @@ interface UseProjectAccessProps {
 }
 
 export const useProjectAccess = ({ projectId }: UseProjectAccessProps) => {
-    const { userId, isLoaded } = useAuth(); // 👈 lấy userId từ Clerk
+    const { userId, isLoaded } = useAuth();
     const { permissions, roles, isCreator, fetchProjectAccess, requiresMinRole } =
         useAccessStore();
 
     useEffect(() => {
         if (isLoaded && userId && !permissions[projectId]) {
-            fetchProjectAccess(projectId, userId); // 👈 truyền cả 2 arg
+            fetchProjectAccess(projectId, userId);
         }
     }, [projectId, userId, isLoaded, permissions, fetchProjectAccess]);
 

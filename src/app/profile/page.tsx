@@ -60,8 +60,7 @@ function ProfilePage() {
     if (!user && isLoaded) return router.push("/");
 
     return (
-        <div className="min-h-screen bg-[#0a0a0f]">
-            <NavigationHeader />
+        <div className="min-h-screen bg-[#030712]">
 
             <div className="max-w-7xl mx-auto px-4 py-12">
                 {/* Profile Header */}
@@ -148,8 +147,8 @@ function ProfilePage() {
                                                         <div className="flex items-center gap-2">
                                                             <span
                                                                 className={`text-xs px-2 py-0.5 rounded-full ${execution.error
-                                                                        ? "bg-red-500/10 text-red-400"
-                                                                        : "bg-green-500/10 text-green-400"
+                                                                    ? "bg-red-500/10 text-red-400"
+                                                                    : "bg-green-500/10 text-green-400"
                                                                     }`}
                                                             >
                                                                 {execution.error ? "Error" : "Success"}

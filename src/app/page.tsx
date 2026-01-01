@@ -5,30 +5,19 @@ import { useAuth, SignInButton } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 
 export default function LandingPage() {
-    const [scrollY, setScrollY] = useState(0);
     const { isSignedIn } = useAuth();
     const router = useRouter();
 
     useEffect(() => {
         // Auto redirect if already signed in
         if (isSignedIn) {
-            router.push('/code_editor');
+            router.push('/lms-user-homepage');
         }
     }, [isSignedIn, router]);
 
-    useEffect(() => {
-        const handleScroll = () => setScrollY(window.scrollY);
-
-        window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
-
     const handleGetStarted = () => {
         if (isSignedIn) {
-            router.push('/code_editor');
+            router.push('/lms-user-homepage');
         }
     };
 
@@ -38,36 +27,33 @@ export default function LandingPage() {
             title: "LMS Platform",
             description: "Nền tảng học trực tuyến với AI adaptive learning",
             color: "from-cyan-400 via-blue-500 to-purple-600",
-            gradient: "bg-gradient-to-br from-cyan-500/20 to-blue-600/20"
+            gradient: "bg-gradient-to-br from-cyan-500/20 to-blue-600/20",
+            bgGradient: "from-cyan-500/10 via-blue-500/10 to-purple-600/10"
         },
         {
             icon: Code,
             title: "Code Editor",
             description: "IDE real-time với 50+ ngôn ngữ lập trình",
             color: "from-purple-400 via-pink-500 to-red-500",
-            gradient: "bg-gradient-to-br from-purple-500/20 to-pink-600/20"
+            gradient: "bg-gradient-to-br from-purple-500/20 to-pink-600/20",
+            bgGradient: "from-purple-500/10 via-pink-500/10 to-red-500/10"
         },
         {
             icon: Brain,
             title: "AI Quiz Generator",
             description: "Tạo quiz thông minh với GPT-4 integration",
             color: "from-green-400 via-emerald-500 to-teal-600",
-            gradient: "bg-gradient-to-br from-green-500/20 to-emerald-600/20"
+            gradient: "bg-gradient-to-br from-green-500/20 to-emerald-600/20",
+            bgGradient: "from-green-500/10 via-emerald-500/10 to-teal-600/10"
         },
         {
             icon: Briefcase,
             title: "Project Management",
             description: "Agile boards với automation workflows",
             color: "from-orange-400 via-red-500 to-pink-600",
-            gradient: "bg-gradient-to-br from-orange-500/20 to-red-600/20"
+            gradient: "bg-gradient-to-br from-orange-500/20 to-red-600/20",
+            bgGradient: "from-orange-500/10 via-red-500/10 to-pink-600/10"
         },
-        {
-            icon: Video,
-            title: "Video Call",
-            description: "HD video với AI noise cancellation",
-            color: "from-indigo-400 via-purple-500 to-pink-600",
-            gradient: "bg-gradient-to-br from-indigo-500/20 to-purple-600/20"
-        }
     ];
 
     const GetStartedButton = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => {
@@ -85,7 +71,7 @@ export default function LandingPage() {
         return (
             <SignInButton
                 mode="modal"
-                forceRedirectUrl="/code_editor"
+                forceRedirectUrl="/lms-user-homepage"
             >
                 <button className={className}>
                     {children}
@@ -98,10 +84,6 @@ export default function LandingPage() {
         <div className="min-h-screen bg-black text-white overflow-hidden">
             {/* Animated Background */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-purple-600 opacity-10 blur-[150px] animate-pulse" />
-                <div className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full bg-pink-500 opacity-10 blur-[150px] animate-pulse" />
-
-                {/* Grid pattern */}
                 <div className="absolute inset-0" style={{
                     backgroundImage: 'linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px)',
                     backgroundSize: '50px 50px'
@@ -109,11 +91,7 @@ export default function LandingPage() {
             </div>
 
             {/* Navigation */}
-            <nav className="fixed top-0 w-full z-50 transition-all duration-300" style={{
-                background: scrollY > 50 ? 'rgba(0, 0, 0, 0.8)' : 'transparent',
-                backdropFilter: scrollY > 50 ? 'blur(20px)' : 'none',
-                borderBottom: scrollY > 50 ? '1px solid rgba(255, 255, 255, 0.1)' : 'none'
-            }}>
+            <nav className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-xl border-b border-white/10">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-20">
                         <div className="flex items-center space-x-3 group cursor-pointer">
@@ -144,7 +122,7 @@ export default function LandingPage() {
             </nav>
 
             {/* Hero Section */}
-            <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-20">
+            <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 mt-10 pt-20">
                 <div className="max-w-7xl mx-auto text-center relative z-10">
                     {/* Floating badges */}
                     <div className="flex flex-wrap justify-center gap-3 mb-8 animate-fade-in">
@@ -178,7 +156,7 @@ export default function LandingPage() {
                     </h1>
 
                     <p className="text-xl sm:text-2xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed">
-                        5 powerful platforms unified in one revolutionary ecosystem.
+                        4 powerful platforms unified in one revolutionary ecosystem.
                         <span className="text-white font-semibold"> Learn, Code, Test, Manage, Connect</span> - all in one place.
                     </p>
 
@@ -229,7 +207,7 @@ export default function LandingPage() {
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-20">
                         <div className="inline-block mb-4 px-6 py-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 rounded-full text-blue-400 font-semibold">
-                            5 Powerful Platforms
+                            4 Powerful Platforms
                         </div>
                         <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6">
                             Everything You Need,
@@ -240,7 +218,7 @@ export default function LandingPage() {
                         </h2>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
                         {features.map((feature, index) => {
                             const Icon = feature.icon;
 
@@ -250,15 +228,15 @@ export default function LandingPage() {
                                     className={`relative group cursor-pointer transition-all duration-500 ${index === 2 ? 'md:col-span-2 lg:col-span-1' : ''
                                         }`}
                                 >
-                                    <div className={`absolute -inset-1 bg-gradient-to-r ${feature.color} rounded-3xl blur opacity-0 group-hover:opacity-70 transition duration-500`} />
+                                    <div className={`absolute -inset-1 bg-gradient-to-r ${feature.color} rounded-3xl blur opacity-30 group-hover:opacity-70 transition duration-500`} />
 
-                                    <div className={`relative h-full bg-black/50 backdrop-blur-xl border border-white/10 rounded-3xl p-8 transform transition-all duration-500 group-hover:scale-105 group-hover:border-white/30`}>
-                                        <div className={`w-16 h-16 ${feature.gradient} rounded-2xl flex items-center justify-center mb-6 transform transition-all duration-500 group-hover:scale-110 group-hover:rotate-6`}>
+                                    <div className={`relative h-full bg-gradient-to-br ${feature.bgGradient} backdrop-blur-xl border border-white/20 rounded-3xl p-8 transform transition-all duration-500 group-hover:scale-105 group-hover:border-white/40 group-hover:bg-white/5`}>
+                                        <div className={`w-16 h-16 ${feature.gradient} rounded-2xl flex items-center justify-center mb-6 transform transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 shadow-lg`}>
                                             <Icon className="w-8 h-8 text-white" />
                                         </div>
 
-                                        <h3 className="text-2xl font-bold mb-3">{feature.title}</h3>
-                                        <p className="text-gray-400 leading-relaxed">{feature.description}</p>
+                                        <h3 className="text-2xl font-bold mb-3 text-white">{feature.title}</h3>
+                                        <p className="text-gray-300 leading-relaxed">{feature.description}</p>
 
                                         <div className="mt-6 flex items-center text-blue-400 font-semibold group-hover:text-blue-300 transition">
                                             <span>Explore</span>
@@ -268,50 +246,6 @@ export default function LandingPage() {
                                 </div>
                             );
                         })}
-                    </div>
-                </div>
-            </section>
-
-            {/* CTA Section */}
-            <section className="relative py-32 px-4 sm:px-6 lg:px-8">
-                <div className="max-w-5xl mx-auto relative">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-3xl blur-2xl opacity-30 animate-pulse" />
-
-                    <div className="relative bg-gradient-to-br from-blue-600 to-purple-700 rounded-3xl p-12 md:p-16 overflow-hidden">
-                        {/* Pattern overlay */}
-                        <div className="absolute inset-0 opacity-10" style={{
-                            backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-                            backgroundSize: '20px 20px'
-                        }} />
-
-                        <div className="relative z-10 text-center">
-                            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6">
-                                Ready to Transform
-                                <br />
-                                Your Learning?
-                            </h2>
-                            <p className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">
-                                Join 500,000+ users who are already experiencing the future of education
-                            </p>
-
-                            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                                <div className="relative group">
-                                    <div className="absolute -inset-1 bg-white rounded-2xl blur opacity-50 group-hover:opacity-75 transition" />
-                                    <GetStartedButton className="relative bg-white text-purple-600 px-10 py-4 rounded-2xl font-bold text-lg hover:bg-gray-100 transition flex items-center space-x-2 transform group-hover:scale-105">
-                                        <Zap className="w-6 h-6" />
-                                        <span>Start Free Trial</span>
-                                    </GetStartedButton>
-                                </div>
-                            </div>
-
-                            <div className="mt-8 text-blue-100 text-sm">
-                                ✨ No credit card required • 14-day free trial • Cancel anytime
-                            </div>
-                        </div>
-
-                        {/* Floating shapes */}
-                        <div className="absolute top-10 left-10 w-20 h-20 bg-white/10 rounded-full blur-xl animate-float" />
-                        <div className="absolute bottom-10 right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl animate-float" style={{ animationDelay: '1s' }} />
                     </div>
                 </div>
             </section>

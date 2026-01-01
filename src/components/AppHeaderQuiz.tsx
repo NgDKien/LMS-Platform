@@ -17,7 +17,7 @@ function AppHeader() {
         bg-[#10182e] backdrop-blur-xl p-6 mb-4 rounded-lg mt-4 ml-4 mr-4"
             >
                 <div className="hidden lg:flex items-center gap-8">
-                    <Link href="/code_editor" className="flex items-center gap-3 group relative">
+                    <Link href="/quiz-dashboard" className="flex items-center gap-3 group relative">
                         {/* Logo hover effect */}
 
                         <div
@@ -35,10 +35,10 @@ function AppHeader() {
 
                         <div className="flex flex-col">
                             <span className="block text-lg font-semibold bg-gradient-to-r from-blue-400 via-blue-300 to-purple-400 text-transparent bg-clip-text">
-                                CodeCraft
+                                IntelliQuiz
                             </span>
                             <span className="block text-xs text-blue-400/60 font-medium">
-                                Interactive Code Editor
+                                From zero to quiz in seconds
                             </span>
                         </div>
                     </Link>

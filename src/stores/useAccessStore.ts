@@ -3,7 +3,7 @@
 import { create } from "zustand";
 import { createClient } from "@/utils/supabase/client";
 import { ProjectAction } from "@/consts";
-import { useAuth } from "@clerk/nextjs"; // 👈 dùng client hook
+import { useAuth } from "@clerk/nextjs";
 
 interface AccessState {
     permissions: Record<string, Record<ProjectAction, boolean>>;
@@ -51,7 +51,7 @@ export const useAccessStore = create<AccessState>((set, get) => ({
             .from("project_members")
             .select("role")
             .eq("project_id", projectId)
-            .eq("user_id", userId) // 👈 Clerk userId
+            .eq("user_id", userId)
             .maybeSingle();
 
         if (memberError) {

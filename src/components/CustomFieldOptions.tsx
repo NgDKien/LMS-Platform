@@ -288,6 +288,7 @@ const OptionItem = (props: DropContainerProps) => {
                     <DropdownMenuContent>
                         <DropdownMenuItem
                             onClick={() => {
+                                //option is going to be updated
                                 setOptionId(item.id);
                                 openModal();
                             }}
@@ -301,6 +302,7 @@ const OptionItem = (props: DropContainerProps) => {
                 </DropdownMenu>
             </div>
 
+            {/* Form update option */}
             {item.id === selectedOptionId && (
                 <DialogContent className="max-w-96 max-h-[100vh] overflow-y-auto bg-[#202020] border border-[#202020]">
                     <DialogHeader>

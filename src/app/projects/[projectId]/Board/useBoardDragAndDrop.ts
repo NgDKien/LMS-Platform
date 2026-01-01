@@ -61,6 +61,7 @@ export const useBoardDragAndDrop = () => {
     const sensors = useSensors(pointerSensor, mouseSensor, touchSensor);
 
     // Set the active task when dragging starts
+    // Lưu task đang kéo, hiển thị preview
     const handleDragStart = (event: DragStartEvent) => {
         if (event.active.data.current?.type === 'task') {
             setActiveTask(event.active.data.current?.task);
@@ -153,7 +154,8 @@ export const useBoardDragAndDrop = () => {
         ];
     };
 
-    // Handle task movement within the same column
+    // A: Thả lên task khác
+    // A1: Handle task movement within the same column
     const handleSameColumnDrag = async (context: DragTaskContext) => {
         const {
             tasks,
@@ -216,7 +218,7 @@ export const useBoardDragAndDrop = () => {
         }
     };
 
-    // Handle task movement between different columns with priority considerations
+    // A2: Handle task movement between different columns with priority considerations
     const handleDifferentColumnDrag = async (context: DragTaskContext) => {
         const { tasks, setTasks, activeId, overColumnId, active, over } = context;
         let newStatusPosition;
@@ -287,7 +289,8 @@ export const useBoardDragAndDrop = () => {
         }
     };
 
-    // Handle task movement to an empty column
+    // B: Thả vào vùng trống của cột
+    // B1: Handle task movement to an empty column
     const handleEmptyColumnDrag = async (context: DragTaskContext) => {
         const { tasks, setTasks, active, activeId, overId, overColumnId } = context;
 
@@ -471,6 +474,7 @@ export const useBoardDragAndDrop = () => {
         }
     };
 
+    // Thực hiện logic di chuyển, update DB
     const handleDragEnd = async (
         event: DragEndEvent,
         tasks: ITaskWithOptions[],
@@ -501,50 +505,73 @@ export const useBoardDragAndDrop = () => {
         };
 
         // Handle different drag scenarios
+
+        // Thả lên 1 task khác
         if (over.data.current?.type === 'task') {
             const isSameColumn =
                 over.data.current?.task.status_id ===
                 active.data.current?.task.status_id;
-
+            // Same column
             if (isSameColumn) {
+                // Xử lý thứ tự các task trong cột đó
                 await handleSameColumnDrag(context);
+                // Different column
             } else {
+                // Xử lý thứ tự các task priority và non-priority
                 await handleDifferentColumnDrag(context);
             }
+
+            // Thả lên vùng trống
         } else if (over.data.current?.type === 'column') {
             const columnTasks = tasks.filter(
                 (task) => task.status_id === overColumnId
             );
 
+            // Empty column
             if (columnTasks.length === 0) {
+                //Thả bất kỳ các task nào, không quan tâm priority
                 await handleEmptyColumnDrag(context);
+                // Non-priority task 
             } else if (!active.data.current?.task.priority) {
+                // Các task không có priority -> thả vào cuối cột
                 await handleNonPriorityColumnDrag(context);
+                // Priority task 
             } else {
+                // Các task có priority
                 await handlePriorityColumnDrag(context);
             }
         }
     };
 
+    // High light cột đích để biết thả vào đâu + Lưu trạng thái để handleDragEnd xử lý logic
     const handleDragOver = (event: DragOverEvent) => {
         const { active, over } = event;
+
+        //Kiểm tra các điều kiện về type và hover 
         if (!over || active.id === over.id || active.data.current?.type !== 'task')
             return;
 
+        //Phân loại phần tử đang hover
         const isOverTask = over.data.current?.type === 'task';
         const isOverEmptyColumnArea = over.data.current?.type === 'column';
 
+        //Thả lên 1 task khác
         if (isOverTask) {
+            // Check có cùng cột không
             const isSameColumn =
                 over.data.current?.task.status_id ===
                 active.data.current?.task.status_id;
 
             setOverColumnId(
                 isSameColumn
+                    // Nếu cùng cột thì giữ nguyên cột đó
                     ? active.data.current?.task.status_id
+                    // Nếu không cùng cột thì lưu cột mới vào overColumnId
                     : over.data.current?.task.status_id
             );
             setActiveColumnId(active.data.current?.task.status_id as string);
+
+            // Thả lên 1 vùng trống của cột
         } else if (isOverEmptyColumnArea) {
             setOverColumnId(over.id as string);
             setActiveColumnId(active.data.current?.task.status_id as string);

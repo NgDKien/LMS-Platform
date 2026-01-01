@@ -17,7 +17,7 @@ function AppHeader() {
         bg-[#10182e] backdrop-blur-xl p-6 mb-4 rounded-lg mt-4 ml-4 mr-4"
             >
                 <div className="hidden lg:flex items-center gap-8">
-                    <Link href="/code_editor" className="flex items-center gap-3 group relative">
+                    <Link href="/lms-user-homepage" className="flex items-center gap-3 group relative">
                         {/* Logo hover effect */}
 
                         <div
@@ -35,10 +35,10 @@ function AppHeader() {
 
                         <div className="flex flex-col">
                             <span className="block text-lg font-semibold bg-gradient-to-r from-blue-400 via-blue-300 to-purple-400 text-transparent bg-clip-text">
-                                CodeCraft
+                                LearnCraft
                             </span>
                             <span className="block text-xs text-blue-400/60 font-medium">
-                                Interactive Code Editor
+                                Shape your learning journey
                             </span>
                         </div>
                     </Link>

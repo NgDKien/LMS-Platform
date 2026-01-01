@@ -45,6 +45,7 @@ export const InviteUsers = ({
     }
     setIsSearching(true);
     try {
+      //filter user not included in project
       const excludeUserIds = [
         ...members.map((m) => m.user_id),
         createdBy,

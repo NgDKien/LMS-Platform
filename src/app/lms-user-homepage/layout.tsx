@@ -1,6 +1,5 @@
-import AppHeader from '@/components/AppHeader';
+import AppHeaderLMS from '@/components/AppHeaderLMS';
 import AppSidebar from '@/components/AppSidebar';
-import Footer from '@/components/Footer';
 
 export default function DashboardLayout({
     children,
@@ -14,7 +13,7 @@ export default function DashboardLayout({
 
             {/* Main content area */}
             <div className="flex-1 flex flex-col">
-                <AppHeader />
+                <AppHeaderLMS />
                 <main className="flex-1">
                     {children}
                 </main>

@@ -6,15 +6,13 @@ import { User } from "lucide-react";
 function AppHeaderProfile() {
     return (
         <>
-            <UserButton>
-                <UserButton.MenuItems>
-                    <UserButton.Link
-                        label="Profile"
-                        labelIcon={<User className="size-4" />}
-                        href="/profile"
-                    />
-                </UserButton.MenuItems>
-            </UserButton>
+            <UserButton
+                appearance={{
+                    elements: {
+                        userButtonPopoverActionButton__manageAccount: "hidden"
+                    }
+                }}
+            />
 
             <SignedOut>
                 <LoginButton />

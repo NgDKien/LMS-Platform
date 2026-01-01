@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import { Toaster } from "sonner";
 import { AppProvider } from "../components/providers/AppProvider";
 import { SanityLive } from "@/sanity/lib/live";
+import SmoothScrollProvider from "@/components/providers/SmoothScrollProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -37,18 +38,20 @@ export default function RootLayout({
           // layout: bg-gradient-to-b from-gray-900 to-gray-950
           className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-[#030712] text-gray-100 flex flex-col`}
         >
-          <ConvexClientProvider>
-            <AppProvider>
-              {children}
-            </AppProvider>
-          </ConvexClientProvider>
+          <SmoothScrollProvider>
+            <ConvexClientProvider>
+              <AppProvider>
+                {children}
+              </AppProvider>
+            </ConvexClientProvider>
 
-          <Footer />
-          <Toaster
-            richColors
-            closeButton
-          />
-          <SanityLive />
+            <Footer />
+            <Toaster
+              richColors
+              closeButton
+            />
+            <SanityLive />
+          </SmoothScrollProvider>
         </body>
       </html>
     </ClerkProvider>

@@ -30,7 +30,7 @@ export async function completeLessonById({
             return existingCompletion.data;
         }
 
-        // Fetch lesson details to get module and course
+        // get module and course of current lesson
         const lesson = await sanityFetch({
             query: groq`*[_type == "lesson" && _id == $lessonId][0]{
         _id,

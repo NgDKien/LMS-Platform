@@ -1,7 +1,6 @@
-'use client'
-
-import AppHeaderPM from '@/components/AppHeaderPM';
+import AppHeader from '@/components/AppHeader';
 import AppSidebar from '@/components/AppSidebar';
+import Footer from '@/components/Footer';
 
 export default function DashboardLayout({
     children,
@@ -15,7 +14,6 @@ export default function DashboardLayout({
 
             {/* Main content area */}
             <div className="flex-1 flex flex-col">
-                <AppHeaderPM />
                 <main className="flex-1">
                     {children}
                 </main>

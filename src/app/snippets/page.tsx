@@ -41,8 +41,7 @@ function SnippetsPage() {
     });
 
     return (
-        <div className="min-h-screen bg-[#0a0a0f]">
-            <NavigationHeader />
+        <div className="min-h-screen bg-[#030712]">
 
             <div className="relative max-w-7xl mx-auto px-4 py-12">
                 {/* Hero */}
@@ -139,8 +138,8 @@ function SnippetsPage() {
                                 <button
                                     onClick={() => setView("grid")}
                                     className={`p-2 rounded-md transition-all ${view === "grid"
-                                            ? "bg-blue-500/20 text-blue-400"
-                                            : "text-gray-400 hover:text-gray-300 hover:bg-[#262637]"
+                                        ? "bg-blue-500/20 text-blue-400"
+                                        : "text-gray-400 hover:text-gray-300 hover:bg-[#262637]"
                                         }`}
                                 >
                                     <Grid className="w-4 h-4" />
@@ -148,8 +147,8 @@ function SnippetsPage() {
                                 <button
                                     onClick={() => setView("list")}
                                     className={`p-2 rounded-md transition-all ${view === "list"
-                                            ? "bg-blue-500/20 text-blue-400"
-                                            : "text-gray-400 hover:text-gray-300 hover:bg-[#262637]"
+                                        ? "bg-blue-500/20 text-blue-400"
+                                        : "text-gray-400 hover:text-gray-300 hover:bg-[#262637]"
                                         }`}
                                 >
                                     <Layers className="w-4 h-4" />
@@ -162,8 +161,8 @@ function SnippetsPage() {
                 {/* Snippets Grid */}
                 <motion.div
                     className={`grid gap-6 ${view === "grid"
-                            ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-                            : "grid-cols-1 max-w-3xl mx-auto"
+                        ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+                        : "grid-cols-1 max-w-3xl mx-auto"
                         }`}
                     layout
                 >

@@ -1,67 +1,52 @@
 'use client'
 import React, { useState } from 'react';
-import { ChevronDown, Home, Layout, FolderOpen, ListTodo, BarChart3, Bell, HelpCircle, Settings, Menu, Search, User } from 'lucide-react';
+import { Home, Layout, FolderOpen, ListTodo, Bell, Settings, Menu, Search, User } from 'lucide-react';
+import { UserButton, useUser, useClerk } from '@clerk/nextjs';
 
 export default function AppSidebar() {
+    const { user } = useUser();
+    const { openUserProfile } = useClerk();
     const [isOpen, setIsOpen] = useState(true);
-    const [openDropdowns, setOpenDropdowns] = useState<Record<number, boolean>>({});
     const [hoveredItem, setHoveredItem] = useState<number | null>(null);
-
-    const toggleDropdown = (key: number) => {
-        setOpenDropdowns(prev => ({
-            ...prev,
-            [key]: !prev[key]
-        }));
-    };
 
     const menuItems = [
         {
             title: 'Home',
             icon: Home,
-            href: '#',
+            href: '/lms-user-homepage',
         },
         {
-            title: 'Dashboard',
+            title: 'Quiz Generator',
             icon: Layout,
-            href: '#',
+            href: '/quiz-dashboard',
         },
         {
-            title: 'Projects',
+            title: 'Code Editor',
             icon: FolderOpen,
-            href: '#',
+            href: '/code_editor',
         },
         {
-            title: 'Tasks',
+            title: 'Project Management Tool',
             icon: ListTodo,
-            submenu: [
-                { title: 'All Tasks', href: '#' },
-                { title: 'My Tasks', href: '#' },
-                { title: 'Completed', href: '#' },
-            ]
-        },
-        {
-            title: 'Reporting',
-            icon: BarChart3,
-            href: '#',
+            href: '/projects'
         },
     ];
 
     const bottomItems = [
         {
-            title: 'Notification',
+            title: 'My Courses',
             icon: Bell,
-            href: '#',
-            badge: '10'
+            href: '/my-courses',
         },
         {
-            title: 'Support',
-            icon: HelpCircle,
-            href: '#',
+            title: 'Profile',
+            icon: User,
+            href: '/profile',
         },
         {
-            title: 'Settings',
+            title: 'Manage Account',
             icon: Settings,
-            href: '#',
+            onClick: () => openUserProfile(),
         },
     ];
 
@@ -116,16 +101,19 @@ export default function AppSidebar() {
                                         className="w-full h-10 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-700 rounded-lg transition-all duration-150 relative"
                                     >
                                         <Icon className="w-4 h-4" />
-                                        {item.badge && (
-                                            <span className="absolute top-1 right-1 w-2 h-2 bg-purple-500 rounded-full"></span>
-                                        )}
                                     </button>
                                 );
                             })}
                         </div>
 
-                        <div className="mt-2 w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-                            <User className="w-5 h-5 text-white" />
+                        <div className="mt-2 w-10 h-10 flex items-center justify-center">
+                            <UserButton
+                                appearance={{
+                                    elements: {
+                                        avatarBox: "w-10 h-10"
+                                    }
+                                }}
+                            />
                         </div>
                     </div>
                 </div>
@@ -140,7 +128,7 @@ export default function AppSidebar() {
                                 <div className="w-6 h-6 bg-purple-500 rounded-lg flex items-center justify-center">
                                     <div className="w-3 h-3 bg-white rounded-sm"></div>
                                 </div>
-                                <span className="text-white text-sm">Project X</span>
+                                <span className="text-white text-sm">EduVerse</span>
                             </div>
                             <button
                                 onClick={() => setIsOpen(false)}
@@ -166,48 +154,13 @@ export default function AppSidebar() {
                                 const Icon = item.icon;
                                 return (
                                     <div key={index}>
-                                        {item.submenu ? (
-                                            <div>
-                                                <button
-                                                    onClick={() => toggleDropdown(index)}
-                                                    className="w-full flex items-center justify-between px-3 py-2.5 text-zinc-400 hover:text-white hover:bg-zinc-700 rounded-lg transition-all duration-150 text-sm"
-                                                >
-                                                    <div className="flex items-center gap-3">
-                                                        <Icon className="w-4 h-4" />
-                                                        <span>{item.title}</span>
-                                                    </div>
-                                                    <ChevronDown
-                                                        className={`w-3 h-3 transition-transform duration-200 ${openDropdowns[index] ? 'rotate-180' : ''
-                                                            }`}
-                                                    />
-                                                </button>
-
-                                                <div
-                                                    className={`overflow-hidden transition-all duration-200 ${openDropdowns[index] ? 'max-h-96 mt-0.5' : 'max-h-0'
-                                                        }`}
-                                                >
-                                                    <div className="ml-7 space-y-0.5">
-                                                        {item.submenu.map((subItem, subIndex) => (
-                                                            <a
-                                                                key={subIndex}
-                                                                href={subItem.href}
-                                                                className="block px-3 py-2 text-zinc-500 hover:text-white hover:bg-zinc-700 rounded-lg transition-all duration-150 text-sm"
-                                                            >
-                                                                {subItem.title}
-                                                            </a>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <a
-                                                href={item.href}
-                                                className="flex items-center gap-3 px-3 py-2.5 text-zinc-400 hover:text-white hover:bg-zinc-700 rounded-lg transition-all duration-150 text-sm"
-                                            >
-                                                <Icon className="w-4 h-4" />
-                                                <span>{item.title}</span>
-                                            </a>
-                                        )}
+                                        <a
+                                            href={item.href}
+                                            className="flex items-center gap-3 px-3 py-2.5 text-zinc-400 hover:text-white hover:bg-zinc-700 rounded-lg transition-all duration-150 text-sm"
+                                        >
+                                            <Icon className="w-4 h-4" />
+                                            <span>{item.title}</span>
+                                        </a>
                                     </div>
                                 );
                             })}
@@ -218,6 +171,23 @@ export default function AppSidebar() {
                         <div className="px-3 space-y-0.5 mb-3">
                             {bottomItems.map((item, index) => {
                                 const Icon = item.icon;
+                                const isButton = !!item.onClick;
+
+                                if (isButton) {
+                                    return (
+                                        <button
+                                            key={index}
+                                            onClick={item.onClick}
+                                            className="w-full flex items-center justify-between px-3 py-2.5 text-zinc-400 hover:text-white hover:bg-zinc-700 rounded-lg transition-all duration-150 text-sm"
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                <Icon className="w-4 h-4" />
+                                                <span>{item.title}</span>
+                                            </div>
+                                        </button>
+                                    );
+                                }
+
                                 return (
                                     <a
                                         key={index}
@@ -228,11 +198,6 @@ export default function AppSidebar() {
                                             <Icon className="w-4 h-4" />
                                             <span>{item.title}</span>
                                         </div>
-                                        {item.badge && (
-                                            <span className="bg-zinc-600 text-white text-xs px-2 py-0.5 rounded-full">
-                                                {item.badge}
-                                            </span>
-                                        )}
                                     </a>
                                 );
                             })}
@@ -240,16 +205,26 @@ export default function AppSidebar() {
 
                         <div className="p-3 border-t border-zinc-700">
                             <div className="flex items-center gap-3 px-2 py-2">
-                                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
-                                    <User className="w-5 h-5 text-white" />
-                                </div>
+                                <UserButton
+                                    appearance={{
+                                        elements: {
+                                            avatarBox: "w-9 h-9",
+                                            userButtonTrigger: "focus:shadow-none",
+                                            userButtonPopoverCard: "shadow-xl",
+                                            userButtonPopoverActionButton__manageAccount: "hidden"
+                                        }
+                                    }}
+                                    showName={false}
+                                    afterSignOutUrl="/"
+                                />
                                 <div className="flex-1 min-w-0">
-                                    <p className="text-white text-sm truncate">Brooklyn Simmons</p>
-                                    <p className="text-zinc-500 text-xs truncate">brooklyn@email.com</p>
+                                    <p className="text-white text-sm truncate">
+                                        {user?.fullName || user?.firstName || 'User'}
+                                    </p>
+                                    <p className="text-zinc-500 text-xs truncate">
+                                        {user?.primaryEmailAddress?.emailAddress || ''}
+                                    </p>
                                 </div>
-                                <button className="text-zinc-500 hover:text-white transition-colors">
-                                    <Menu className="w-4 h-4" />
-                                </button>
                             </div>
                         </div>
                     </div>
