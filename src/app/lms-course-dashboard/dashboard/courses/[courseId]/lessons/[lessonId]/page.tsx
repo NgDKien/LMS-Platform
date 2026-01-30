@@ -32,7 +32,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
                     <div className="mb-8 space-y-4">
                         <div className="flex items-center gap-2 text-sm text-slate-500">
                             <BookOpen className="h-4 w-4" />
-                            <span>Lesson Content</span>
+                            <span>Nội dung bài học</span>
                         </div>
 
                         <h1 className="text-3xl lg:text-4xl font-bold text-slate-100 leading-tight">
@@ -67,7 +67,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
                                 <div className="flex items-center gap-2 mb-6 pb-4 border-b border-slate-800/60">
                                     <BookOpen className="h-5 w-5 text-blue-400" />
                                     <h2 className="text-xl font-semibold text-slate-200">
-                                        Lesson Notes
+                                        Ghi chú bài học
                                     </h2>
                                 </div>
 

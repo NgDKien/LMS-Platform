@@ -33,7 +33,7 @@ export const OtherActions = () => {
                 disabled={isDeleting}
             >
                 <Trash className="w-3 h-3 mr-2" />
-                {isDeleting ? 'Deleting...' : 'Delete'}
+                {isDeleting ? 'Deleting...' : 'Xóa'}
             </Button>
         </div>
     );

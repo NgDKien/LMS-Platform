@@ -120,10 +120,10 @@ const Statistics = async ({ params }: Props) => {
                             Quiz Summary
                         </h1>
                         <p className="text-gray-300 text-lg">
-                            Topic: <span className="font-semibold text-gray-100">{typedGame.topic}</span>
+                            Chủ đề: <span className="font-semibold text-gray-100">{typedGame.topic}</span>
                         </p>
                         <p className="text-sm text-gray-500">
-                            Quiz Type: <span className="capitalize font-medium text-gray-400">{typedGame.gameType.replace('_', ' ')}</span>
+                            Chế độ câu hỏi: <span className="capitalize font-medium text-gray-400">{typedGame.gameType.replace('_', ' ')}</span>
                         </p>
                     </div>
                     <div className="flex items-center space-x-2">
@@ -132,7 +132,7 @@ const Statistics = async ({ params }: Props) => {
                             className={`${buttonVariants()} bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300 border-0`}
                         >
                             <LucideLayoutDashboard className="mr-2" size={18} />
-                            Back to Dashboard
+                            Trở về Dashboard
                         </Link>
                     </div>
                 </div>

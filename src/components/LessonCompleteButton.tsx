@@ -69,13 +69,13 @@ export function LessonCompleteButton({
                 <div className="flex-1">
                     <p className="text-sm font-medium text-slate-200">
                         {isCompleted
-                            ? "Lesson completed!"
-                            : "Ready to complete this lesson?"}
+                            ? "Hoàn thành bài học!"
+                            : "Sẵn sàng để hoàn thành bài học?"}
                     </p>
                     <p className="text-sm text-slate-400">
                         {isCompleted
-                            ? "You can mark it as incomplete if you need to revisit it."
-                            : "Mark it as complete when you're done."}
+                            ? "Bạn có thể đánh dấu chưa hoàn thành nếu muốn xem lại bài học."
+                            : "Đánh dấu là hoàn thành khi bạn học xong."}
                     </p>
                 </div>
                 <Button
@@ -93,7 +93,7 @@ export function LessonCompleteButton({
                     {isLoading ? (
                         <>
                             <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                            Updating...
+                            Cập nhật...
                         </>
                     ) : isPending ? (
                         <>
@@ -103,12 +103,12 @@ export function LessonCompleteButton({
                     ) : isCompleted ? (
                         <>
                             <XCircle className="h-4 w-4 mr-2" />
-                            Mark as Not Complete
+                            Đánh dấu chưa hoàn thành
                         </>
                     ) : (
                         <>
                             <CheckCircle className="h-4 w-4 mr-2" />
-                            Mark as Complete
+                            Đánh dấu đã hoàn thành
                         </>
                     )}
                 </Button>

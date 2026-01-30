@@ -122,7 +122,7 @@ export const ColumnMenuOptions = ({
               }}
             >
               <Icons.number className="w-3 h-3 mr-2 fill-gray-900 dark:fill-slate-50" />
-              <span className="text-xs">Set limit</span>
+              <span className="text-xs">Đặt giới hạn</span>
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
@@ -131,13 +131,13 @@ export const ColumnMenuOptions = ({
               }}
             >
               <Pencil className="w-3 h-3 mr-2" />
-              <span className="text-xs">Edit Details</span>
+              <span className="text-xs">Chỉnh sửa</span>
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => onColumnHide?.(column.id)}
             >
               <EyeOff className="w-3 h-3 mr-2" />
-              <span className="text-xs">Hide from view</span>
+              <span className="text-xs">Ẩn khỏi bảng</span>
             </DropdownMenuItem>
             <DropdownMenuItem
               className="text-red-500"
@@ -147,7 +147,7 @@ export const ColumnMenuOptions = ({
               }}
             >
               <Trash className="w-3 h-3 mr-2" />
-              Delete
+              Xóa
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -155,7 +155,7 @@ export const ColumnMenuOptions = ({
         {optionType === 'details' && (
           <DialogContent className="max-w-96 max-h-[100vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle className='text-[#424242]'>Update option</DialogTitle>
+              <DialogTitle className='text-[#424242]'>Cập nhật thông tin</DialogTitle>
             </DialogHeader>
 
             <CustomOptionForm
@@ -163,7 +163,7 @@ export const ColumnMenuOptions = ({
               description={column.description}
               label={column.label}
               onSubmit={handleUpdateDetails}
-              submitBtnLabel="Update option"
+              submitBtnLabel="Cập nhật"
               cancelButton={
                 <Button
                   className={cn(secondaryBtnStyles)}
@@ -181,12 +181,12 @@ export const ColumnMenuOptions = ({
           <DialogContent className="max-w-80 gap-2">
             <DialogHeader>
               <DialogTitle className='text-[#424242]'>
-                {column.limit === 0 ? 'Set column limit' : 'Edit column limit'}
+                {column.limit === 0 ? 'Đặt giới hạn của cột' : 'Chỉnh sửa giới hạn của cột'}
               </DialogTitle>
             </DialogHeader>
             <Separator className="my-2" />
 
-            <Label className="text-[#424242] mb-0 pb-0">Column limit</Label>
+            <Label className="text-[#424242] mb-0 pb-0">Giới hạn của cột</Label>
             <Input
               type="number"
               value={limit}
@@ -194,7 +194,7 @@ export const ColumnMenuOptions = ({
               className="h-8 text-[#424242]"
             />
             <Label className="text-xs text-gray-500">
-              A limit on the number of items in a column
+              Giới hạn của cột là số tác vụ tối đa trong một cột.
             </Label>
             <Separator className="my-2" />
             <div className="flex justify-end gap-2">
@@ -205,14 +205,14 @@ export const ColumnMenuOptions = ({
                   setOptionType('');
                 }}
               >
-                Cancel
+                Hủy
               </Button>
               <Button
                 className={cn(successBtnStyles, 'px-3 h-7')}
                 onClick={handleUpdateLimit}
                 disabled={isLoading || limit < 1 || limit === column.limit}
               >
-                {isLoading ? 'Saving...' : 'Save'}
+                {isLoading ? 'Saving...' : 'Lưu'}
               </Button>
             </div>
           </DialogContent>
@@ -222,12 +222,11 @@ export const ColumnMenuOptions = ({
           <DialogContent className="max-w-96 gap-2">
             <DialogHeader>
               <DialogTitle className='text-[#424242]'>
-                Are you sure you want to delete <br />{' '}
+                Bạn có chắc chắn muốn xóa cột<br />{' '}
                 <span className='text-[#a5353e]'>{column.label.toUpperCase()}</span>&nbsp;
-                column
               </DialogTitle>
               <DialogDescription>
-                This action cannot be undone
+                Hành động này không thể hoàn tác
               </DialogDescription>
             </DialogHeader>
 
@@ -240,7 +239,7 @@ export const ColumnMenuOptions = ({
                   setLimit(column.limit);
                 }}
               >
-                Cancel
+                Hủy
               </Button>
               <Button
                 variant="outline"
@@ -250,7 +249,7 @@ export const ColumnMenuOptions = ({
                 onClick={handleDeleteColumn}
                 disabled={isLoading}
               >
-                {isLoading ? 'Deleting...' : 'Delete'}
+                {isLoading ? 'Deleting...' : 'Xóa'}
               </Button>
             </DialogFooter>
           </DialogContent>

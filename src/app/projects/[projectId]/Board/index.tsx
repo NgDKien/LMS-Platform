@@ -88,13 +88,13 @@ export const Board: React.FC<Props> = ({
       setIsLoading(true);
       const newColumn = await columnsUtils.createColumn(projectId, data);
       setColumns((prev) => [...prev, newColumn]);
-      toast.success("Column created successfully");
+      toast.success("Tạo cột thành công!");
     } catch (error) {
-      console.error('Error creating column:', error);
+      console.error('Lỗi khi tạo cột:', error);
       toast.error(
         error instanceof Error
           ? error.message
-          : "Failed to create column"
+          : "Tạo cột thất bại!"
       );
     } finally {
       setIsLoading(false);
@@ -118,8 +118,8 @@ export const Board: React.FC<Props> = ({
         );
       }
     } catch (error) {
-      console.error('Error updating task:', error);
-      toast.error("Failed to update task");
+      console.error('Lỗi khi cập nhật tác vụ:', error);
+      toast.error("Cập nhật tác vụ thất bại!");
     }
   };
 
@@ -138,7 +138,7 @@ export const Board: React.FC<Props> = ({
               onClick={handleShowHiddenColumns}
             >
               <Eye className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
-              <span>Show {hiddenColumns.size} hidden column{hiddenColumns.size > 1 ? 's' : ''}</span>
+              <span>Hiển thị {hiddenColumns.size} cột bị ẩn</span>
             </Button>
           </div>
         )}

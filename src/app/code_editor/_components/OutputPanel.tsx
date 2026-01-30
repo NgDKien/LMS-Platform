@@ -63,7 +63,7 @@ function OutputPanel() {
                         <div className="flex items-start gap-3 text-red-400">
                             <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-1" />
                             <div className="space-y-1">
-                                <div className="font-medium">Execution Error</div>
+                                <div className="font-medium">Lỗi thực thi</div>
                                 <pre className="whitespace-pre-wrap text-red-400/80">{error}</pre>
                             </div>
                         </div>
@@ -71,7 +71,7 @@ function OutputPanel() {
                         <div className="space-y-2">
                             <div className="flex items-center gap-2 text-emerald-400 mb-3">
                                 <CheckCircle className="w-5 h-5" />
-                                <span className="font-medium">Execution Successful</span>
+                                <span className="font-medium">Thực thi thành công</span>
                             </div>
                             <pre className="whitespace-pre-wrap text-gray-300">{output}</pre>
                         </div>
@@ -80,7 +80,7 @@ function OutputPanel() {
                             <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-gray-800/50 ring-1 ring-gray-700/50 mb-4">
                                 <Clock className="w-6 h-6" />
                             </div>
-                            <p className="text-center">Run your code to see the output here...</p>
+                            <p className="text-center">Chạy đoạn mã của bạn và xem kết quả tại đây...</p>
                         </div>
                     )}
                 </div>

@@ -25,28 +25,28 @@ export default function Hero() {
 
                     {/* Main heading */}
                     <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-                        <span className="block text-white mb-2">Expand Your</span>
+                        <span className="block text-white mb-2">Mở rộng kho</span>
                         <span className="block bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent animate-gradient">
-                            Knowledge
+                            kiến thức
                         </span>
-                        <span className="block text-white">with Our Courses</span>
+                        <span className="block text-white">cùng khóa học của chúng tôi</span>
                     </h1>
 
                     {/* Description */}
                     <p className="text-lg sm:text-xl text-gray-400 max-w-2xl mb-10 leading-relaxed">
-                        Discover a world of learning with our expertly crafted courses.
-                        Learn from industry professionals and take your skills to the next level.
+                        Khám phá thế giới tri thức với các khóa học được thiết kế chuyên nghiệp.
+                        Học hỏi từ các chuyên gia hàng đầu và nâng cao kỹ năng của bạn.
                     </p>
 
                     {/* CTA Buttons */}
                     <div className="flex flex-col sm:flex-row gap-4">
                         <button className="group relative px-8 py-4 bg-white text-[#030712] font-semibold rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-2xl hover:shadow-white/20">
-                            <span className="relative z-10">Explore Courses</span>
+                            <span className="relative z-10">Khám phá khóa học</span>
                             <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity" />
                         </button>
 
                         <button className="px-8 py-4 bg-white/5 text-white font-semibold rounded-lg border border-white/10 backdrop-blur-sm transition-all hover:bg-white/10 hover:border-white/20 hover:scale-105">
-                            Learn More
+                            Tìm hiểu thêm
                         </button>
                     </div>
 
@@ -54,15 +54,15 @@ export default function Hero() {
                     <div className="mt-16 grid grid-cols-2 sm:grid-cols-3 gap-8 max-w-2xl">
                         <div className="text-left">
                             <div className="text-3xl sm:text-4xl font-bold text-white mb-1">500+</div>
-                            <div className="text-sm text-gray-500">Courses</div>
+                            <div className="text-sm text-gray-500">Khóa học</div>
                         </div>
                         <div className="text-left">
                             <div className="text-3xl sm:text-4xl font-bold text-white mb-1">50K+</div>
-                            <div className="text-sm text-gray-500">Students</div>
+                            <div className="text-sm text-gray-500">Học viên</div>
                         </div>
                         <div className="text-left col-span-2 sm:col-span-1">
                             <div className="text-3xl sm:text-4xl font-bold text-white mb-1">4.9★</div>
-                            <div className="text-sm text-gray-500">Rating</div>
+                            <div className="text-sm text-gray-500">Đánh giá</div>
                         </div>
                     </div>
                 </div>

@@ -22,7 +22,7 @@ export function SearchInput() {
         >
             <input
                 type="text"
-                placeholder="Search courses..."
+                placeholder="Tìm kiếm các khóa học..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full rounded-full bg-white/5 border border-white/10 backdrop-blur-sm px-4 py-2 pl-10 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-400/50 focus:border-white/20 focus:bg-white/10 transition-all"

@@ -74,7 +74,7 @@ const CommentForm = () => {
                                 disabled={!comment.trim()}
                             >
                                 <Send className="w-4 h-4" />
-                                <span className="text-sm font-medium">Add Comment</span>
+                                <span className="text-sm font-medium">Thêm bình luận</span>
                             </Button>
                         </div>
                     </div>
@@ -118,7 +118,7 @@ export const TaskDetails = () => {
                 <div className="bg-slate-800/40 backdrop-blur-sm rounded-xl border border-slate-700/50 p-6 hover:border-slate-600/50 transition-all">
                     <div className="flex items-center mb-4">
                         <div className="w-1 h-6 bg-blue-500 rounded-full mr-3"></div>
-                        <h2 className="text-lg font-semibold text-white">Description</h2>
+                        <h2 className="text-lg font-semibold text-white">Mô tả dự án</h2>
                     </div>
                     <TaskDescription />
                 </div>
@@ -131,7 +131,7 @@ export const TaskDetails = () => {
                     >
                         <h2 className="text-lg font-semibold text-white flex items-center">
                             <MessageSquare className="w-5 h-5 mr-3 text-blue-400" />
-                            Comments ({comments.length})
+                            Thảo luận ({comments.length})
                         </h2>
                         <ChevronDown className={`w-5 h-5 transition-transform text-slate-400 ${showComments ? 'rotate-180' : ''}`} />
                     </button>

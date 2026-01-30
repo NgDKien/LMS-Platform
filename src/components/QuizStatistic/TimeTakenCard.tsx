@@ -26,7 +26,7 @@ const TimeTakenCard = ({ timeEnded, timeStarted }: Props) => {
     return (
         <Card className={`md:col-span-3 bg-gradient-to-br from-purple-950/50 to-violet-950/50 border-purple-800/50 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300`}>
             <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0 border-purple-800/30">
-                <CardTitle className="text-xl font-bold text-purple-100">Time Taken</CardTitle>
+                <CardTitle className="text-xl font-bold text-purple-100">Thời gian đã chơi</CardTitle>
                 <div className="p-2 bg-purple-900/50 rounded-full">
                     <Clock className="text-purple-400" size={20} />
                 </div>
@@ -40,8 +40,8 @@ const TimeTakenCard = ({ timeEnded, timeStarted }: Props) => {
                         {performance.label}
                     </div>
                     <div className="text-sm text-purple-400 space-y-1">
-                        <div>Started: {timeStarted.toLocaleTimeString()}</div>
-                        <div>Finished: {timeEnded.toLocaleTimeString()}</div>
+                        <div>Bắt đầu: {timeStarted.toLocaleTimeString()}</div>
+                        <div>Kết thúc: {timeEnded.toLocaleTimeString()}</div>
                     </div>
                 </div>
             </CardContent>

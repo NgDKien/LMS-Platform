@@ -92,10 +92,10 @@ export function ProjectSettingsForm({ project }: ProjectSettingsFormProps) {
             <section className="rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md shadow-sm p-6 space-y-6">
                 <div>
                     <h2 className="text-lg font-semibold text-white mb-1">
-                        Project Information
+                        Thông tin dự án
                     </h2>
                     <p className="text-sm text-zinc-400">
-                        Update your project details and documentation below.
+                        Cập nhật thông tin chi tiết dự án của bạn ở mục bên dưới.
                     </p>
                 </div>
 
@@ -103,7 +103,7 @@ export function ProjectSettingsForm({ project }: ProjectSettingsFormProps) {
 
                 <div className="space-y-4">
                     <div className="space-y-2">
-                        <Label className="text-zinc-300">Project Name</Label>
+                        <Label className="text-zinc-300">Tên dự án</Label>
                         <Input
                             value={formData.name}
                             onChange={(e) =>
@@ -114,7 +114,7 @@ export function ProjectSettingsForm({ project }: ProjectSettingsFormProps) {
                     </div>
 
                     <div className="space-y-2">
-                        <Label className="text-zinc-300">Description</Label>
+                        <Label className="text-zinc-300">Mô tả</Label>
                         <Textarea
                             value={formData.description}
                             onChange={(e) =>
@@ -157,7 +157,7 @@ export function ProjectSettingsForm({ project }: ProjectSettingsFormProps) {
                                 'bg-zinc-800 hover:bg-zinc-700 text-white px-6 py-2'
                             )}
                         >
-                            {isSaving ? 'Saving...' : 'Save Changes'}
+                            {isSaving ? 'Saving...' : 'Lưu thay đổi'}
                         </Button>
                     </div>
                 </div>
@@ -170,7 +170,7 @@ export function ProjectSettingsForm({ project }: ProjectSettingsFormProps) {
                         Danger Zone
                     </h2>
                     <p className="text-sm text-zinc-400">
-                        Irreversible actions — please proceed with caution.
+                        Hành động không thể hoàn tác - vui lòng thận trọng.
                     </p>
                 </div>
 
@@ -181,11 +181,10 @@ export function ProjectSettingsForm({ project }: ProjectSettingsFormProps) {
                     <div className="flex justify-between items-center flex-wrap gap-3">
                         <div>
                             <p className="text-sm font-medium text-white">
-                                Close Project
+                                Đóng dự án
                             </p>
                             <p className="text-sm text-zinc-400 max-w-sm">
-                                Closing a project will disable its workflows & remove it from
-                                the list of open projects.
+                                Đóng một dự án sẽ vô hiệu hóa quy trình công việc của nó và xóa nó khỏi danh sách các dự án đang mở.
                             </p>
                         </div>
                         {can(ProjectAction.CLOSE_PROJECT) && (
@@ -193,7 +192,7 @@ export function ProjectSettingsForm({ project }: ProjectSettingsFormProps) {
                                 onClick={() => setShowCloseDialog(true)}
                                 className="border border-red-500 text-red-400 hover:bg-red-500/10"
                             >
-                                Close this project
+                                Đóng dự án
                             </Button>
                         )}
                     </div>
@@ -205,11 +204,10 @@ export function ProjectSettingsForm({ project }: ProjectSettingsFormProps) {
                     <div className="flex justify-between items-center flex-wrap gap-3">
                         <div>
                             <p className="text-sm font-medium text-white">
-                                Delete Project
+                                Xóa dự án
                             </p>
                             <p className="text-sm text-zinc-400 max-w-sm">
-                                Once you delete a project, there is no going back. Please be
-                                certain.
+                                Một khi bạn xóa dự án, bạn sẽ không thể mở lại dự án đó. Xin hãy chắc chắn.
                             </p>
                         </div>
                         {can(ProjectAction.DELETE_PROJECT) && (
@@ -217,7 +215,7 @@ export function ProjectSettingsForm({ project }: ProjectSettingsFormProps) {
                                 onClick={() => setShowDeleteDialog(true)}
                                 className="border border-red-500 text-red-400 hover:bg-red-500/10"
                             >
-                                Delete this project
+                                Xóa dự án
                             </Button>
                         )}
                     </div>

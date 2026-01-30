@@ -58,7 +58,7 @@ export const ProjectDetails = ({
                                 </h1>
                                 <p className="text-xs text-zinc-500 mt-0.5 flex items-center gap-1.5">
                                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                                    Active Project
+                                    Dự án đang hoạt động
                                 </p>
                             </div>
                         </div>
@@ -91,7 +91,7 @@ export const ProjectDetails = ({
                                                             group-hover:bg-zinc-700/50 transition-colors">
                                                             <Settings className="w-4 h-4" />
                                                         </div>
-                                                        <span className="text-sm font-medium">Settings</span>
+                                                        <span className="text-sm font-medium">Cài đặt</span>
                                                     </div>
                                                     <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 
                                                         -translate-x-1 group-hover:translate-x-0 transition-all" />

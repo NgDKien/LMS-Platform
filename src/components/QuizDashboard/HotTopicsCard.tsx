@@ -56,7 +56,7 @@ const HotTopicsCard = () => {
                 <CardHeader className="relative z-10 pb-3">
                     <div className="flex items-center justify-between">
                         <CardTitle className="text-2xl font-extrabold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
-                            Hot Topics
+                            Các chủ đề "Hot" !
                         </CardTitle>
                         <div className="p-2 rounded-lg bg-gradient-to-br from-orange-400/20 to-red-500/10 border border-orange-500/30">
                             <Flame
@@ -66,7 +66,7 @@ const HotTopicsCard = () => {
                         </div>
                     </div>
                     <CardDescription className="text-zinc-400 text-sm mt-1">
-                        Click a topic to start a quiz 🔥
+                        Nhấn vào một chủ đề để bắt đầu chơi quiz
                     </CardDescription>
                 </CardHeader>
 

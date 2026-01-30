@@ -76,7 +76,7 @@ const OpenEnded = ({ game }: Props) => {
   const handleNext = React.useCallback(() => {
     checkAnswer(undefined, {
       onSuccess: ({ percentageSimilar }) => {
-        toast.info(`Your answer is ${percentageSimilar}% similar`);
+        toast.info(`Câu trả lời của bạn đúng ${percentageSimilar}%`);
         setAveragePercentage((prev) => (prev + percentageSimilar) / (questionIndex + 1));
         if (questionIndex === game.questions.length - 1) {
           endGame();
@@ -105,12 +105,12 @@ const OpenEnded = ({ game }: Props) => {
 
           {/* Congratulations Text */}
           <h1 className="text-3xl font-extrabold bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(168,85,247,0.6)]">
-            Congratulations!
+            Chúc mừng!
           </h1>
 
           {/* Time completed */}
           <div className="px-6 py-3 mt-6 text-lg font-medium text-white bg-gradient-to-r from-emerald-500 to-green-600 rounded-xl shadow-[0_0_20px_rgba(16,185,129,0.4)]">
-            You completed in{" "}
+            Bạn đã hoàn thành trong{" "}
             <span className="font-bold text-white">
               {isMounted && formatTimeDelta(differenceInSeconds(now, new Date(game.timeStarted)))}
             </span>
@@ -127,13 +127,13 @@ const OpenEnded = ({ game }: Props) => {
               "transition-all duration-300 flex items-center gap-2 shadow-[0_0_25px_rgba(236,72,153,0.4)]"
             )}
           >
-            View Statistics
+            Xem thống kê
             <BarChart className="w-5 h-5" />
           </Link>
 
           {/* Subtitle */}
           <p className="text-sm text-slate-400 mt-4">
-            Great job finishing the quiz! Check your detailed performance next.
+            Bạn đã hoàn thành quiz! Xem lại thống kê để nắm được chỗ cần cải thiện.
           </p>
         </Card>
       </div>
@@ -154,7 +154,7 @@ const OpenEnded = ({ game }: Props) => {
       <div className="w-full max-w-3xl mb-6">
         <div className="flex justify-between items-center mb-2">
           <div>
-            <p className="text-sm text-gray-400 uppercase">Topic</p>
+            <p className="text-sm text-gray-400 uppercase">Chủ đề</p>
             <h2 className="text-xl font-semibold text-indigo-400">{game.topic}</h2>
           </div>
           <div className="text-right">
@@ -179,7 +179,7 @@ const OpenEnded = ({ game }: Props) => {
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2 text-indigo-400 font-medium">
               <Zap className="w-5 h-5" />
-              <span>QUESTION #{questionIndex + 1}</span>
+              <span>CÂU HỎI #{questionIndex + 1}</span>
             </div>
             <div className="flex items-center gap-1 text-slate-400">
               <Timer className="w-4 h-4" />
@@ -190,7 +190,7 @@ const OpenEnded = ({ game }: Props) => {
             {currentQuestion?.question}
           </CardTitle>
           <CardDescription className="text-slate-400 mt-2">
-            Fill in the blanks below.
+            Điền vào chỗ trống.
           </CardDescription>
         </CardHeader>
         {/* Input + Button */}
@@ -213,11 +213,11 @@ const OpenEnded = ({ game }: Props) => {
               {isChecking ? (
                 <>
                   <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                  Checking...
+                  Kiểm tra...
                 </>
               ) : (
                 <>
-                  Next
+                  Tiếp tục
                   <ChevronRight className="w-5 h-5 ml-2" />
                 </>
               )}

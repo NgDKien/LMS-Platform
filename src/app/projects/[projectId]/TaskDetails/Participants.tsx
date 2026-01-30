@@ -11,7 +11,7 @@ export const Participants = () => {
     return (
         <>
             <div className="flex justify-between items-center text-gray-500 pt-4">
-                <span className="text-xs">Participants</span>
+                <span className="text-xs">Người tham gia</span>
             </div>
             <div className="flex flex-wrap gap-2 text-xs py-2">
                 <UserCard

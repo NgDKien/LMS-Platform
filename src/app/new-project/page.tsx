@@ -8,10 +8,10 @@ export default function NewProjectPage() {
             <div className="mx-auto max-w-5xl">
                 <header className="mb-10 text-center md:text-left">
                     <h1 className="text-5xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 via-sky-400 to-violet-400 bg-clip-text text-transparent">
-                        Create your new project
+                        Tạo dự án mới của bạn
                     </h1>
                     <p className="mt-3 text-base md:text-lg text-gray-300 max-w-2xl leading-relaxed">
-                        Quick setup — define your project structure, default labels and workflow settings in one place.
+                        Thiết lập nhanh — xác định cấu trúc dự án, nhãn mặc định và cài đặt quy trình làm việc ở cùng một nơi.
                     </p>
                 </header>
 

@@ -75,7 +75,7 @@ export const ColumnContainer = ({
         statusPosition: newPosition,
       });
 
-      toast.success("Task created successfully");
+      toast.success("Tạo tác vụ thành công!");
       onTaskCreated?.({ ...task, assignees: [] });
       setInputValue('');
       setShowInput(false);
@@ -170,7 +170,7 @@ export const ColumnContainer = ({
                   {isOverLimit && (
                     <TooltipContent className="bg-zinc-900/95 border-zinc-800/50">
                       <p className="text-xs">
-                        Column limit {columnTasks.length > column.limit ? 'exceeded' : 'reached'}
+                        Giới hạn của cột {columnTasks.length > column.limit ? 'exceeded' : 'reached'}
                       </p>
                     </TooltipContent>
                   )}
@@ -217,8 +217,8 @@ export const ColumnContainer = ({
                 <div className="w-12 h-12 rounded-full bg-zinc-800/30 flex items-center justify-center mb-3">
                   <Plus className="w-6 h-6 text-zinc-600" />
                 </div>
-                <p className="text-xs text-zinc-500">No tasks yet</p>
-                <p className="text-xs text-zinc-600 mt-1">Drop tasks here or click + to add</p>
+                <p className="text-xs text-zinc-500">Chưa có tác vụ nào</p>
+                <p className="text-xs text-zinc-600 mt-1">Kéo thả tác vụ vào đây hoặc tạo thêm task</p>
               </div>
             ) : (
               columnTasks.map((item, index) => (
@@ -241,7 +241,7 @@ export const ColumnContainer = ({
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Enter task title..."
+                placeholder="Nhập tên tác vụ..."
                 className="h-9 bg-zinc-800/50 border-zinc-700/50 text-zinc-100 
                   placeholder:text-zinc-500 focus:border-zinc-600/50 text-sm"
                 autoFocus
@@ -255,7 +255,7 @@ export const ColumnContainer = ({
                 )}
                 disabled={!inputValue.trim() || isCreating}
               >
-                {isCreating ? 'Adding...' : 'Add'}
+                {isCreating ? 'Adding...' : 'Tạo'}
               </Button>
               <Button
                 onClick={() => {
@@ -278,7 +278,7 @@ export const ColumnContainer = ({
                 hover:bg-zinc-800/50 rounded-lg transition-all group"
             >
               <Plus className="w-4 h-4 group-hover:rotate-90 transition-transform duration-300" />
-              <span className="text-sm font-medium">Add item</span>
+              <span className="text-sm font-medium">Tạo tác vụ</span>
             </Button>
           )}
         </div>

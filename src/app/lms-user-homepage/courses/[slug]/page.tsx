@@ -27,12 +27,12 @@ export default async function CoursePage({ params }: CoursePageProps) {
         return (
             <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4">
                 <div className="text-center">
-                    <h1 className="text-4xl font-bold text-white mb-4">Course not found</h1>
+                    <h1 className="text-4xl font-bold text-white mb-4">Không tìm thấy khóa học</h1>
                     <Link
                         href="/"
                         className="text-blue-400 hover:text-blue-300 transition-colors"
                     >
-                        Back to Courses
+                        Quay lại danh sách khóa học
                     </Link>
                 </div>
             </div>
@@ -46,7 +46,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
                 {course.image && (
                     <Image
                         src={urlFor(course.image).url() || ""}
-                        alt={course.title || "Course Title"}
+                        alt={course.title || "Tiêu đề khóa học"}
                         fill
                         className="object-cover"
                         priority
@@ -63,14 +63,14 @@ export default async function CoursePage({ params }: CoursePageProps) {
                         className="text-zinc-300 mb-6 sm:mb-8 flex items-center hover:text-blue-400 transition-colors w-fit group"
                     >
                         <ArrowLeft className="mr-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:-translate-x-1 transition-transform" />
-                        <span className="text-sm sm:text-base">Back to Courses</span>
+                        <span className="text-sm sm:text-base">Quay lại danh sách</span>
                     </Link>
 
                     <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-8">
                         <div className="flex-1">
                             <div className="flex flex-wrap items-center gap-2 mb-4">
                                 <span className="px-3 py-1.5 bg-blue-500/20 text-blue-400 rounded-full text-xs sm:text-sm font-medium backdrop-blur-sm border border-blue-500/30">
-                                    {course.category?.name || "Uncategorized"}
+                                    {course.category?.name || "Chưa phân loại"}
                                 </span>
                             </div>
                             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
@@ -83,9 +83,9 @@ export default async function CoursePage({ params }: CoursePageProps) {
 
                         <div className="bg-zinc-900/90 backdrop-blur-xl rounded-2xl p-6 sm:p-8 border border-zinc-800 lg:min-w-[320px] shadow-2xl">
                             <div className="text-4xl sm:text-5xl font-bold text-white mb-2">
-                                {course.price === 0 ? "Free" : `$${course.price}`}
+                                {course.price === 0 ? "Miễn phí" : `${course.price}$`}
                             </div>
-                            <p className="text-zinc-400 text-sm mb-6">One-time payment</p>
+                            <p className="text-zinc-400 text-sm mb-6">Thanh toán một lần</p>
                             <EnrollButton courseId={course._id} isEnrolled={isEnrolled} />
                         </div>
                     </div>
@@ -108,7 +108,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
                                         <div className="text-2xl font-bold text-white">
                                             {course.modules?.length || 0}
                                         </div>
-                                        <div className="text-xs text-zinc-400">Modules</div>
+                                        <div className="text-xs text-zinc-400">Chương</div>
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +121,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
                                         <div className="text-2xl font-bold text-white">
                                             {course.modules?.reduce((acc, m) => acc + (m.lessons?.length || 0), 0) || 0}
                                         </div>
-                                        <div className="text-xs text-zinc-400">Lessons</div>
+                                        <div className="text-xs text-zinc-400">Bài học</div>
                                     </div>
                                 </div>
                             </div>
@@ -129,7 +129,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
 
                         {/* Course Content */}
                         <div className="bg-zinc-900 rounded-2xl p-6 sm:p-8 border border-zinc-800">
-                            <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-white">Course Content</h2>
+                            <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-white">Nội dung khóa học</h2>
                             <div className="space-y-4">
                                 {course.modules?.map((module, index) => (
                                     <div
@@ -146,7 +146,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
                                                         {module.title}
                                                     </h3>
                                                     <p className="text-xs sm:text-sm text-zinc-400 mt-1">
-                                                        {module.lessons?.length || 0} lessons
+                                                        {module.lessons?.length || 0} bài học
                                                     </p>
                                                 </div>
                                             </div>
@@ -180,7 +180,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
                     {/* Sidebar */}
                     <div className="lg:sticky lg:top-4 lg:self-start">
                         <div className="bg-zinc-900 rounded-2xl p-6 sm:p-8 border border-zinc-800 shadow-xl">
-                            <h2 className="text-xl sm:text-2xl font-bold mb-6 text-white">Instructor</h2>
+                            <h2 className="text-xl sm:text-2xl font-bold mb-6 text-white">Giảng viên</h2>
                             {course.instructor && (
                                 <div>
                                     <div className="flex items-center gap-4 mb-6">
@@ -188,7 +188,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
                                             <div className="relative h-16 w-16 sm:h-20 sm:w-20 flex-shrink-0">
                                                 <Image
                                                     src={urlFor(course.instructor.photo).url() || ""}
-                                                    alt={course.instructor.name || "Course Instructor"}
+                                                    alt={course.instructor.name || "Giảng viên khóa học"}
                                                     fill
                                                     className="rounded-full object-cover ring-4 ring-zinc-800"
                                                 />
@@ -199,7 +199,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
                                                 {course.instructor.name}
                                             </div>
                                             <div className="text-sm text-blue-400 font-medium">
-                                                Course Instructor
+                                                Giảng viên khóa học
                                             </div>
                                         </div>
                                     </div>

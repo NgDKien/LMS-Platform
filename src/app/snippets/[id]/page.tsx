@@ -51,7 +51,7 @@ function SnippetDetailPage() {
                                         </div>
                                         <div className="flex items-center gap-2 text-[#8b8b8d]">
                                             <MessageSquare className="w-4 h-4" />
-                                            <span>{comments?.length} comments</span>
+                                            <span>{comments?.length} bình luận</span>
                                         </div>
                                     </div>
                                 </div>

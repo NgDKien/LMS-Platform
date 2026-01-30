@@ -56,7 +56,7 @@ function RunButton() {
                             <Play className="w-4 h-4 text-white/90 transition-transform group-hover:scale-110 group-hover:text-white" />
                         </div>
                         <span className="text-sm font-medium text-white/90 group-hover:text-white">
-                            Run Code
+                            Chạy mã
                         </span>
                     </>
                 )}

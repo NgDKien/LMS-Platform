@@ -79,7 +79,7 @@ export function CourseCard({ course, progress, href }: CourseCardProps) {
                                         </div>
                                     )}
                                     <span className="text-sm text-zinc-400">
-                                        by {course.instructor.name}
+                                        bởi {course.instructor.name}
                                     </span>
                                 </div>
                                 <BookOpen className="h-4 w-4 text-zinc-500 group-hover:text-blue-400 transition-colors duration-300" />
@@ -90,7 +90,7 @@ export function CourseCard({ course, progress, href }: CourseCardProps) {
                                 progress={progress}
                                 variant="default"
                                 size="sm"
-                                label="Course Progress"
+                                label="Tiến độ khóa học"
                             />
                         )}
                     </div>

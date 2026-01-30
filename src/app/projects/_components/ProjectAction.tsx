@@ -35,25 +35,25 @@ export const ProjectActions = ({
                 {tab === 'closed' || (tab === 'all' && project.closed) ? (
                     <>
                         <DropdownMenuItem className='text-white' onClick={() => setProjectToReopen?.(project.id)}>
-                            ReOpen
+                            Mở lại
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             className={cn(deleteBtnStyles)}
                             onClick={() => setProjectToDelete?.(project)}
                         >
-                            Delete Permanently
+                            Xóa hoàn toàn
                         </DropdownMenuItem>
                     </>
                 ) : (
                     <>
                         <DropdownMenuItem asChild>
-                            <Link className='text-white' href={`/projects/${project.id}/settings`}>Edit</Link>
+                            <Link className='text-white' href={`/projects/${project.id}/settings`}>Chỉnh sửa</Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             className={cn(deleteBtnStyles)}
                             onClick={() => setProjectToClose?.(project.id)}
                         >
-                            Close
+                            Đóng
                         </DropdownMenuItem>
                     </>
                 )}

@@ -9,7 +9,7 @@ export default function LandingPage() {
     const router = useRouter();
 
     useEffect(() => {
-        // Auto redirect if already signed in
+        // Tự động chuyển hướng nếu đã đăng nhập
         if (isSignedIn) {
             router.push('/lms-user-homepage');
         }
@@ -24,7 +24,7 @@ export default function LandingPage() {
     const features = [
         {
             icon: BookOpen,
-            title: "LMS Platform",
+            title: "Nền tảng LMS",
             description: "Nền tảng học trực tuyến với AI adaptive learning",
             color: "from-cyan-400 via-blue-500 to-purple-600",
             gradient: "bg-gradient-to-br from-cyan-500/20 to-blue-600/20",
@@ -32,7 +32,7 @@ export default function LandingPage() {
         },
         {
             icon: Code,
-            title: "Code Editor",
+            title: "Trình soạn thảo Code",
             description: "IDE real-time với 50+ ngôn ngữ lập trình",
             color: "from-purple-400 via-pink-500 to-red-500",
             gradient: "bg-gradient-to-br from-purple-500/20 to-pink-600/20",
@@ -40,15 +40,15 @@ export default function LandingPage() {
         },
         {
             icon: Brain,
-            title: "AI Quiz Generator",
-            description: "Tạo quiz thông minh với GPT-4 integration",
+            title: "Tạo Quiz bằng AI",
+            description: "Tạo quiz thông minh với LlaMa-3 integration",
             color: "from-green-400 via-emerald-500 to-teal-600",
             gradient: "bg-gradient-to-br from-green-500/20 to-emerald-600/20",
             bgGradient: "from-green-500/10 via-emerald-500/10 to-teal-600/10"
         },
         {
             icon: Briefcase,
-            title: "Project Management",
+            title: "Quản lý Dự án",
             description: "Agile boards với automation workflows",
             color: "from-orange-400 via-red-500 to-pink-600",
             gradient: "bg-gradient-to-br from-orange-500/20 to-red-600/20",
@@ -82,7 +82,7 @@ export default function LandingPage() {
 
     return (
         <div className="min-h-screen bg-black text-white overflow-hidden">
-            {/* Animated Background */}
+            {/* Nền động */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute inset-0" style={{
                     backgroundImage: 'linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px)',
@@ -90,7 +90,7 @@ export default function LandingPage() {
                 }} />
             </div>
 
-            {/* Navigation */}
+            {/* Thanh điều hướng */}
             <nav className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-xl border-b border-white/10">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-20">
@@ -105,7 +105,7 @@ export default function LandingPage() {
                                 <span className="text-2xl font-black bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
                                     EduVerse
                                 </span>
-                                <div className="text-xs text-gray-400">Next Generation</div>
+                                <div className="text-xs text-gray-400">Nền tảng E-learning thế hệ mới</div>
                             </div>
                         </div>
 
@@ -113,7 +113,7 @@ export default function LandingPage() {
                             <div className="relative group">
                                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg blur opacity-70 group-hover:opacity-100 transition" />
                                 <GetStartedButton className="relative bg-black px-6 py-2.5 rounded-lg font-bold hover:bg-transparent transition">
-                                    Get Started
+                                    Bắt đầu ngay
                                 </GetStartedButton>
                             </div>
                         </div>
@@ -121,12 +121,12 @@ export default function LandingPage() {
                 </div>
             </nav>
 
-            {/* Hero Section */}
+            {/* Phần Hero */}
             <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 mt-10 pt-20">
                 <div className="max-w-7xl mx-auto text-center relative z-10">
-                    {/* Floating badges */}
+                    {/* Huy hiệu nổi */}
                     <div className="flex flex-wrap justify-center gap-3 mb-8 animate-fade-in">
-                        {['🚀 500K+ Users', '⚡ 99.9% Uptime', '🏆 #1 Platform'].map((badge, i) => (
+                        {['🚀 500K+ Người dùng', '⚡ 99.9% Thời gian hoạt động', '🏆 Nền tảng #1'].map((badge, i) => (
                             <div
                                 key={i}
                                 className="px-4 py-2 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full text-sm font-semibold hover:bg-white/10 transition transform hover:scale-110 cursor-pointer"
@@ -140,24 +140,24 @@ export default function LandingPage() {
                     <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black mb-6 leading-tight">
                         <div className="overflow-hidden">
                             <span className="inline-block animate-slide-up" style={{ animationDelay: '0.1s' }}>
-                                The Future of
+                                Tương lai của
                             </span>
                         </div>
                         <div className="overflow-hidden">
                             <span className="inline-block bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-slide-up" style={{ animationDelay: '0.3s' }}>
-                                Education
+                                Giáo dục
                             </span>
                         </div>
                         <div className="overflow-hidden">
                             <span className="inline-block animate-slide-up" style={{ animationDelay: '0.5s' }}>
-                                is Here
+                                hiện đại
                             </span>
                         </div>
                     </h1>
 
                     <p className="text-xl sm:text-2xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed">
-                        4 powerful platforms unified in one revolutionary ecosystem.
-                        <span className="text-white font-semibold"> Learn, Code, Test, Manage, Connect</span> - all in one place.
+                        4 nền tảng mạnh mẽ được hợp nhất trong một hệ sinh thái duy nhất.
+                        <span className="text-white font-semibold"> Học tập, Lập trình, Kiểm tra, Quản lý, Kết nối</span> - tất cả ở một nơi.
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
@@ -165,19 +165,19 @@ export default function LandingPage() {
                             <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-2xl blur opacity-70 group-hover:opacity-100 transition animate-pulse" />
                             <GetStartedButton className="relative bg-white text-black px-10 py-4 rounded-2xl font-bold text-lg hover:bg-gray-100 transition flex items-center space-x-2 transform group-hover:scale-105">
                                 <Zap className="w-6 h-6" />
-                                <span>Start Free Trial</span>
+                                <span>Dùng thử miễn phí</span>
                                 <ArrowRight className="w-5 h-5" />
                             </GetStartedButton>
                         </div>
                     </div>
 
-                    {/* Stats */}
+                    {/* Thống kê */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
                         {[
-                            { value: '500K+', label: 'Active Users' },
-                            { value: '50M+', label: 'Code Executions' },
-                            { value: '1M+', label: 'AI Quizzes' },
-                            { value: '99.9%', label: 'Uptime' }
+                            { value: '500K+', label: 'Người dùng hoạt động' },
+                            { value: '50M+', label: 'Lần chạy code' },
+                            { value: '1M+', label: 'Quiz AI' },
+                            { value: '99.9%', label: 'Thời gian hoạt động' }
                         ].map((stat, i) => (
                             <div
                                 key={i}
@@ -196,24 +196,24 @@ export default function LandingPage() {
                     </div>
                 </div>
 
-                {/* Floating elements */}
+                {/* Các phần tử nổi */}
                 <div className="absolute top-1/4 left-10 w-20 h-20 bg-blue-500/20 rounded-full blur-2xl animate-float" />
                 <div className="absolute top-1/3 right-20 w-32 h-32 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }} />
                 <div className="absolute bottom-1/4 left-1/4 w-24 h-24 bg-pink-500/20 rounded-full blur-2xl animate-float" style={{ animationDelay: '2s' }} />
             </section>
 
-            {/* Features Section */}
+            {/* Phần tính năng */}
             <section id="features" className="relative py-32 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-20">
                         <div className="inline-block mb-4 px-6 py-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 rounded-full text-blue-400 font-semibold">
-                            4 Powerful Platforms
+                            4 Nền tảng mạnh mẽ
                         </div>
                         <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6">
-                            Everything You Need,
+                            Mọi thứ bạn cần,
                             <br />
                             <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                                Nothing You Don't
+                                Toàn diện và hiệu quả
                             </span>
                         </h2>
                     </div>
@@ -239,7 +239,7 @@ export default function LandingPage() {
                                         <p className="text-gray-300 leading-relaxed">{feature.description}</p>
 
                                         <div className="mt-6 flex items-center text-blue-400 font-semibold group-hover:text-blue-300 transition">
-                                            <span>Explore</span>
+                                            <span>Khám phá</span>
                                             <ArrowRight className="w-4 h-4 ml-2 transform group-hover:translate-x-2 transition" />
                                         </div>
                                     </div>

@@ -60,7 +60,7 @@ export const TaskDescription = () => {
                     onClick={() => setEditable(true)}
                 >
                     <Pen className="h-3 w-3" />
-                    Edit
+                    Chỉnh sửa
                 </Button>
             </div>
 
@@ -81,14 +81,14 @@ export const TaskDescription = () => {
                                 onClick={handleCancel}
                                 disabled={isSaving}
                             >
-                                Cancel
+                                Hủy
                             </Button>
                             <Button
                                 className={cn(successBtnStyles, 'h-8')}
                                 onClick={handleSave}
                                 disabled={isSaving}
                             >
-                                {isSaving ? 'Saving...' : 'Save'}
+                                {isSaving ? 'Saving...' : 'Lưu'}
                             </Button>
                         </div>
                     </div>

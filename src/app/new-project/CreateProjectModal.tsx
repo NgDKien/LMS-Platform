@@ -114,7 +114,7 @@ export const CreateProjectModal = ({ projectDetails }: Props) => {
                 disabled={!projectDetails.name}
             >
                 <Layers className="w-4 h-4" />
-                Continue
+                Tiếp tục
             </DialogTrigger>
 
             <DialogContent
@@ -128,10 +128,10 @@ export const CreateProjectModal = ({ projectDetails }: Props) => {
                     {/* Header */}
                     <DialogHeader className="p-0">
                         <DialogTitle className="text-xl font-semibold text-gray-100">
-                            Customize default options
+                            Tùy chỉnh các thông số mặc định
                         </DialogTitle>
                         <DialogDescription className="mt-1 text-sm text-gray-400">
-                            Adjust your project's starting defaults — you can change them later.
+                            Điều chỉnh các giá trị mặc định ban đầu của dự án — bạn có thể thay đổi chúng sau.
                         </DialogDescription>
                     </DialogHeader>
 
@@ -145,7 +145,7 @@ export const CreateProjectModal = ({ projectDetails }: Props) => {
                         className="grid grid-cols-1 md:grid-cols-2 gap-5"
                     >
                         <CustomFieldOptions
-                            title="Sizes"
+                            title="Phạm vi"
                             field="size"
                             options={sizes}
                             setOptions={setSizes}
@@ -160,7 +160,7 @@ export const CreateProjectModal = ({ projectDetails }: Props) => {
                         />
 
                         <CustomFieldOptions
-                            title="Priorities"
+                            title="Độ ưu tiên"
                             field="priority"
                             options={priorities}
                             setOptions={setPriorities}
@@ -175,7 +175,7 @@ export const CreateProjectModal = ({ projectDetails }: Props) => {
                         />
 
                         <CustomFieldOptions
-                            title="Statuses"
+                            title="Trạng thái"
                             field="status"
                             options={statuses}
                             setOptions={setStatuses}
@@ -192,7 +192,7 @@ export const CreateProjectModal = ({ projectDetails }: Props) => {
                         {/* LABELS */}
                         <div>
                             <div className="flex justify-between items-center mb-3">
-                                <h4 className="text-sm font-medium text-gray-100">Labels</h4>
+                                <h4 className="text-sm font-medium text-gray-100">Nhãn</h4>
                                 <Button
                                     onClick={() => setShowNewLabelCard(true)}
                                     className={cn(
@@ -201,7 +201,7 @@ export const CreateProjectModal = ({ projectDetails }: Props) => {
                                     )}
                                 >
                                     <Plus className="w-4 h-4" />
-                                    New
+                                    Tạo mới
                                 </Button>
                             </div>
 
@@ -231,7 +231,7 @@ export const CreateProjectModal = ({ projectDetails }: Props) => {
                             onClick={() => setSkipDefaultOption(!skipDefaultOptions)}
                         />
                         <Label className="text-sm text-gray-300">
-                            Skip default options (I'll add my own later)
+                            Bỏ qua các thông số mặc đinh (Tôi sẽ tự thêm sau)
                         </Label>
                     </div>
 
@@ -246,7 +246,7 @@ export const CreateProjectModal = ({ projectDetails }: Props) => {
                                 )}
                                 disabled={isCreating}
                             >
-                                {isCreating ? 'Creating...' : 'Create project'}
+                                {isCreating ? 'Creating...' : 'Tạo dự án'}
                             </Button>
                         </div>
                     </DialogFooter>

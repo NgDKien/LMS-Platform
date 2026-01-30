@@ -24,22 +24,22 @@ export const ProjectListHeader = ({
     <div className="flex justify-between items-center rounded bg-[#182446] p-6">
         <div>
             <span className="text-sm">
-                {tab === 'active' && `Active Projects (${count})`}
-                {tab === 'closed' && `Closed Projects (${count})`}
-                {tab === 'all' && `All Projects (${count})`}
+                {tab === 'active' && `Dự án đang hoạt động (${count})`}
+                {tab === 'closed' && `Dự án đã đóng (${count})`}
+                {tab === 'all' && `Tất cả dự án (${count})`}
             </span>
         </div>
         <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center">
-                <span className="text-sm">Sort</span>
+                <span className="text-sm">Sắp xếp</span>
                 <ChevronDown className="w-4 h-4 ml-1" />
             </DropdownMenuTrigger>
             <DropdownMenuContent className='bg-[#0f172d] border border-[#2C2F3A] text-white'>
                 <DropdownMenuItem onClick={() => onSort?.('newest')}>
-                    Newest {sortOrder === 'newest' && '✓'}
+                    Mới nhất {sortOrder === 'newest' && '✓'}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => onSort?.('oldest')}>
-                    Oldest {sortOrder === 'oldest' && '✓'}
+                    Cũ nhất {sortOrder === 'oldest' && '✓'}
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>

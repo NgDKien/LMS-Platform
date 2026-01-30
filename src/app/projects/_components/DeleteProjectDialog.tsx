@@ -30,38 +30,36 @@ export const DeleteProjectDialog = ({
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle className='text-[#202020]'>Delete Project Permanently</DialogTitle>
+                    <DialogTitle className='text-[#202020]'>Xóa hoàn toàn dự án</DialogTitle>
                     <DialogDescription>
-                        This action cannot be undone. This will permanently delete the
-                        project and all associated data.
+                        Hành động này không thể hoàn tác. Điều này sẽ xóa vĩnh viễn dự án và tất cả dữ liệu liên quan.
                     </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4 py-4">
                     <p className="text-sm text-gray-500">
-                        Please type <span className="font-semibold">{projectName}</span> to
-                        confirm.
+                        Vui lòng nhập <span className="font-semibold">{projectName}</span> để xác nhận.
                     </p>
                     <div className="space-y-2">
-                        <Label htmlFor="projectName" className='text-[#676767]'>Project Name</Label>
+                        <Label htmlFor="projectName" className='text-[#676767]'>Tên dự án</Label>
                         <Input
                             id="projectName"
                             value={confirmName}
                             onChange={(e) => setConfirmName(e.target.value)}
-                            placeholder="Enter project name"
+                            placeholder="Nhập tên dự án"
                             className='text-[#202020]'
                         />
                     </div>
                 </div>
                 <DialogFooter>
                     <Button variant="outline" onClick={() => onOpenChange(false)} className='text-[#676767]'>
-                        Cancel
+                        Hủy
                     </Button>
                     <Button
                         variant="destructive"
                         onClick={onConfirm}
                         disabled={confirmName !== projectName}
                     >
-                        Delete Project
+                        Xóa dự án
                     </Button>
                 </DialogFooter>
             </DialogContent>

@@ -86,7 +86,7 @@ export function Sidebar({ course, completedLessons = [] }: SidebarProps) {
                         <ArrowLeft className="h-4 w-4" />
                         <div className="flex items-center gap-x-2">
                             <Library className="h-4 w-4" />
-                            <span>Course Library</span>
+                            <span>Thư viện khóa học</span>
                         </div>
                     </Link>
                     <div className="space-x-2">
@@ -107,7 +107,7 @@ export function Sidebar({ course, completedLessons = [] }: SidebarProps) {
                     <CourseProgress
                         progress={progress}
                         variant="success"
-                        label="Course Progress"
+                        label="Tiến độ khóa học"
                     />
                 </div>
             </div>
@@ -142,7 +142,7 @@ export function Sidebar({ course, completedLessons = [] }: SidebarProps) {
                                                 {module.title}
                                             </p>
                                             <p className="text-xs text-slate-500">
-                                                {module.lessons?.length || 0} lessons
+                                                {module.lessons?.length || 0} bài học
                                             </p>
                                         </div>
                                     </div>

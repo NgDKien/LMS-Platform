@@ -50,12 +50,12 @@ const RecentActivityCard = () => {
                 <CardHeader className="relative z-10 pb-3 flex ">
                     <div>
                         <CardTitle className="text-2xl font-extrabold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent hover:opacity-90 transition">
-                            <div>Recent Activity</div>
+                            <div>Hoạt động gần đây</div>
                         </CardTitle>
                         <CardDescription className="text-zinc-400 text-sm mt-1">
                             {loading
                                 ? "Loading your activity..."
-                                : `You have played a total of ${quizCount} quizzes.`}
+                                : `Bạn đã chơi tổng cộng ${quizCount} quizzes.`}
                         </CardDescription>
                     </div>
                 </CardHeader>

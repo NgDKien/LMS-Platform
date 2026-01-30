@@ -39,10 +39,10 @@ const QuestionsList = ({ questions }: Props) => {
                 <CardHeader className="bg-gradient-to-r from-gray-900/70 to-slate-900/70 border-b border-gray-800">
                     <CardTitle className="text-2xl font-bold text-gray-100 flex items-center gap-2">
                         <AlertCircle className="text-blue-400" size={24} />
-                        Question Review
+                        Đánh giá câu hỏi
                     </CardTitle>
                     <p className="text-gray-400 text-sm">
-                        Review your answers and see where you can improve
+                        Xem lại những câu trả lời của bạn và chỗ cần cải thiện
                     </p>
                 </CardHeader>
                 <CardContent className="p-0">
@@ -50,11 +50,11 @@ const QuestionsList = ({ questions }: Props) => {
                         <TableHeader>
                             <TableRow className="bg-gray-800/50 hover:bg-gray-800/70 border-gray-700">
                                 <TableHead className="w-16 text-center font-semibold text-gray-300">No.</TableHead>
-                                <TableHead className="font-semibold text-gray-300">Question & Correct Answer</TableHead>
-                                <TableHead className="font-semibold text-gray-300">Your Answer</TableHead>
-                                <TableHead className="w-20 text-left font-semibold text-gray-300">Status</TableHead>
+                                <TableHead className="font-semibold text-gray-300">Câu hỏi & Câu trả lời đúng</TableHead>
+                                <TableHead className="font-semibold text-gray-300">Câu trả lời của bạn</TableHead>
+                                <TableHead className="w-20 text-left font-semibold text-gray-300">Trạng thái</TableHead>
                                 {questions[0]?.questionType === "open_ended" && (
-                                    <TableHead className="w-24 text-center font-semibold text-gray-300">Score</TableHead>
+                                    <TableHead className="w-24 text-center font-semibold text-gray-300">Điểm số</TableHead>
                                 )}
                             </TableRow>
                         </TableHeader>
@@ -75,7 +75,7 @@ const QuestionsList = ({ questions }: Props) => {
                                             </div>
                                             <div className="bg-green-950/30 border border-green-800/50 rounded-lg p-3">
                                                 <div className="text-xs text-green-400 font-semibold uppercase tracking-wide mb-1">
-                                                    Correct Answer
+                                                    Đáp án đúng
                                                 </div>
                                                 <div className="text-green-200 font-medium">
                                                     {question.answer}
@@ -88,7 +88,7 @@ const QuestionsList = ({ questions }: Props) => {
                                         {question.questionType === "open_ended" ? (
                                             <div className="bg-blue-950/30 border border-blue-800/50 rounded-lg p-3">
                                                 <div className="text-xs text-blue-400 font-semibold uppercase tracking-wide mb-1">
-                                                    Your Response
+                                                    Câu trả lời của bạn
                                                 </div>
                                                 <div className="text-blue-200 font-medium">
                                                     {question.userAnswer || "No answer provided"}
@@ -101,7 +101,7 @@ const QuestionsList = ({ questions }: Props) => {
                                                 }`}>
                                                 <div className={`text-xs font-semibold uppercase tracking-wide mb-1 ${question.isCorrect ? 'text-green-400' : 'text-red-400'
                                                     }`}>
-                                                    Your Answer
+                                                    Câu trả lời của bạn
                                                 </div>
                                                 <div className={`font-medium ${question.isCorrect ? 'text-green-200' : 'text-red-200'
                                                     }`}>
@@ -131,7 +131,7 @@ const QuestionsList = ({ questions }: Props) => {
                             ))}
                         </TableBody>
                         <TableCaption className="py-4 bg-gray-900/30 text-gray-400 font-medium border-t border-gray-800">
-                            🎯 End of quiz review • Keep practicing to improve your scores!
+                            🎯 Kết thúc đánh giá • Hãy luyện tập nhiều hơn để cái thiện điểm số!
                         </TableCaption>
                     </Table>
                 </CardContent>

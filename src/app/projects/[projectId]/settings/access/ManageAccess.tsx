@@ -163,7 +163,7 @@ export const ManageAccess = ({
             <div className="flex items-center gap-3">
               <Users className="w-5 h-5 text-zinc-400" />
               <h2 className="text-lg font-semibold text-white">
-                Manage Access
+                Quản lý truy cập
               </h2>
             </div>
           )}
@@ -175,7 +175,7 @@ export const ManageAccess = ({
               onClick={handleRemoveMembers}
               className="text-red-400 hover:text-red-300 hover:bg-red-500/10 flex items-center gap-1"
             >
-              <Trash2 className="w-4 h-4" /> Remove
+              <Trash2 className="w-4 h-4" /> Xóa
             </Button>
           )}
         </div>
@@ -198,12 +198,12 @@ export const ManageAccess = ({
                 onCheckedChange={handleSelectAll}
               />
               <span className="text-sm text-zinc-400">
-                {selectedIds.size} selected
+                {selectedIds.size} được chọn
               </span>
             </div>
           )}
           <Input
-            placeholder="Search members..."
+            placeholder="Tìm kiếm thành viên..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="h-8 bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500 max-w-xs"
@@ -238,7 +238,7 @@ export const ManageAccess = ({
                   <p className="text-sm font-medium text-white truncate">
                     {member.user.name}{' '}
                     {member.user_id === currentUserId && (
-                      <span className="text-xs text-zinc-500">(You)</span>
+                      <span className="text-xs text-zinc-500">(Bạn)</span>
                     )}
                   </p>
                   <p className="text-xs text-zinc-400 truncate">

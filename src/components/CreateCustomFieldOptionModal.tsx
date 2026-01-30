@@ -64,10 +64,10 @@ export const CreateCustomFieldOptionModal = ({
                 <Separator className="mb-4" />
                 <CustomOptionForm
                     onSubmit={(data) => handleSubmitData(data)}
-                    submitBtnLabel="Save"
+                    submitBtnLabel="Lưu"
                     cancelButton={
                         <Button className={cn(secondaryBtnStyles)} onClick={closeModal}>
-                            Cancel
+                            Hủy
                         </Button>
                     }
                 />

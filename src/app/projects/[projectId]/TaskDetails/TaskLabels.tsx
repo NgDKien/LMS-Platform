@@ -125,15 +125,15 @@ export const TaskLabels = () => {
     return (
         <>
             <div className="flex justify-between items-center text-gray-500 pt-4">
-                <span className="text-xs">Labels</span>
+                <span className="text-xs">Nhãn</span>
                 <Popover open={isOpen} onOpenChange={handlePopoverOpenChange}>
                     <PopoverTrigger>
                         <Settings className="w-4 h-4" />
                     </PopoverTrigger>
                     <PopoverContent className="mr-4">
-                        <Label className="mb-2 text-xs">Apply labels to this task</Label>
+                        <Label className="mb-2 text-xs">Gán nhãn cho tác vụ</Label>
                         <Input
-                            placeholder="filter labels"
+                            placeholder="Lọc các nhãn"
                             className="h-7 my-1 rounded-sm bg-gray-100 dark:bg-black"
                             value={filter}
                             onChange={(e) => setFilter(e.target.value)}
@@ -168,7 +168,7 @@ export const TaskLabels = () => {
                         <Separator className="my-1" />
                         <Link href={`/projects/${params.projectId}/settings/labels`}>
                             <Button variant="ghost" className="w-full h-7 text-xs">
-                                Edit labels
+                                Chỉnh sửa nhãn
                             </Button>
                         </Link>
                     </PopoverContent>
@@ -184,7 +184,7 @@ export const TaskLabels = () => {
                         />
                     ))
                 ) : (
-                    <span className="text-gray-500">None yet</span>
+                    <span className="text-gray-500">Chưa có nhãn</span>
                 )}
             </div>
         </>

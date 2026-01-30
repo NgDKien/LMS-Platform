@@ -38,7 +38,7 @@ function AppHeader() {
                                 LearnCraft
                             </span>
                             <span className="block text-xs text-blue-400/60 font-medium">
-                                Shape your learning journey
+                                Định hình hành trình học tập của bạn
                             </span>
                         </div>
                     </Link>

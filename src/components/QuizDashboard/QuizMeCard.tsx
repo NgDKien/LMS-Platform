@@ -25,7 +25,7 @@ const QuizMeCard = () => {
 
                 <CardHeader className="relative z-10 flex flex-row items-center justify-between pb-2">
                     <CardTitle className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400">
-                        Quiz Me!
+                        Tạo quiz!
                     </CardTitle>
                     <div className="p-2 rounded-xl bg-indigo-500/10 border border-indigo-500/20 group-hover:bg-indigo-500/20 transition">
                         <BrainCircuit
@@ -38,7 +38,7 @@ const QuizMeCard = () => {
 
                 <CardContent className="relative z-10">
                     <p className="text-zinc-400 text-sm leading-relaxed">
-                        Challenge yourself with a personalized quiz on any topic.
+                        Thử thách bản thân bằng những câu hỏi được cá nhân hóa với bất cứ chủ đề nào bạn yêu thích.
                         <br />
                         <span className="text-zinc-500 italic">
                             Tap to start your brain workout 🧠

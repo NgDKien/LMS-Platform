@@ -14,7 +14,7 @@ const OpenEndedPercentage = ({ percentage }: Props) => {
             <div className="flex items-center space-x-2">
                 <Target className="w-5 h-5 text-purple-400" />
                 <span className="text-sm text-slate-400 font-medium tracking-wide">
-                    ACCURACY
+                    ĐỘ CHÍNH XÁC
                 </span>
             </div>
 

@@ -28,7 +28,7 @@ const SearchAndButton = ({
             <Link href="/new-project">
                 <Button className={cn(successBtnStyles, 'h-9')}>
                     <Plus className="w-4 h-4 mr-2" />
-                    New project
+                    Tạo dự án mới
                 </Button>
             </Link>
         </div>

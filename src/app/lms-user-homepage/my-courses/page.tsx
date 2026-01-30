@@ -35,26 +35,25 @@ export default async function MyCoursesPage() {
                         <GraduationCap className="h-8 w-8 text-purple-400" />
                     </div>
                     <div>
-                        <h1 className="text-4xl font-bold text-white">My Courses</h1>
+                        <h1 className="text-4xl font-bold text-white">Khóa học của tôi</h1>
                         <p className="text-gray-400 text-lg mt-2">
-                            Continue your learning journey
+                            Tiếp tục quá trình học tập
                         </p>
                     </div>
                 </div>
 
                 {enrolledCourses.length === 0 ? (
                     <div className="text-center py-12">
-                        <h2 className="text-2xl font-semibold mb-4">No courses yet</h2>
+                        <h2 className="text-2xl font-semibold mb-4">Chưa ghi danh vào khóa học nào</h2>
                         <p className="text-muted-foreground mb-8">
-                            You haven&apos;t enrolled in any courses yet. Browse our courses
-                            to get started!
+                            Bạn chưa ghi danh bất kì khóa học nào. Hãy khám phá thêm các khóa học của chúng tôi để bắt đầu!
                         </p>
                         <Link
                             href="/"
                             prefetch={false}
                             className="inline-flex items-center justify-center rounded-lg px-6 py-3 font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
                         >
-                            Browse Courses
+                            Khám phá các khóa học
                         </Link>
                     </div>
                 ) : (

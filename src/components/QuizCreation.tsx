@@ -94,16 +94,15 @@ const QuizCreation = ({ topic: topicParam }: Props) => {
         className="max-w-md space-y-6 text-center md:text-left"
       >
         <div className="inline-flex items-center gap-2 text-indigo-400 font-medium">
-          <Brain className="w-5 h-5" /> Quiz Generator
+          <Brain className="w-5 h-5" /> Hệ thống tạo Quiz
         </div>
 
         <h1 className="text-4xl md:text-5xl font-extrabold leading-tight bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
-          Turn Any Topic Into a Fun Quiz
+          Chuyển bất cứ chủ đề nào thành các câu hỏi thông minh
         </h1>
 
         <p className="text-zinc-400 text-sm md:text-base max-w-md">
-          Instantly create engaging quizzes on any subject.
-          Pick your topic, choose how many questions, and start playing!
+          Tạo câu đố hấp dẫn ngay lập tức về mọi chủ đề. Chọn chủ đề, chọn số câu hỏi và bắt đầu chơi!
         </p>
 
         <div className="flex justify-center md:justify-start">
@@ -121,10 +120,10 @@ const QuizCreation = ({ topic: topicParam }: Props) => {
         <Card className="bg-zinc-900/80 backdrop-blur-xl border border-zinc-800/70 rounded-2xl shadow-[0_0_30px_rgba(99,102,241,0.25)]">
           <CardHeader className="text-center pb-3">
             <CardTitle className="text-xl font-semibold text-zinc-100">
-              Create Your Quiz
+              Tạo Câu Hỏi Của Bạn
             </CardTitle>
             <CardDescription className="text-zinc-400 text-sm">
-              Customize before you start 🚀
+              Tùy chỉnh trước khi bắt đầu 🚀
             </CardDescription>
           </CardHeader>
 
@@ -141,17 +140,17 @@ const QuizCreation = ({ topic: topicParam }: Props) => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-zinc-300 text-sm">
-                        Topic
+                        Chủ đề
                       </FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Enter a topic..."
+                          placeholder="Nhập chủ đề..."
                           className="bg-zinc-800/70 border border-zinc-700 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/50 text-zinc-100 placeholder-zinc-500 transition-all"
                           {...field}
                         />
                       </FormControl>
                       <FormDescription className="text-zinc-500 text-xs">
-                        e.g. History, Coding, or Movies
+                        Ví dụ: Next.JS, Khoa học máy tính, Phần cứng,...
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -165,7 +164,7 @@ const QuizCreation = ({ topic: topicParam }: Props) => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-zinc-300 text-sm">
-                        Number of Questions
+                        Số lượng câu hỏi
                       </FormLabel>
                       <FormControl>
                         <Input
@@ -181,7 +180,7 @@ const QuizCreation = ({ topic: topicParam }: Props) => {
                         />
                       </FormControl>
                       <FormDescription className="text-zinc-500 text-xs">
-                        Between 1 and 10
+                        Từ 1 đến 10
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -203,7 +202,7 @@ const QuizCreation = ({ topic: topicParam }: Props) => {
                         onClick={() => form.setValue("type", "mcq")}
                         type="button"
                       >
-                        <CopyCheck className="w-4 h-4 mr-2" /> MCQ
+                        <CopyCheck className="w-4 h-4 mr-2" /> Chế độ chọn đáp án
                       </Button>
 
                       <Separator orientation="vertical" className="bg-zinc-700" />
@@ -217,7 +216,7 @@ const QuizCreation = ({ topic: topicParam }: Props) => {
                         onClick={() => form.setValue("type", "open_ended")}
                         type="button"
                       >
-                        <BookOpen className="w-4 h-4 mr-2" /> Open
+                        <BookOpen className="w-4 h-4 mr-2" /> Chế độ mở
                       </Button>
                     </div>
                   );
@@ -230,7 +229,7 @@ const QuizCreation = ({ topic: topicParam }: Props) => {
                   type="submit"
                   className="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold rounded-lg shadow-[0_0_25px_rgba(139,92,246,0.4)] transition-all duration-300"
                 >
-                  {isPending ? "Generating..." : "Start Quiz 🎯"}
+                  {isPending ? "Bắt đầu tạo..." : "Bắt đầu Quiz 🎯"}
                 </Button>
               </form>
             </Form>

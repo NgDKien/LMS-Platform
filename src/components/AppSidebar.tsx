@@ -11,22 +11,22 @@ export default function AppSidebar() {
 
     const menuItems = [
         {
-            title: 'Home',
+            title: 'Trang chủ',
             icon: Home,
             href: '/lms-user-homepage',
         },
         {
-            title: 'Quiz Generator',
+            title: 'Hệ thống sinh câu hỏi',
             icon: Layout,
             href: '/quiz-dashboard',
         },
         {
-            title: 'Code Editor',
+            title: 'Trình soạn thảo code',
             icon: FolderOpen,
             href: '/code_editor',
         },
         {
-            title: 'Project Management Tool',
+            title: 'Công cụ quản lý',
             icon: ListTodo,
             href: '/projects'
         },
@@ -34,17 +34,17 @@ export default function AppSidebar() {
 
     const bottomItems = [
         {
-            title: 'My Courses',
+            title: 'Khóa học của tôi',
             icon: Bell,
-            href: '/my-courses',
+            href: '/lms-user-homepage/my-courses',
         },
         {
-            title: 'Profile',
+            title: 'Hồ sơ',
             icon: User,
             href: '/profile',
         },
         {
-            title: 'Manage Account',
+            title: 'Quản lý tài khoản',
             icon: Settings,
             onClick: () => openUserProfile(),
         },

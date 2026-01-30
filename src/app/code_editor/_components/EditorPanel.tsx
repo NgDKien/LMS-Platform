@@ -57,8 +57,8 @@ function EditorPanel() {
                             <Image src={"/" + language + ".png"} alt="Logo" width={24} height={24} />
                         </div>
                         <div>
-                            <h2 className="text-sm font-medium text-white">Code Editor</h2>
-                            <p className="text-xs text-gray-500">Write and execute your code</p>
+                            <h2 className="text-sm font-medium text-white">Trình soạn thảo code</h2>
+                            <p className="text-xs text-gray-500">Viết và thực thi đoạn mã của bạn</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
@@ -99,7 +99,7 @@ function EditorPanel() {
                from-blue-500 to-blue-600 opacity-90 hover:opacity-100 transition-opacity"
                         >
                             <ShareIcon className="size-4 text-white" />
-                            <span className="text-sm font-medium text-white ">Share</span>
+                            <span className="text-sm font-medium text-white ">Chia sẻ</span>
                         </motion.button>
                     </div>
                 </div>

@@ -12,8 +12,8 @@ const ResultsCard = ({ accuracy }: Props) => {
                 bgColor: "from-yellow-950/50 to-orange-950/50",
                 borderColor: "border-yellow-800/50",
                 textColor: "text-yellow-300",
-                title: "Outstanding!",
-                subtitle: "Exceptional Performance",
+                title: "Xuất sắc!",
+                subtitle: "Thành tích vượt trội",
                 bgIcon: "bg-yellow-900/50",
                 shadowColor: "hover:shadow-yellow-500/10"
             };
@@ -23,8 +23,8 @@ const ResultsCard = ({ accuracy }: Props) => {
                 bgColor: "from-yellow-950/50 to-amber-950/50",
                 borderColor: "border-yellow-800/50",
                 textColor: "text-yellow-300",
-                title: "Impressive!",
-                subtitle: "Excellent Work",
+                title: "Ấn tượng!",
+                subtitle: "Làm rất tốt",
                 bgIcon: "bg-yellow-900/50",
                 shadowColor: "hover:shadow-yellow-500/10"
             };
@@ -34,8 +34,8 @@ const ResultsCard = ({ accuracy }: Props) => {
                 bgColor: "from-blue-950/50 to-indigo-950/50",
                 borderColor: "border-blue-800/50",
                 textColor: "text-blue-300",
-                title: "Good Job!",
-                subtitle: "Well Done",
+                title: "Tốt lắm!",
+                subtitle: "Hoàn thành tốt",
                 bgIcon: "bg-blue-900/50",
                 shadowColor: "hover:shadow-blue-500/10"
             };
@@ -45,8 +45,8 @@ const ResultsCard = ({ accuracy }: Props) => {
                 bgColor: "from-gray-950/50 to-slate-950/50",
                 borderColor: "border-gray-700/50",
                 textColor: "text-gray-300",
-                title: "Nice Try!",
-                subtitle: "Keep Improving",
+                title: "Cố gắng lên!",
+                subtitle: "Tiếp tục phát triển",
                 bgIcon: "bg-gray-800/50",
                 shadowColor: "hover:shadow-gray-500/10"
             };
@@ -56,8 +56,8 @@ const ResultsCard = ({ accuracy }: Props) => {
                 bgColor: "from-red-950/50 to-pink-950/50",
                 borderColor: "border-red-800/50",
                 textColor: "text-red-300",
-                title: "Keep Practicing!",
-                subtitle: "You Can Do Better",
+                title: "Hãy luyện tập thêm!",
+                subtitle: "Bạn có thể làm tốt hơn",
                 bgIcon: "bg-red-900/50",
                 shadowColor: "hover:shadow-red-500/10"
             };
@@ -69,7 +69,7 @@ const ResultsCard = ({ accuracy }: Props) => {
     return (
         <Card className={`md:col-span-4 bg-gradient-to-br ${config.bgColor} ${config.borderColor} hover:shadow-xl ${config.shadowColor} transition-all duration-300`}>
             <CardHeader className={`flex flex-row items-center justify-between space-y-0 pb-4 border-b ${config.borderColor}`}>
-                <CardTitle className={`text-2xl font-bold ${config.textColor}`}>Results</CardTitle>
+                <CardTitle className={`text-2xl font-bold ${config.textColor}`}>Kết quả</CardTitle>
                 <div className={`p-2 ${config.bgIcon} rounded-full`}>
                     <Award className={config.trophy} size={24} />
                 </div>
@@ -88,7 +88,7 @@ const ResultsCard = ({ accuracy }: Props) => {
                                 {config.subtitle}
                             </p>
                             <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-medium ${config.bgIcon} ${config.textColor} border ${config.borderColor}`}>
-                                {accuracy}% Accuracy
+                                Độ chính xác {accuracy}%
                             </div>
                         </div>
                     </div>

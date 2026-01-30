@@ -3,27 +3,27 @@ import type { StructureResolver } from 'sanity/structure'
 // https://www.sanity.io/docs/structure-builder-cheat-sheet
 export const structure: StructureResolver = (S) =>
   S.list()
-    .title("Admin Dashboard")
+    .title("Bảng điều khiển")
     .items([
       // Course Content
       S.listItem()
-        .title("Course Content")
+        .title("Quản lý khóa học")
         .child(
           S.documentTypeList("course")
-            .title("Courses")
+            .title("Các khóa học")
             .child((courseId) =>
               S.list()
-                .title("Course Options")
+                .title("Các lựa chọn")
                 .items([
                   // Option to edit course content
                   S.listItem()
-                    .title("Edit Course Content")
+                    .title("Chỉnh sửa thông tin khóa học")
                     .child(
                       S.document().schemaType("course").documentId(courseId)
                     ),
                   // Option to view course enrollments
                   S.listItem()
-                    .title("View Students")
+                    .title("Xem thông tin học viên")
                     .child(
                       S.documentList()
                         .title("Course Enrollments")
@@ -40,25 +40,25 @@ export const structure: StructureResolver = (S) =>
 
       // Users
       S.listItem()
-        .title("User Management")
+        .title("Quản lý người dùng")
         .child(
           S.list()
-            .title("Select a Type of User")
+            .title("Chọn loại người dùng")
             .items([
               // Instructors with options
               S.listItem()
-                .title("Instructors")
+                .title("Giảng viên")
                 .schemaType("instructor")
                 .child(
                   S.documentTypeList("instructor")
-                    .title("Instructors")
+                    .title("Giảng viên")
                     .child((instructorId) =>
                       S.list()
                         .title("Instructor Options")
                         .items([
                           // Option to edit instructor details
                           S.listItem()
-                            .title("Edit Instructor Details")
+                            .title("Chỉnh sửa thông tin giảng viên")
                             .child(
                               S.document()
                                 .schemaType("instructor")
@@ -66,7 +66,7 @@ export const structure: StructureResolver = (S) =>
                             ),
                           // Option to view instructor's courses
                           S.listItem()
-                            .title("View Courses")
+                            .title("Xem các khóa học của giảng viên")
                             .child(
                               S.documentList()
                                 .title("Instructor's Courses")
@@ -80,18 +80,18 @@ export const structure: StructureResolver = (S) =>
                 ),
               // Students with options
               S.listItem()
-                .title("Students")
+                .title("Học viên")
                 .schemaType("student")
                 .child(
                   S.documentTypeList("student")
-                    .title("Students")
+                    .title("Học viên")
                     .child((studentId) =>
                       S.list()
                         .title("Student Options")
                         .items([
                           // Option to edit student details
                           S.listItem()
-                            .title("Edit Student Details")
+                            .title("Chỉnh sửa thông tin học viên")
                             .child(
                               S.document()
                                 .schemaType("student")
@@ -99,10 +99,10 @@ export const structure: StructureResolver = (S) =>
                             ),
                           // Option to view enrollments
                           S.listItem()
-                            .title("View Enrollments")
+                            .title("Xem lịch sử ghi danh")
                             .child(
                               S.documentList()
-                                .title("Student Enrollments")
+                                .title("Xem lịch sử ghi danh")
                                 .filter(
                                   '_type == "enrollment" && student._ref == $studentId'
                                 )
@@ -110,10 +110,10 @@ export const structure: StructureResolver = (S) =>
                             ),
                           // Option to view completed lessons
                           S.listItem()
-                            .title("View Completed Lessons")
+                            .title("Xem các bài học đã hoàn thành")
                             .child(
                               S.documentList()
-                                .title("Completed Lessons")
+                                .title("Các bài học đã hoàn thành")
                                 .schemaType("lessonCompletion")
                                 .filter(
                                   '_type == "lessonCompletion" && student._ref == $studentId'
@@ -133,10 +133,10 @@ export const structure: StructureResolver = (S) =>
 
       // System Management
       S.listItem()
-        .title("System Management")
+        .title("Quản lý hệ thống")
         .child(
           S.list()
             .title("System Management")
-            .items([S.documentTypeListItem("category").title("Categories")])
+            .items([S.documentTypeListItem("category").title("Phân loại khóa học")])
         ),
     ]);

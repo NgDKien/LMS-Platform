@@ -26,7 +26,7 @@ const MCQCounter = ({ correct_answers, wrong_answers }: Props) => {
                 </div>
                 <div className="flex flex-col">
                     <span className="text-xs text-gray-400 uppercase tracking-wide">
-                        Correct
+                        Đúng
                     </span>
                     <AnimatePresence mode="popLayout">
                         <motion.span
@@ -52,7 +52,7 @@ const MCQCounter = ({ correct_answers, wrong_answers }: Props) => {
                 </div>
                 <div className="flex flex-col">
                     <span className="text-xs text-gray-400 uppercase tracking-wide">
-                        Wrong
+                        Sai
                     </span>
                     <AnimatePresence mode="popLayout">
                         <motion.span

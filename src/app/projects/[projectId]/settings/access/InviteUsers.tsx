@@ -110,7 +110,7 @@ export const InviteUsers = ({
       <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-md shadow-sm p-6">
         <div className="flex items-center gap-2 mb-5">
           <UsersRound className="w-5 h-5 text-zinc-400" />
-          <h1 className="text-lg font-semibold text-white">Invite Users</h1>
+          <h1 className="text-lg font-semibold text-white">Thêm thành viên</h1>
         </div>
 
         <div className="flex flex-col md:flex-row md:items-center gap-3">
@@ -126,7 +126,7 @@ export const InviteUsers = ({
                 setSearchTerm(e.target.value);
                 debouncedSearch(e.target.value);
               }}
-              placeholder="Search user by name..."
+              placeholder="Tìm kiếm người dùng theo tên..."
               className="w-full pl-9 pr-8 h-9 text-sm bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500 focus:ring-zinc-600"
             />
 
@@ -166,7 +166,7 @@ export const InviteUsers = ({
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Inviting...
               </>
             ) : (
-              'Invite'
+              'Thêm'
             )}
           </Button>
         </div>
@@ -174,7 +174,7 @@ export const InviteUsers = ({
         {/* Selected user info */}
         {selectedUser && (
           <div className="mt-4 text-sm text-zinc-400 border-t border-zinc-800 pt-3">
-            <span className="text-zinc-300">Selected user:</span>{' '}
+            <span className="text-zinc-300">Người dùng đã chọn:</span>{' '}
             <span className="text-white font-medium">{selectedUser.name}</span>
           </div>
         )}

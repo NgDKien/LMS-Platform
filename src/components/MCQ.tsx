@@ -66,10 +66,10 @@ const MCQ = ({ game }: Props) => {
       onSuccess: ({ isCorrect }) => {
         if (isCorrect) {
           setStats((s) => ({ ...s, correct_answers: s.correct_answers + 1 }));
-          toast.success("Correct!", { description: "Nice one ✨" });
+          toast.success("Chính xác!", { description: "Lựa chọn đúng đắn ✨" });
         } else {
           setStats((s) => ({ ...s, wrong_answers: s.wrong_answers + 1 }));
-          toast.error("Wrong", { description: "Keep trying!" });
+          toast.error("Không đúng", { description: "Tiếp tục cố gắng!" });
         }
 
         if (questionIndex === game.questions.length - 1) {
@@ -115,9 +115,9 @@ const MCQ = ({ game }: Props) => {
             className="relative rounded-2xl p-8 bg-gradient-to-r from-indigo-700 via-purple-700 to-fuchsia-600 shadow-2xl text-white"
           >
             <div className="flex flex-col items-center gap-4">
-              <div className="text-4xl font-extrabold">🎉 Well Done!</div>
+              <div className="text-4xl font-extrabold">🎉 Chúc mừng!</div>
               <div className="text-sm text-indigo-100/80">
-                Completed in{" "}
+                Hoàn thành trong{" "}
                 {isMounted &&
                   formatTimeDelta(differenceInSeconds(now, new Date(game.timeStarted)))}
               </div>
@@ -125,17 +125,17 @@ const MCQ = ({ game }: Props) => {
               <div className="flex gap-8 mt-4">
                 <div className="text-center">
                   <div className="text-3xl font-bold text-green-200">{stats.correct_answers}</div>
-                  <div className="text-xs text-white/80">Correct</div>
+                  <div className="text-xs text-white/80">Câu trả lời đúng</div>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-rose-200">{stats.wrong_answers}</div>
-                  <div className="text-xs text-white/80">Wrong</div>
+                  <div className="text-xs text-white/80">Câu trả lời sai</div>
                 </div>
               </div>
 
               <div className="flex justify-center items-center gap-4 mt-6">
                 <Link href={`/quiz-statistics/${game.id}`} className={cn(buttonVariants({ size: "lg" }), "bg-white text-black")}>
-                  View Statistics <BarChart className="w-4 h-4 ml-2" />
+                  Xem thống kê <BarChart className="w-4 h-4 ml-2" />
                 </Link>
                 <button
                   onClick={() => {
@@ -147,7 +147,7 @@ const MCQ = ({ game }: Props) => {
                   }}
                   className="inline-flex items-center justify-center px-5 py-3 rounded-lg bg-black/20 border border-white/10 text-white hover:opacity-90"
                 >
-                  Play Again
+                  Chơi lại
                 </button>
               </div>
             </div>
@@ -168,7 +168,7 @@ const MCQ = ({ game }: Props) => {
           {/* left HUD: topic + ring timer */}
           <div className="flex items-center gap-4">
             <div className="flex flex-col">
-              <span className="text-xs text-zinc-400 uppercase tracking-wide">Topic</span>
+              <span className="text-xs text-zinc-400 uppercase tracking-wide">Chủ đề</span>
               <div className="text-lg font-semibold text-white">{game.topic}</div>
             </div>
 
@@ -217,13 +217,13 @@ const MCQ = ({ game }: Props) => {
                     <Zap className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <div className="text-xs text-zinc-400 uppercase">Question</div>
+                    <div className="text-xs text-zinc-400 uppercase">Câu hỏi</div>
                     <div className="text-lg font-semibold text-white">#{questionIndex + 1}</div>
                   </div>
                 </div>
 
                 <div className="text-sm text-zinc-400">
-                  Time: {isMounted && formatTimeDelta(differenceInSeconds(now, new Date(game.timeStarted)))}
+                  Thời gian: {isMounted && formatTimeDelta(differenceInSeconds(now, new Date(game.timeStarted)))}
                 </div>
               </div>
 
@@ -239,7 +239,7 @@ const MCQ = ({ game }: Props) => {
                     {currentQuestion.question}
                   </h2>
 
-                  <p className="mt-4 text-sm text-zinc-400">Choose the best answer below.</p>
+                  <p className="mt-4 text-sm text-zinc-400">Chọn câu trả lời đúng nhất bên cạnh.</p>
                 </motion.div>
               </AnimatePresence>
 
@@ -253,7 +253,7 @@ const MCQ = ({ game }: Props) => {
                 onClick={handleNext}
                 disabled={isPending}
               >
-                {isPending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : "Next"}
+                {isPending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : "Tiếp tục"}
                 <ChevronRight className="w-4 h-4 ml-2" />
               </Button>
             </div>
@@ -287,7 +287,7 @@ const MCQ = ({ game }: Props) => {
                     </div>
                     <div className="flex-1">
                       <div className="text-sm font-medium">{opt}</div>
-                      <div className="mt-2 text-xs text-zinc-400">Press {idx + 1}</div>
+                      <div className="mt-2 text-xs text-zinc-400">Nhấn {idx + 1}</div>
                     </div>
 
                     {/* floating check / indicator */}

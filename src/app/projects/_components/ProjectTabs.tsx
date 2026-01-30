@@ -34,21 +34,21 @@ export const ProjectTabs = ({
     <TabsList className="bg-[#182446] text-[#afafaf] rounded">
       <TabsTrigger value="active-projects">
         <PanelsTopLeft className="w-4 h-4 mr-2" />
-        <span>Active Projects</span>
+        <span>Dự án đang hoạt động</span>
       </TabsTrigger>
       <TabsTrigger value="closed-projects">
         <SquareKanban className="w-4 h-4 mr-2" />
-        <span>Closed Projects</span>
+        <span>Dự án đã đóng</span>
       </TabsTrigger>
       <TabsTrigger value="all-projects">
         <SquareKanban className="w-4 h-4 mr-2" />
-        <span>All Projects</span>
+        <span>Tất cả dự án</span>
       </TabsTrigger>
     </TabsList>
 
     <TabsContent value="active-projects">
       <SearchAndButton
-        placeholderText="Search active projects"
+        placeholderText="Tìm kiếm các dự án đang hoạt động"
         onSearch={setSearchTerm}
       />
       <ProjectList
@@ -63,7 +63,7 @@ export const ProjectTabs = ({
     </TabsContent>
     <TabsContent value="closed-projects">
       <SearchAndButton
-        placeholderText="Search closed projects"
+        placeholderText="Tìm kiếm các dự án đã đóng"
         onSearch={setSearchTerm}
       />
       <ProjectList

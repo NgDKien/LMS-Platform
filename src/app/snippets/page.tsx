@@ -61,7 +61,7 @@ function SnippetsPage() {
                         transition={{ delay: 0.1 }}
                         className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-100 to-gray-300 text-transparent bg-clip-text mb-6"
                     >
-                        Discover & Share Code Snippets
+                        Khám phá & Chia sẻ các đoạn mã
                     </motion.h1>
                     <motion.p
                         initial={{ opacity: 0 }}
@@ -69,7 +69,7 @@ function SnippetsPage() {
                         transition={{ delay: 0.2 }}
                         className="text-lg text-gray-400 mb-8"
                     >
-                        Explore a curated collection of code snippets from the community
+                        Khám phá các bộ sưu tập mã code được tuyển chọn từ cộng đồng
                     </motion.p>
                 </div>
 
@@ -84,7 +84,7 @@ function SnippetsPage() {
                                 type="text"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                placeholder="Search snippets by title, language, or author..."
+                                placeholder="Tìm kiếm theo tiêu đề, ngôn ngữ hoặc tên tác giả..."
                                 className="w-full pl-12 pr-4 py-4 bg-[#1e1e2e]/80 hover:bg-[#1e1e2e] text-white
                   rounded-xl border border-[#313244] hover:border-[#414155] transition-all duration-200
                   placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
@@ -96,7 +96,7 @@ function SnippetsPage() {
                     <div className="flex flex-wrap items-center gap-4">
                         <div className="flex items-center gap-2 px-4 py-2 bg-[#1e1e2e] rounded-lg ring-1 ring-gray-800">
                             <Tag className="w-4 h-4 text-gray-400" />
-                            <span className="text-sm text-gray-400">Languages:</span>
+                            <span className="text-sm text-gray-400">Ngôn ngữ:</span>
                         </div>
 
                         {popularLanguages.map((lang) => (
@@ -124,13 +124,13 @@ function SnippetsPage() {
                                 className="flex items-center gap-1 px-2 py-1 text-xs text-gray-400 hover:text-gray-300 transition-colors"
                             >
                                 <X className="w-3 h-3" />
-                                Clear
+                                Xóa bộ lọc
                             </button>
                         )}
 
                         <div className="ml-auto flex items-center gap-3">
                             <span className="text-sm text-gray-500">
-                                {filteredSnippets.length} snippets found
+                                {filteredSnippets.length} đoạn mã được tìm thấy
                             </span>
 
                             {/* View Toggle */}

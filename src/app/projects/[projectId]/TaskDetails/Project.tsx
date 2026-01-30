@@ -155,22 +155,22 @@ export const Project = () => {
     return (
         <>
             <div className="py-4">
-                <span className="text-gray-500 text-xs">Project</span>
+                <span className="text-gray-500 text-xs">Dự án</span>
                 <p className="text-xs py-1">{projectName}</p>
             </div>
 
             <div className="flex gap-8 items-center text-gray-500">
-                <span className="text-xs">Status</span>
+                <span className="text-xs">Trạng thái</span>
                 <Badge
                     variant="secondary"
                     className="text-[11px] bg-blue-100 text-blue-700 border-blue-300 dark:text-blue-300 dark:bg-blue-950 border dark:border-blue-800"
                 >
-                    {currentStatus?.label || 'None'}
+                    {currentStatus?.label || 'Chưa có'}
                 </Badge>
             </div>
 
             <div className="flex justify-between text-gray-500 py-2">
-                <span className="text-xs">Priority</span>
+                <span className="text-xs">Ưu tiên</span>
                 <DropdownMenu>
                     <DropdownMenuTrigger className="text-xs">
                         {task?.priority ? (
@@ -179,12 +179,12 @@ export const Project = () => {
                                 label={task.priority.label}
                             />
                         ) : (
-                            'None'
+                            'Chưa có'
                         )}
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="mr-4">
                         <DropdownMenuLabel className="text-xs">
-                            Set Priority
+                            Đặt ưu tiên
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem onClick={() => handlePrioritySelect(null)}>
@@ -208,7 +208,7 @@ export const Project = () => {
             </div>
 
             <div className="flex justify-between text-gray-500 py-2">
-                <span className="text-xs">Size</span>
+                <span className="text-xs">Phạm vi</span>
                 <DropdownMenu>
                     <DropdownMenuTrigger className="text-xs">
                         {task?.size ? (
@@ -217,11 +217,11 @@ export const Project = () => {
                                 label={task.size.label}
                             />
                         ) : (
-                            'None'
+                            'Chưa có'
                         )}
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="mr-4">
-                        <DropdownMenuLabel className="text-xs">Set Size</DropdownMenuLabel>
+                        <DropdownMenuLabel className="text-xs">Đặt phạm vi</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem onClick={() => handleSizeSelect(null)}>
                             <span className="w-3 h-3 mr-2" />
@@ -244,7 +244,7 @@ export const Project = () => {
             </div>
 
             <div className="flex justify-between text-gray-500 py-2">
-                <span className="text-xs">Start date</span>
+                <span className="text-xs">Ngày bắt đầu</span>
                 <DatePicker
                     date={startDate}
                     onSelect={(date) => handleDateChange('startDate', date)}
@@ -252,7 +252,7 @@ export const Project = () => {
             </div>
 
             <div className="flex justify-between text-gray-500 pt-2 pb-4">
-                <span className="text-xs">End date</span>
+                <span className="text-xs">Ngày kết thúc</span>
                 <DatePicker
                     date={endDate}
                     onSelect={(date) => handleDateChange('endDate', date)}

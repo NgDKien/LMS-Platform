@@ -133,7 +133,7 @@ export const LabelList = ({
                                                 )}
                                                 onClick={() => setLabelId(label.id)}
                                             >
-                                                Edit
+                                                Chỉnh sửa
                                             </Button>
                                             <Button
                                                 className={cn(
@@ -142,7 +142,7 @@ export const LabelList = ({
                                                 )}
                                                 onClick={() => handleDeleteLabel(label.id)}
                                             >
-                                                Delete
+                                                Xóa
                                             </Button>
                                         </div>
                                         <DropdownMenu>
@@ -152,12 +152,12 @@ export const LabelList = ({
 
                                             <DropdownMenuContent>
                                                 <DropdownMenuItem onClick={() => setLabelId(label.id)}>
-                                                    Edit
+                                                    Chỉnh sửa
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem
                                                     onClick={() => handleDeleteLabel(label.id)}
                                                 >
-                                                    Delete
+                                                    Xóa
                                                 </DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>

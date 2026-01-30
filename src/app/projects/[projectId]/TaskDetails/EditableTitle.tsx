@@ -76,7 +76,7 @@ export const EditableTitle = ({
                         ) : (
                             <>
                                 <Check className="w-4 h-4" />
-                                <span className="hidden sm:inline">Save</span>
+                                <span className="hidden sm:inline">Lưu</span>
                             </>
                         )}
                     </Button>
@@ -86,7 +86,7 @@ export const EditableTitle = ({
                         disabled={isSaving}
                     >
                         <X className="w-4 h-4" />
-                        <span className="hidden sm:inline">Cancel</span>
+                        <span className="hidden sm:inline">Hủy</span>
                     </Button>
                 </div>
             </div>

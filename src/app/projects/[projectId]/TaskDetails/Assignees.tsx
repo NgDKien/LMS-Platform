@@ -208,15 +208,15 @@ export const Assignees = () => {
     return (
         <>
             <div className="flex justify-between items-center text-gray-500">
-                <span className="text-xs">Assignees</span>
+                <span className="text-xs">Thành viên</span>
                 <Popover open={isOpen} onOpenChange={handlePopoverOpenChange}>
                     <PopoverTrigger>
                         <Settings className="w-4 h-4" />
                     </PopoverTrigger>
                     <PopoverContent className="mr-4">
-                        <Label className="mb-2 text-xs">Assign people to this task</Label>
+                        <Label className="mb-2 text-xs">Thêm thành viên vào tác vụ này</Label>
                         <Input
-                            placeholder="filter assignees"
+                            placeholder="lọc thành viên"
                             className="h-7 my-1 rounded-sm bg-gray-100 dark:bg-black"
                             value={filter}
                             onChange={(e) => setFilter(e.target.value)}
@@ -264,12 +264,12 @@ export const Assignees = () => {
                     </div>
                 ) : (
                     <>
-                        No one -
+                        Chưa có thành viên -
                         <Button
                             onClick={handleAssignSelf}
                             className="px-1 text-blue-500 bg-transparent text-xs h-4 font-normal hover:bg-transparent"
                         >
-                            Assign yourself
+                            Tự gán cho bản thân
                         </Button>
                     </>
                 )}

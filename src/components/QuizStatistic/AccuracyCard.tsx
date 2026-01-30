@@ -10,7 +10,7 @@ const AccuracyCard = ({ accuracy }: Props) => {
     return (
         <Card className="md:col-span-3 bg-gradient-to-br from-green-950/50 to-emerald-950/50 border-green-800/50 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300 dark:bg-gradient-to-br dark:from-green-950/50 dark:to-emerald-950/50">
             <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0 border-green-800/30">
-                <CardTitle className="text-xl font-bold text-green-100 dark:text-green-100">Average Accuracy</CardTitle>
+                <CardTitle className="text-xl font-bold text-green-100 dark:text-green-100">Độ chính xác</CardTitle>
                 <div className="p-2 bg-green-900/50 rounded-full">
                     <Target className="text-green-400" size={20} />
                 </div>

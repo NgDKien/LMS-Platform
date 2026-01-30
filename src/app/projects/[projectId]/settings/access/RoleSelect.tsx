@@ -30,7 +30,7 @@ export const RoleSelect = ({ value, onValueChange, disabled }: Props) => {
         <Select value={value} onValueChange={onValueChange} disabled={disabled}>
             <SelectTrigger className="w-[120px] h-8 focus:ring-0 border border-[#4b4b4b]">
                 <div className="flex text-xs">
-                    <span>Role: </span>
+                    <span>Vai trò: </span>
                     <span className="font-bold mx-1">{getRole(value || 'read')}</span>
                 </div>
             </SelectTrigger>
@@ -41,8 +41,7 @@ export const RoleSelect = ({ value, onValueChange, disabled }: Props) => {
                             <div>
                                 <p>Admin</p>
                                 <p className="text-xs text-muted-foreground">
-                                    Can see, make changes to, and add new collaborators to this
-                                    project
+                                    Có thể xem, thay đổi thông tin hoặc thêm cộng tác vào dự án.
                                 </p>
                             </div>
                         </div>
@@ -52,7 +51,7 @@ export const RoleSelect = ({ value, onValueChange, disabled }: Props) => {
                             <div>
                                 <p>Write</p>
                                 <p className="text-xs text-muted-foreground">
-                                    Can see and make changes to this project
+                                    Có thể xem, thay đổi thông tin trong dự án.
                                 </p>
                             </div>
                         </div>
@@ -62,7 +61,7 @@ export const RoleSelect = ({ value, onValueChange, disabled }: Props) => {
                             <div>
                                 <p>Read</p>
                                 <p className="text-xs text-muted-foreground">
-                                    Can see this project
+                                    Chỉ có thể xem.
                                 </p>
                             </div>
                         </div>

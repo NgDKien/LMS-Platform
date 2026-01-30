@@ -39,7 +39,7 @@ export const AccessContainer = ({
     return (
         <>
             <div className="p-4 rounded-sm bg-[#202020] text-sm">
-                Only those with access to this project can view it.
+                Chỉ những người có quyền truy cập mới có thể xem nội dung này.
             </div>
             <InviteUsers
                 projectName={projectName}

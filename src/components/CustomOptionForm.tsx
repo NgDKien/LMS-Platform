@@ -53,7 +53,7 @@ export const CustomOptionForm = ({
                     </Badge>
                 </div>
                 <div className="space-y-2 lg:flex-grow">
-                    <Label className='text-[#a4a4a4]'>Label text *</Label>
+                    <Label className='text-[#a4a4a4]'>Tên *</Label>
                     <Input
                         placeholder="Label text"
                         className="h-9 text-[#f0f0f0] border border-[#6c6c6c]"
@@ -65,7 +65,7 @@ export const CustomOptionForm = ({
                 <ColorSelect color={color} setColor={setColor} />
 
                 <div className="space-y-2 lg:flex-grow">
-                    <Label className='text-[#a4a4a4]'>Description </Label>
+                    <Label className='text-[#a4a4a4]'>Mô tả </Label>
                     <Textarea
                         placeholder="description"
                         className="text-[#f0f0f0] border border-[#6c6c6c]"

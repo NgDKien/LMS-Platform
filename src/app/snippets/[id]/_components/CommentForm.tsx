@@ -58,7 +58,7 @@ function CommentForm({ isSubmitting, onSubmit }: CommentFormProps) {
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
                         onKeyDown={handleKeyDown}
-                        placeholder="Add to the discussion..."
+                        placeholder="Thêm ý kiến của bạn..."
                         className="w-full bg-transparent border-0 text-[#e1e1e3] placeholder:text-[#808086] outline-none 
             resize-none min-h-[120px] p-4 font-mono text-sm"
                     />
@@ -70,16 +70,11 @@ function CommentForm({ isSubmitting, onSubmit }: CommentFormProps) {
                         <div className="flex items-center gap-2">
                             <CodeIcon className="w-3.5 h-3.5" />
                             <span>
-                                Format code with ```language ... ```
-                                {/* {Array(5).fill("\u00A0").join("")} : Tạo 5 khoảng trắng */}
-                                <br />{Array(0).fill("\u00A0").join("")}Exp:
-                                <br />{Array(5).fill("\u00A0").join("")}```javascript
-                                <br />{Array(5).fill("\u00A0").join("")}const name = "ABC";
-                                <br />{Array(5).fill("\u00A0").join("")}```
+                                Định dạng mã bằng cặp dấu ```...```
                             </span>
                         </div>
                         <div className="text-[#808086]/60 pl-5">
-                            Tab key inserts spaces • Preview your comment before posting
+                            Xem trước bình luận của bạn trước khi đăng.
                         </div>
                     </div>
                     <button
@@ -98,7 +93,7 @@ function CommentForm({ isSubmitting, onSubmit }: CommentFormProps) {
                         ) : (
                             <>
                                 <SendIcon className="w-4 h-4" />
-                                <span>Comment</span>
+                                <span>Thêm bình luận</span>
                             </>
                         )}
                     </button>

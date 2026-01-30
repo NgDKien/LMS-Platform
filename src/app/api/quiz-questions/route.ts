@@ -15,27 +15,27 @@ export async function POST(req: Request, res: Response) {
 
         if (type === "open_ended") {
             questions = await strict_output(
-                "You are a helpful AI that generates question-answer pairs. You must return a valid JSON array format. Each answer should be maximum 30 words. IMPORTANT: option1, option2, and option3 must be DIFFERENT from the correct answer.",
+                "Bạn là một AI hữu ích tạo ra các cặp câu hỏi-câu trả lời bằng TIẾNG VIỆT. Bạn phải trả về định dạng JSON array hợp lệ. Mỗi câu trả lời phải tối đa 30 từ. QUAN TRỌNG: Tất cả nội dung phải bằng tiếng Việt.",
                 new Array(amount).fill(
-                    `Generate a hard open-ended question about ${topic}`
+                    `Tạo một câu hỏi tự luận khó về chủ đề: ${topic}. Câu hỏi và câu trả lời phải bằng tiếng Việt.`
                 ),
                 {
-                    question: "question",
-                    answer: "answer with max length of 30 words",
+                    question: "câu hỏi bằng tiếng Việt",
+                    answer: "câu trả lời bằng tiếng Việt, tối đa 30 từ",
                 }
             );
         } else if (type === "mcq") {
             questions = await strict_output(
-                "You are a helpful AI that generates MCQ questions. You must return a valid JSON array format. Each answer and option should be maximum 30 words. IMPORTANT: option1, option2, and option3 must be DIFFERENT from the correct answer.",
+                "Bạn là một AI hữu ích tạo ra các câu hỏi trắc nghiệm bằng TIẾNG VIỆT. Bạn phải trả về định dạng JSON array hợp lệ. Mỗi câu trả lời và lựa chọn phải tối đa 30 từ. QUAN TRỌNG: option1, option2, và option3 phải KHÁC với câu trả lời đúng. Tất cả nội dung phải bằng tiếng Việt.",
                 new Array(amount).fill(
-                    `Generate a hard multiple choice question about ${topic}`
+                    `Tạo một câu hỏi trắc nghiệm khó về chủ đề: ${topic}. Câu hỏi, câu trả lời và các lựa chọn phải bằng tiếng Việt.`
                 ),
                 {
-                    question: "question",
-                    answer: "answer with max length of 30 words",
-                    option1: "option1 with max length of 30 words",
-                    option2: "option2 with max length of 30 words",
-                    option3: "option3 with max length of 30 words",
+                    question: "câu hỏi bằng tiếng Việt",
+                    answer: "câu trả lời đúng bằng tiếng Việt, tối đa 30 từ",
+                    option1: "lựa chọn 1 bằng tiếng Việt, tối đa 30 từ",
+                    option2: "lựa chọn 2 bằng tiếng Việt, tối đa 30 từ",
+                    option3: "lựa chọn 3 bằng tiếng Việt, tối đa 30 từ",
                 }
             );
         }
@@ -59,7 +59,7 @@ export async function POST(req: Request, res: Response) {
         } else {
             console.error("API error", error);
             return NextResponse.json(
-                { error: "An unexpected error occurred." },
+                { error: "Đã xảy ra lỗi không mong muốn." },
                 {
                     status: 500,
                 }

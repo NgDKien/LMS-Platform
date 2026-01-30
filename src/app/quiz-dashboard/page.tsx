@@ -45,11 +45,11 @@ const Dashboard = async () => {
                             <div className="flex items-start gap-6">
                                 <div className="flex-1">
                                     <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400">
-                                        Welcome back — ready to level up?
+                                        Chào mừng trở lại - Sẵn sàng để nâng cấp bản thân?
                                     </h1>
                                     <p className="mt-3 text-zinc-400 max-w-xl">
-                                        Create a quiz, practice topics you love, or check recent activity.
-                                        Quizzzy will generate questions for you instantly — in dark mode, of course.
+                                        Tạo quiz, luyện tập chủ đề bạn yêu thích hoặc xem lịch sử lượt chơi.
+                                        Quizzy sẽ tạo câu hỏi ngay lập tức, nhanh chóng và hiệu quả.
                                     </p>
                                 </div>
 
@@ -63,19 +63,19 @@ const Dashboard = async () => {
                                                         <Trophy className="w-5 h-5 text-indigo-300" />
                                                     </div>
                                                     <div>
-                                                        <div className="text-xs text-zinc-400">Total Quizzes</div>
+                                                        <div className="text-xs text-zinc-400">Tổng số quiz</div>
                                                         <div className="text-2xl font-semibold">{totalQuizzes}</div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="mt-3 text-xs text-zinc-500">Last played: <span className="text-zinc-300">{lastPlayedText}</span></div>
+                                            <div className="mt-3 text-xs text-zinc-500">Chơi lần cuối: <span className="text-zinc-300">{lastPlayedText}</span></div>
                                         </div>
                                     </div>
 
                                     <div className="w-full">
                                         <div className="p-4 rounded-xl bg-gradient-to-br from-zinc-900/60 to-zinc-900/40 border border-zinc-800/50">
-                                            <div className="text-xs text-zinc-400">Pro tip</div>
-                                            <div className="mt-2 text-sm text-zinc-200">Use topics to focus practice — try “React” or “World History”.</div>
+                                            <div className="text-xs text-zinc-400">Mẹo nhỏ</div>
+                                            <div className="mt-2 text-sm text-zinc-200">Sử dụng các chủ đề hot để tập trung luyện tập — thử “React” hoặc “NextJS”.</div>
                                         </div>
                                     </div>
                                 </aside>
@@ -97,7 +97,7 @@ const Dashboard = async () => {
                             </div>
 
                             <div className="rounded-2xl bg-gradient-to-br from-zinc-900/50 to-zinc-900/30 border border-zinc-800/50 p-4">
-                                <h3 className="text-sm text-zinc-400 uppercase tracking-wider">Recent activity</h3>
+                                <h3 className="text-sm text-zinc-400 uppercase tracking-wider">Hoạt động gần đây</h3>
                                 <div className="mt-3">
                                     {/* Render RecentActivityCard inside compact container */}
                                     <RecentActivityCard />

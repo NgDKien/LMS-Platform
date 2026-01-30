@@ -17,12 +17,12 @@ import CodeBlock from "./_components/CodeBlock";
 const TABS = [
     {
         id: "executions",
-        label: "Code Executions",
+        label: "Các đoạn mã đã chạy",
         icon: ListVideo,
     },
     {
         id: "starred",
-        label: "Starred Snippets",
+        label: "Đoạn mã yêu thích",
         icon: Star,
     },
 ];

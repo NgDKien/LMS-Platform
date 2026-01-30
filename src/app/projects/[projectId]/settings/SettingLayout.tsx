@@ -27,33 +27,33 @@ const navigationItems: (
     }
 )[] = [
         {
-            label: 'Project settings',
+            label: 'Cài đặt dự án',
             link: '/settings',
             icon: <Settings className="h-4 w-4" />,
         },
         {
-            label: 'Manage access',
+            label: 'Quản lý quyền truy cập',
             link: '/settings/access',
             icon: <Users className="h-4 w-4" />,
         },
         'separator',
         {
-            label: 'Label',
+            label: 'Quản lý nhãn',
             link: '/settings/labels',
             icon: <Tags className="h-4 w-4" />,
         },
         {
-            label: 'Status',
+            label: 'Quản lý trạng thái',
             link: '/settings/statuses',
             icon: <Kanban className="h-4 w-4" />,
         },
         {
-            label: 'Priority',
+            label: 'Quản lý độ ưu tiên',
             link: '/settings/priorities',
             icon: <ArrowDownNarrowWide className="h-4 w-4" />,
         },
         {
-            label: 'Size',
+            label: 'Quản lý phạm vi',
             link: '/settings/sizes',
             icon: <Proportions className="h-4 w-4" />,
         },
@@ -78,7 +78,7 @@ export const SettingsLayout = ({ title, children }: Props) => {
                         className="flex items-center gap-2 text-zinc-300 hover:text-white transition-colors"
                     >
                         <ArrowLeft className="h-4 w-4" />
-                        <span className="text-sm font-medium">Back</span>
+                        <span className="text-sm font-medium">Trở về</span>
                     </Link>
                 </div>
 
